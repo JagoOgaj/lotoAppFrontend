@@ -1,0 +1,58 @@
+.hero-section {
+    position: relative; /* Ajoutez cette ligne pour que le pseudo-élément soit positionné correctement */
+    background: url("/assets/test2.jpg") no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh; /* Assurez-vous que la hauteur est définie pour couvrir l'écran entier */
+    display: flex;
+    flex-direction: column; /* Organiser les enfants en colonne */
+    justify-content: center; /* Centrer verticalement */
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Ajustez l'opacité ici */
+    z-index: 0; /* Assurez-vous que la superposition est derrière le contenu */
+}
+
+.hero-section .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacement entre les deux sections */
+    height: 100%; /* Assure que la hauteur est utilisée */
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Assure que le contenu occupe toute la hauteur disponible */
+}
+
+.hero-footer {
+    margin-top: auto; /* Pousse le contenu vers le bas */
+    margin-bottom: 20px; /* Espacement depuis le bas de la section */
+}
+
+.hero-section h1 {
+    font-size: 5em; /* Augmentez la taille du texte si nécessaire */
+}
+
+.hero-section p {
+    margin: 10px 0; /* Ajustez l'espacement autour de "Explorer" si nécessaire */
+    font-size: 2em; /* Ajustez la taille du texte */
+}
+
+.hero-section i {
+    font-size: 2em; /* Ajustez la taille de l'icône */
+}

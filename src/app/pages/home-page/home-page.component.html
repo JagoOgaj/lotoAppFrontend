@@ -1,0 +1,266 @@
+<!-- Navbar -->
+<app-navbar-shared></app-navbar-shared>
+<!-- Hero Section -->
+<app-hero-shared></app-hero-shared>
+<!-- About-us -->
+<section id="about" class="container section-padding py-5 mt-5">
+  <div class="row g-5">
+    <div class="col-12 col-lg-5">
+      <img
+        src="assets/test3.jpg"
+        alt="about-img"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+    <div class="col-12 col-lg-7">
+      <h2 class="fs-1 fw-bold mb-3">
+        A propos de Lo<span class="text-warning">toApp</span>
+      </h2>
+      <p>
+        Notre application a été conçue pour vous offrir une expérience simple,
+        fluide et intuitive. Elle vous permet de gérer facilement toutes vos
+        activités et d'accéder rapidement aux fonctionnalités qui vous
+        intéressent. Que vous soyez un nouveau venu ou un utilisateur régulier,
+        vous trouverez tout ce dont vous avez besoin en quelques clics.
+      </p>
+
+      <p>
+        Avec notre application, vous pouvez suivre vos interactions en temps
+        réel, accéder à des fonctionnalités personnalisées et gérer vos
+        préférences. Nous mettons un point d'honneur à assurer la sécurité de
+        vos données et la protection de votre vie privée à chaque étape de votre
+        parcours.
+      </p>
+      <button
+        type="button"
+        class="btn btn-warning px-5 py-3 d-inline-block fs-5 mt-4 fw-bold"
+      >
+        <i class="bi bi-arrow-right"></i> Explorer
+      </button>
+    </div>
+  </div>
+</section>
+<!-- Fonctionnalité -->
+<section class="container">
+  <div class="row mt-4 g-4">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-start">
+        Nos<span class="text-warning"> fonctionnalités</span>
+      </h2>
+    </div>
+  </div>
+  <div class="row mt-2 g-4">
+    <div class="col-12 col-lg-4">
+      <div class="card p-3 shadow">
+        <i class="bi bi-person-add icons"></i>
+        <h3 class="text-center">Compte</h3>
+        <p class="card-text text-center">
+          Découvrer la fonctionnalité de compte
+        </p>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="card p-3 shadow orange-bg">
+        <i class="bi bi-shuffle icons"></i>
+        <h3 class="text-center">Tirage</h3>
+        <p class="card-text text-center">
+          Découvrer la fonctionnalité de tirage
+        </p>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="card p-3 shadow">
+        <i class="bi bi-layer-forward icons"></i>
+        <h3 class="text-center">Classement</h3>
+        <p class="card-text text-center">
+          Découvrer la fonctionnalité de classemment
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Our Games -->
+<div class="container py-5">
+  <div class="row mt-4 g-4">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-end">
+        Nos <span class="text-warning">Jeux</span>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ul
+        class="nav nav-tabs justify-content-center mt-3 g-2"
+        id="myTab"
+        role="tablist"
+      >
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active fs-5 me-2 me-md-4"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#home-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="home-tab-pane"
+            aria-selected="true"
+          >
+            Tous
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link fs-5 me-2 me-md-4"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected="false"
+          >
+            Loto
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="home-tab-pane"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+          tabindex="0"
+        >
+          <div class="row mt-4 g-4">
+            <div class="col-12 col-lg-4">
+              <div class="card" style="width: 18rem">
+                <img src="assets/test3.jpg" class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">La lottery</h5>
+                  <p class="card-text">Gagner jusqu'à 3millions</p>
+                  <a href="#" class="btn btn-warning">Jouer</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="profile-tab-pane"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+          tabindex="0"
+        >
+          <div class="row mt-4 g-4">
+            <div class="col-12 col-lg-4">
+              <div class="card" style="width: 18rem">
+                <img src="assets/test3.jpg" class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">La lottery</h5>
+                  <p class="card-text">Gagner jusqu'à 3millions</p>
+                  <a href="#" class="btn btn-warning">Jouer</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- How it works -->
+<section class="container py-5 my-3">
+  <div class="row mt-4 g-4">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-center">
+        <span class="text-warning">FAQ</span>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button fs-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseOne"
+              aria-expanded="true"
+              aria-controls="panelsStayOpen-collapseOne"
+            >
+              Comment puis-je créer et gérer mon compte sur la plateforme Loto ?
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseOne"
+            class="accordion-collapse collapse show"
+          >
+            <div class="accordion-body fs-5">
+              Vous pouvez créer un compte en cliquant sur <strong>Compte</strong> et en
+              fournissant un pseudo unique, un email valide, et un mot de passe
+              sécurisé. Une fois connecté, vous pourrez modifier vos
+              informations ou supprimer votre compte à tout moment dans les
+              paramètres de votre profil
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fs-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseTwo"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseTwo"
+            >
+              Comment fonctionne le partage des gains en cas de plusieurs
+              gagnants ?
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseTwo"
+            class="accordion-collapse collapse"
+          >
+            <div class="accordion-body fs-5">
+              Si plusieurs personnes obtiennent le même résultat gagnant lors
+              d’un tirage, la somme totale des gains (3 millions d’euros) sera
+              partagée équitablement entre les gagnants selon les pourcentages
+              prédéfinis pour chaque place du classement, de la 1ère à la 10ème.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fs-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseThree"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseThree"
+            >
+              Que faire si je rencontre un problème avec un tirage ou un gain ?
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseThree"
+            class="accordion-collapse collapse"
+          >
+            <div class="accordion-body fs-5">
+              Si vous rencontrez un problème avec un tirage ou un retrait de
+              gain, vous pouvez contacter notre support via la fonctionnalité
+              <strong>Contactez nous</strong>. Un administrateur examinera votre requête et vous
+              fournira une assistance pour résoudre le problème.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Footer -->
+<app-footer-shared></app-footer-shared>
