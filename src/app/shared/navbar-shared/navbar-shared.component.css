@@ -1,5 +1,6 @@
 .navbar {
     padding: 0.5rem 1rem;
+    z-index: 1040; /* Moins élevé que le z-index de la modale */
 }
 
 .nav-brand {

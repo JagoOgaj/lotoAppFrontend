@@ -1,0 +1,160 @@
+<!-- About account -->
+<section class="container">
+    <div class="row mt-4 g-4">
+      <div class="col-12">
+        <h2 class="fs-1 fw-bold mb-3 text-start">
+          Com<span class="text-warning">pte</span>
+        </h2>
+      </div>
+    </div>
+    <div class="row mt-2 g-4">
+      <div class="col-12">
+        <p>
+          Notre application a été conçue pour vous offrir une expérience simple,
+          fluide et intuitive. Elle vous permet de gérer facilement toutes vos
+          activités et d'accéder rapidement aux fonctionnalités qui vous
+          intéressent. Que vous soyez un nouveau venu ou un utilisateur régulier,
+          vous trouverez tout ce dont vous avez besoin en quelques clics.
+        </p>
+  
+        <p>
+          Avec notre application, vous pouvez suivre vos interactions en temps
+          réel, accéder à des fonctionnalités personnalisées et gérer vos
+          préférences. Nous mettons un point d'honneur à assurer la sécurité de
+          vos données et la protection de votre vie privée à chaque étape de votre
+          parcours.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <div class="container py-5">
+    <div class="row mt-4 g-4">
+      <div class="col-12">
+        <h2 class="fs-1 fw-bold mb-3 text-end">
+          Lancez <span class="text-warning">vous</span>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-tabs justify-content-center mt-3 g-2" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link fs-5 me-2 me-md-4"
+              [ngClass]="{'active': activeTab === 'login'}"
+              (click)="selectTab('login')"
+              id="home-tab"
+              type="button"
+              role="tab"
+              aria-controls="home-tab-pane"
+              aria-selected="true"
+            >
+              Connectez-vous
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link fs-5 me-2 me-md-4"
+              [ngClass]="{'active': activeTab === 'registry'}"
+              (click)="selectTab('registry')"
+              id="profile-tab"
+              type="button"
+              role="tab"
+              aria-controls="profile-tab-pane"
+              aria-selected="false"
+            >
+              Inscrivez-vous
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content mt-3" id="myTabContent">
+          <div
+            class="tab-pane fade"
+            [ngClass]="{'show active': activeTab === 'login'}"
+            id="home-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabindex="0"
+          >
+            <!-- Connectez-vous Form -->
+            <div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+              <div class="form-container">
+                <div class="card" style="width: 24rem;">
+                  <div class="card-body text-center">
+                    <svg class="mx-auto" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                    </svg>
+                    <h5 class="card-title text-center">Connexion</h5>
+                    <form>
+                      <input type="email" class="form-control my-3 py-2" placeholder="Email">
+                      <input type="password" class="form-control my-3 py-2" placeholder="Mot de passe">
+                      <div class="text-center">
+                        <button class="btn btn-warning w-100">Connectez-vous</button>
+                        <a (click)="selectTab('registry')" class="nav-link" role="button">Créer un compte</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            [ngClass]="{'show active': activeTab === 'registry'}"
+            id="profile-tab-pane"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            tabindex="0"
+          >
+            <!-- Inscription Form -->
+            <div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+              <div class="form-container">
+                <div class="card" style="width: 24rem;">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                          <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                          <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                        <h5 class="card-title text-center">Inscription</h5>
+                    <form>
+                      <div class="mb-3">
+                        <label for="firstName" class="form-label">Prénom</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Prénom" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="lastName" class="form-label">Nom</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Nom" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Email" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="phone" class="form-label">Téléphone (facultatif)</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Téléphone">
+                      </div>
+                      <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" id="password" class="form-control" placeholder="Mot de passe" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="identityFile" class="form-label">Pièce d'identité</label>
+                        <input type="file" id="identityFile" class="form-control" accept=".jpg, .jpeg, .png, .pdf">
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-warning w-100">Créer un compte</button>
+                        <a (click)="selectTab('login')" class="nav-link" role="button">Déjà un compte ? Connectez-vous</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer-shared></app-footer-shared>
