@@ -1,36 +1,37 @@
 .section-padding {
-    padding: 100px 0;
+  padding: 100px 0;
 }
 
 .card {
-    transition : all 0.3s;
+  transition: all 0.3s;
 }
 
 .card:hover {
-    transform: scale(1.15);
+  transform: scale(1.15);
+  z-index: 10000;
 }
 
 .orange-bg {
-    background-color: orange;
-    color: #f2f2f2;
+  background-color: orange;
+  color: #f2f2f2;
 }
 
 .icons {
-    height: 32px;
-    width: 32px;
-    margin-bottom: 16px;
-    color: black;
-    padding: 5px;
+  height: 32px;
+  width: 32px;
+  margin-bottom: 16px;
+  color: black;
+  padding: 5px;
 }
 
 .nav-link {
-    color : orange;
+  color: orange;
 }
 
 .nav-link.active {
-    background-color: orange;
+  background-color: orange;
 }
 
 .accordion-button {
-    background-color: #F5CBA7 !important;
+  background-color: #f5cba7 !important;
 }

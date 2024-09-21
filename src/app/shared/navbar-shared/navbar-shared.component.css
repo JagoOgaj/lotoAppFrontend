@@ -1,50 +1,50 @@
 .navbar {
-    padding: 0.5rem 1rem;
-    z-index: 1040; /* Moins élevé que le z-index de la modale */
+  padding: 0.5rem 1rem;
+  z-index: 1040;
 }
 
 .nav-brand {
-    font-size: 3em;
+  font-size: 3em;
 }
 
 .nav-link {
-    position: relative;
-    font-size: 1.2em;
-    color: #fff !important;
-    margin: 10px;
+  position: relative;
+  font-size: 1.2em;
+  color: #fff !important;
+  margin: 10px;
 }
 
 .nav-button {
-    position: relative;
-    font-size: 1.2em;
-    margin: 10px;
+  position: relative;
+  font-size: 1.2em;
+  margin: 10px;
 }
 
 .nav-link::after {
-    content: '';
-    opacity: 0;
-    transition: all 0.75s;
-    height: 2px;
-    width: 100%;
-    background-color: orange;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-} 
+  content: "";
+  opacity: 0;
+  transition: all 0.75s;
+  height: 2px;
+  width: 100%;
+  background-color: orange;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 
 .nav-link:hover::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 .navbar-scrolled {
-    background-color: black;
-    box-shadow: 0 3px 10px rgb(0, 0, 0, 0.15);
+  background-color: black;
+  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.15);
 }
 
 .navbar-background {
-    background-color: black;
+  background-color: black;
 }
 
 .nav-link.highlighted::after {
-    opacity: 1; /* Le surlignement est toujours visible */
+  opacity: 1;
 }

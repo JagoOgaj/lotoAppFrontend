@@ -1,0 +1,42 @@
+.nav-link {
+  color: black;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+.nav-link.active {
+  background-color: orange;
+  color: black;
+}
+
+.nav-link.logout {
+  background-color: black;
+  color: white;
+}
+
+.nav-link:hover {
+  background-color: #ffcc80;
+}
+
+.accordion-button {
+  background-color: #f5cba7 !important;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.small-countdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.card-header {
+  word-wrap: break-word;
+}

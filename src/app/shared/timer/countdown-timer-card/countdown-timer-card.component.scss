@@ -1,0 +1,168 @@
+$grayish-blue: hsl(237, 18%, 59%);
+$black: hsl(0, 0%, 0%);
+
+$white: hsl(0, 0%, 100%);
+$yellow: hsl(45, 100%, 51%);
+$very-dark-blue: hsl(235, 16%, 14%);
+$black-dark: hsl(0, 0%, 0%);
+
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: $yellow;
+  font-size: 6rem;
+  border-radius: 0.5rem;
+  perspective: 500px;
+  transform-style: preserve-3d;
+  color: $black;
+  box-shadow: 0 0.7rem 0 $black-dark;
+
+  @media screen and (max-width: 45rem) {
+    font-size: 2rem;
+    perspective: 100px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 5%;
+    aspect-ratio: 1 / 1;
+    background-color: $black-dark;
+    border-radius: 0 100% 0 0;
+    bottom: 50%;
+    left: 0;
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 5%;
+    aspect-ratio: 1 / 1;
+    background-color: $black-dark;
+    border-radius: 100% 0 0 0;
+    bottom: 50%;
+    right: 0;
+    z-index: 2;
+  }
+
+  .card-half {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    backface-visibility: hidden;
+
+    &.bottom {
+      bottom: 0;
+      background-color: $yellow;
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+      transform-origin: top;
+      z-index: 2;
+      box-shadow: 0 -1px 2px $black-dark;
+
+      &.flip {
+        rotate: x 180deg;
+        z-index: 2;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 5%;
+        aspect-ratio: 1 / 1;
+        background-color: $black-dark;
+        border-radius: 0 0 100% 0;
+        top: 0;
+        left: 0;
+        z-index: 2;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 5%;
+        aspect-ratio: 1 / 1;
+        background-color: $black-dark;
+        border-radius: 0 0 0 100%;
+        top: 0;
+        right: 0;
+        z-index: 2;
+      }
+
+      .content {
+        position: absolute;
+        inset: -100% 0 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: darken($black, 3);
+      }
+    }
+
+    &.top {
+      top: 0;
+      background-color: $yellow;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+      transform-origin: bottom;
+      z-index: 1;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 5%;
+        aspect-ratio: 1 / 1;
+        background-color: $black-dark;
+        border-radius: 0 100% 0 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 5%;
+        aspect-ratio: 1 / 1;
+        background-color: $black-dark;
+        border-radius: 100% 0 0 0;
+        bottom: 0;
+        right: 0;
+        z-index: 2;
+      }
+
+      .content {
+        position: absolute;
+        inset: 0 0 -100% 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.label {
+  color: $grayish-blue;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+
+  @media screen and (max-width: 45rem) {
+    font-size: 0.3rem;
+  }
+}

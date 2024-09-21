@@ -10,7 +10,7 @@ import { PAGES_WHITH_HERO_SECTION } from '../../constants/pages/pages.constants'
   templateUrl: './navbar-shared.component.html',
   styleUrl: './navbar-shared.component.css',
 })
-export class NavbarSharedComponent implements OnInit{
+export class NavbarSharedComponent implements OnInit {
   private readonly route = inject(Router);
   @Input() pageState!: string;
   isScrolled: boolean = false;
@@ -26,7 +26,7 @@ export class NavbarSharedComponent implements OnInit{
     this.isScrolled = scrollPosition > 50;
   }
 
-  redirectTo(page: string) : void {
+  redirectTo(page: string): void {
     this.route.navigateByUrl(page);
   }
 }

@@ -1,1 +1,133 @@
-<app-navbar-shared [pageState]="pageState"></app-navbar-shared> 
+<app-navbar-shared [pageState]="pageState"></app-navbar-shared>
+
+<!-- Section Fonctionnalités -->
+<section
+  class="container section-padding py-5 mt-5"
+  style="margin-bottom: 80px"
+>
+  <div class="container mt-4">
+    <div class="row mt-4 g-4">
+      <div class="col-12">
+        <h2 class="fs-1 fw-bold mb-3 text-end">
+          Vos<span class="text-warning"> informations</span>
+        </h2>
+      </div>
+    </div>
+    <!-- Nav Pills pour les écrans petits -->
+    <ul class="nav nav-pills d-md-none mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="pill" href="#category1"
+          ><i class="bi bi-info-square-fill"></i> Profil</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#category2"
+          ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
+        >
+      </li>
+      <li class="nav-item">
+        <button class="nav-link btn btn-danger" id="logoutButton">
+          Déconnexion
+        </button>
+      </li>
+    </ul>
+
+    <div class="row">
+      <div class="col-md-3 d-none d-md-block">
+        <ul class="nav flex-column nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#category1"
+              ><i class="bi bi-info-square-fill"></i> Profil</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#category2"
+              ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
+            >
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn" id="logoutButton">
+              <i class="bi bi-door-closed-fill"></i> Déconnexion
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="category1">
+            <app-user-informations />
+          </div>
+          <div class="tab-pane fade" id="category2">
+            <app-user-password />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section Règles du Jeu -->
+<section
+  id="rules"
+  class="container section-padding py-5"
+  style="margin-bottom: 80px"
+>
+  <div class="row g-5">
+    <div class="col-12 col-lg-5">
+      <img
+        src="assets/test4.jpg"
+        alt="rules-img"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+    <div class="col-12 col-lg-7">
+      <h2 class="fs-1 fw-bold mb-3">
+        Règ<span class="text-warning">les du Jeu</span>
+      </h2>
+      <p>Le jeu de loterie est simple et amusant. Voici comment jouer :</p>
+      <ul class="fs-5">
+        <li>Choisissez 5 numéros principaux entre 1 et 50.</li>
+        <li>Sélectionnez ensuite 3 numéros chance entre 1 et 10.</li>
+        <li>Confirmez vos choix en cliquant sur "Jouer".</li>
+        <li>
+          Le tirage aléatoire décidera des gagnants, et plus vos numéros
+          correspondent, plus vous gagnez.
+        </li>
+      </ul>
+      <p>
+        N’oubliez pas, plus vous avez de correspondances avec les numéros, plus
+        vous avez de chances de remporter un prix.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Section Jouer -->
+<section class="container section-padding py-5" style="margin-bottom: 80px">
+  <div class="row mt-4 g-4">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-center">
+        Jou<span class="text-warning">er</span>
+      </h2>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card text-center">
+        <div class="card-header text-center">
+          <div class="small-countdown">
+            <app-countdown-timer [launchDate]="dateTest"></app-countdown-timer>
+          </div>
+        </div>
+        <div class="card-body">
+          <app-lottory-form />
+        </div>
+        <div class="card-footer text-body-secondary">Tirage du ...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer-shared />
