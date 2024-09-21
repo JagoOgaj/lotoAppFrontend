@@ -1,6 +1,7 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { PAGES_WHITH_HERO_SECTION } from '../../constants/pages/pages.constants';
 
 @Component({
   selector: 'app-navbar-shared',
@@ -9,9 +10,15 @@ import { Router } from '@angular/router';
   templateUrl: './navbar-shared.component.html',
   styleUrl: './navbar-shared.component.css',
 })
-export class NavbarSharedComponent {
+export class NavbarSharedComponent implements OnInit{
   private readonly route = inject(Router);
+  @Input() pageState!: string;
   isScrolled: boolean = false;
+  needBg: boolean = false;
+
+  ngOnInit(): void {
+    this.needBg = !PAGES_WHITH_HERO_SECTION.includes(this.pageState);
+  }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: Event): void {
@@ -19,7 +26,7 @@ export class NavbarSharedComponent {
     this.isScrolled = scrollPosition > 50;
   }
 
-  redirectToLR() : void {
-    this.route.navigateByUrl("login");
+  redirectTo(page: string) : void {
+    this.route.navigateByUrl(page);
   }
 }
