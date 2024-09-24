@@ -1,0 +1,42 @@
+<div class="row g-5" style="margin-top: 50px">
+  <div class="col-12 col-lg-5">
+    <img
+      src="assets/test3.jpg"
+      alt="draw-overview-img"
+      class="img-fluid mx-auto d-block"
+    />
+  </div>
+  <div class="col-12 col-lg-7">
+    <h2 class="fs-1 fw-bold mb-3">
+      Détails du <span class="text-warning">Tirage</span>
+    </h2>
+    <table class="table table-bordered">
+      <tbody>
+        <tr *ngFor="let data of drawData">
+          <td>
+            <strong>{{ data.label }}:</strong>
+          </td>
+          <td>
+            <span *ngIf="isDate(data.value)">{{
+              data.value | date : "fullDate"
+            }}</span>
+            <span
+              *ngIf="isNumber(data.value) && data.label === 'Montant Total'"
+              >{{ data.value | currency : "EUR" }}</span
+            >
+            <span
+              *ngIf="
+                isNumber(data.value) && data.label === 'Nombre de Participants'
+              "
+              >{{ data.value }}</span
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Notre tirage est conçu pour vous offrir la meilleure expérience possible.
+      Participez pour tenter votre chance et gagnez de superbes prix !
+    </p>
+  </div>
+</div>

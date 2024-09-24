@@ -1,0 +1,104 @@
+#contact {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.contact-bubble-container {
+  position: relative;
+  padding: 50px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Bubble Styling */
+.bubble {
+  max-width: 350px;
+  padding: 15px 20px;
+  border-radius: 25px;
+  position: absolute;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: white;
+  text-align: left;
+}
+
+/* Left Bubble */
+.bubble-left {
+  background-color: #f39c12;
+  left: 0;
+  top: 0;
+  margin-left: 20px;
+}
+
+/* Right Bubble */
+.bubble-right {
+  background-color: #e67e22;
+  right: 0;
+  bottom: 0;
+  margin-right: 20px;
+}
+
+/* Bubble Arrow (tail of the speech bubble) */
+.bubble-left::after {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: 20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #f39c12 transparent transparent;
+}
+
+.bubble-right::after {
+  content: "";
+  position: absolute;
+  right: -15px;
+  bottom: 20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #e67e22;
+}
+
+/* Title Styling */
+.contact-bubble-container h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+.contact-bubble-container h2 span {
+  color: #f39c12;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bubble {
+    max-width: 100%;
+    position: relative;
+    margin: 20px 0;
+  }
+
+  .bubble-left,
+  .bubble-right {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: auto;
+  }
+
+  .bubble-left::after,
+  .bubble-right::after {
+    display: none;
+  }
+
+  .contact-bubble-container h2 {
+    font-size: 2rem;
+  }
+}

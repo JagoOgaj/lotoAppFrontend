@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <h2 class="fs-1 fw-bold mb-3">
+    <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
+  </h2>
+
+  <!-- Tableau pour afficher les joueurs paginés -->
+  <table class="table table-hover table-sm ">
+    <thead>
+      <tr>
+        <th scope="col">Rang</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Score</th>
+        <th scope="col">Somme Gagnée</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of getPaginatedPlayers()" [ngClass]="{'table-warning': player.name === currentUser.name}">
+        <td>#{{ player.rank }}</td>
+        <td>{{ player.name }}</td>
+        <td>{{ player.score }}</td>
+        <td>{{ player.winnings | currency:'EUR' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-warning">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li *ngFor="let page of getTotalPagesArray(); let i = index" class="page-item"
+        [class.active]="currentPage === (i + 1)">
+        <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Rang du joueur actuel s'il n'est pas dans la page actuelle -->
+  <div *ngIf="!isCurrentUserOnCurrentPage()" class="mt-4 text-center">
+    <p>Votre rang :</p>
+    <table class="table table-sm table-bordered">
+      <tbody>
+        <tr class="table-warning">
+          <td>Rang #{{ currentUser.rank }}</td>
+          <td>{{ currentUser.name }}</td>
+          <td>{{ currentUser.score }}</td>
+          <td>{{ currentUser.winnings | currency:'EUR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

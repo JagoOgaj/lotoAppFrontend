@@ -1,0 +1,93 @@
+@if (haveHistory) {
+<section class="container section-padding py-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-center">Historique de vos jeux</h2>
+      <p class="text-center text-muted fs-5">
+        Vous n'avez pas encore joué de partie.
+      </p>
+    </div>
+  </div>
+</section>
+} @else {
+<section class="container section-padding py-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-3 text-center">
+        Historique de vos <span class="text-warning">jeux</span>
+      </h2>
+
+      <!-- Cartes des parties jouées -->
+      <div class="row g-4">
+        <div *ngFor="let partie of paginatedParties" class="col-md-6 col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Partie du {{ partie.date }}</h5>
+
+              <!-- Statut du tirage sous forme de chip -->
+              <p>
+                Statut :
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'text-bg-success': partie.statut === 'Terminé',
+                    'text-bg-primary': partie.statut === 'En cours',
+                    'text-bg-warning': partie.statut === 'En vérification'
+                  }"
+                >
+                  {{ partie.statut }}
+                </span>
+              </p>
+
+              <p class="card-text">Numéros joués : {{ partie.numerosJoues }}</p>
+              <p class="card-text">
+                Numéros chance : {{ partie.numerosChance }}
+              </p>
+            </div>
+            <div class="card-footer text-muted">
+              Tirage du {{ partie.dateTirage }}
+              <button
+                class="btn btn-warning mt-3"
+                (click)="voirDetailsTirage(partie.id)"
+              >
+                Voir les détails
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Bootstrap -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-4 pagination-warning">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a
+              class="page-link"
+              (click)="goToPage(currentPage - 1)"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li
+            *ngFor="let page of pages"
+            class="page-item"
+            [class.active]="currentPage === page"
+          >
+            <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a
+              class="page-link"
+              (click)="goToPage(currentPage + 1)"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+}

@@ -1,29 +1,47 @@
 <app-navbar-shared [pageState]="pageState"></app-navbar-shared>
 <!-- About account -->
-<section class="container py-5 mt-5">
-  <div class="row mt-4 g-4">
-    <div class="col-12">
-      <h2 class="fs-1 fw-bold mb-3 text-start">
-        Com<span class="text-warning">pte</span>
-      </h2>
-    </div>
+<section class="timeline-container py-5 mt-5">
+  <div class="timeline-header">
+    <h2 class="fs-1 fw-bold mb-4">Com<span class="text-warning">pte</span></h2>
+    <p class="lead text-muted">Suivez chaque étape de votre parcours.</p>
   </div>
-  <div class="row mt-2 g-4">
-    <div class="col-12">
-      <p>
-        Notre application a été conçue pour vous offrir une expérience simple,
-        fluide et intuitive. Elle vous permet de gérer facilement toutes vos
-        activités et d'accéder rapidement aux fonctionnalités qui vous
-        intéressent. Que vous soyez un nouveau venu ou un utilisateur régulier,
-        vous trouverez tout ce dont vous avez besoin en quelques clics.
-      </p>
 
+  <div class="timeline mt-5">
+    <!-- First item on the left -->
+    <div class="timeline-item left">
+      <h5>Créez votre compte</h5>
       <p>
-        Avec notre application, vous pouvez suivre vos interactions en temps
-        réel, accéder à des fonctionnalités personnalisées et gérer vos
-        préférences. Nous mettons un point d'honneur à assurer la sécurité de
-        vos données et la protection de votre vie privée à chaque étape de votre
-        parcours.
+        Inscrivez-vous facilement en quelques clics et accédez à notre
+        application pour gérer vos activités. Remplissez les informations
+        essentielles et personnalisez vos préférences dès le départ.
+      </p>
+    </div>
+
+    <!-- Second item on the right -->
+    <div class="timeline-item right">
+      <h5>Personnalisez votre profil</h5>
+      <p>
+        Modifiez vos informations personnelles, téléchargez une photo de profil
+        et ajustez vos paramètres de confidentialité pour une expérience sur
+        mesure.
+      </p>
+    </div>
+
+    <!-- Third item on the left -->
+    <div class="timeline-item left">
+      <h5>Accédez à vos données</h5>
+      <p>
+        Consultez vos interactions, suivez votre activité et accédez à des
+        statistiques personnalisées en temps réel pour mieux gérer votre compte.
+      </p>
+    </div>
+
+    <!-- Fourth item on the right -->
+    <div class="timeline-item right">
+      <h5>Gérez vos préférences</h5>
+      <p>
+        Ajustez vos préférences de notifications, choisissez comment et quand
+        vous souhaitez recevoir des alertes. Votre compte, vos règles.
       </p>
     </div>
   </div>

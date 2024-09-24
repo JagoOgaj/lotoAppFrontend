@@ -3,7 +3,7 @@
   class="navbar navbar-expand-sm navbar-dark fixed-top"
 >
   <div class="container">
-    <a class="navbar-brand fw-bold fs-2" href="#" role="button"
+    <a class="navbar-brand fw-bold fs-2" [routerLink]="['/home']" role="button"
       >Lo<span class="text-warning">toApp</span></a
     >
     <button
@@ -23,7 +23,7 @@
           <a
             class="nav-link"
             [ngClass]="{ highlighted: pageState === 'home' }"
-            (click)="redirectTo('home')"
+            [routerLink]="['/home']"
             role="button"
             ><i class="bi bi-house"></i> Home</a
           >
@@ -31,16 +31,8 @@
         <li class="nav-item fs-5">
           <a
             class="nav-link"
-            [ngClass]="{ highlighted: pageState === 'notification' }"
-            role="button"
-            ><i class="bi bi-bell"></i> Notification</a
-          >
-        </li>
-        <li class="nav-item fs-5">
-          <a
-            class="nav-link"
             [ngClass]="{ highlighted: pageState === 'login' }"
-            (click)="redirectTo('login')"
+            [routerLink]="['/login']"
             role="button"
             ><i class="bi bi-person"></i> Compte</a
           >
@@ -48,7 +40,7 @@
         <li class="nav-item fs-5">
           <a
             class="nav-button btn btn-warning"
-            (click)="redirectTo('contact')"
+            [routerLink]="['/contact']"
             role="button"
           >
             Contactez nous</a

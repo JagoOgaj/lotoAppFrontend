@@ -6,3 +6,122 @@
   background-color: orange;
   color: black;
 }
+
+.timeline-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  position: relative;
+}
+
+.timeline {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+/* Central line */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #f39c12;
+}
+
+/* Each item in the timeline */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+}
+
+/* Left side content */
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+  padding-right: 40px;
+}
+
+/* Right side content */
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+  padding-left: 40px;
+}
+
+/* Connector circle */
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: calc(100% - 8px);
+  width: 16px;
+  height: 16px;
+  background-color: #f39c12;
+  border-radius: 50%;
+  border: 3px solid white;
+  z-index: 1;
+}
+
+/* Move the circle to the left for right side items */
+.timeline-item.right::before {
+  left: -8px;
+}
+
+/* Content styling */
+.timeline-item h5 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.timeline-item p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Title styling */
+.timeline-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.timeline-header h2 span {
+  color: #f39c12;
+}
+
+.timeline-header p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  text-align: center;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .timeline-item {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: left !important;
+  }
+
+  .timeline-item.left {
+    text-align: left;
+  }
+
+  .timeline-item::before {
+    left: -8px !important;
+  }
+
+  .timeline::before {
+    left: 0;
+  }
+}

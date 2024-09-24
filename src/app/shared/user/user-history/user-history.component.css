@@ -1,0 +1,26 @@
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.pagination-warning .page-link {
+  color: black;
+}
+
+.pagination-warning .page-item.active .page-link {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.pagination-warning .page-link:hover {
+  background-color: rgba(255, 193, 7, 0.1);
+}

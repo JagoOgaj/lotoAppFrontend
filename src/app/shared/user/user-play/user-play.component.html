@@ -1,0 +1,55 @@
+<section class="container section-padding py-5" style="margin-bottom: 80px">
+  <div class="row justify-content-center">
+    <h2 class="fs-1 fw-bold mb-3 text-center">
+      Jou<span class="text-warning">er</span>
+    </h2>
+    <div class="col-md-8">
+      <div class="card text-center">
+        <div class="card-header text-center">
+          <div class="small-countdown">
+            <app-countdown-timer [launchDate]="dateTest"></app-countdown-timer>
+          </div>
+        </div>
+        <div class="card-body">
+          <app-lottory-form />
+        </div>
+        <div class="card-footer text-body-secondary">Tirage du ...</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section Règles du Jeu -->
+<section
+  id="rules"
+  class="container section-padding py-5"
+  style="margin-bottom: 80px"
+>
+  <div class="row g-5">
+    <div class="col-12 col-lg-5">
+      <img
+        src="assets/test4.jpg"
+        alt="rules-img"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+    <div class="col-12 col-lg-7">
+      <h2 class="fs-1 fw-bold mb-3">
+        Règ<span class="text-warning">les du Jeu</span>
+      </h2>
+      <p>Le jeu de loterie est simple et amusant. Voici comment jouer :</p>
+      <ul class="fs-5">
+        <li>Choisissez 5 numéros principaux entre 1 et 50.</li>
+        <li>Sélectionnez ensuite 3 numéros chance entre 1 et 10.</li>
+        <li>Confirmez vos choix en cliquant sur "Jouer".</li>
+        <li>
+          Le tirage aléatoire décidera des gagnants, et plus vos numéros
+          correspondent, plus vous gagnez.
+        </li>
+      </ul>
+      <p>
+        N’oubliez pas, plus vous avez de correspondances avec les numéros, plus
+        vous avez de chances de remporter un prix.
+      </p>
+    </div>
+  </div>
+</section>

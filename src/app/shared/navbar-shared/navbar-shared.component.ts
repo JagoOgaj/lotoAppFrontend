@@ -1,12 +1,12 @@
 import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PAGES_WHITH_HERO_SECTION } from '../../constants/pages/pages.constants';
 
 @Component({
   selector: 'app-navbar-shared',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './navbar-shared.component.html',
   styleUrl: './navbar-shared.component.css',
 })

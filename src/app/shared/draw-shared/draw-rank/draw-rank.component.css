@@ -1,0 +1,12 @@
+.pagination-warning .page-link {
+  color: black;
+}
+
+.pagination-warning .page-item.active .page-link {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.pagination-warning .page-link:hover {
+  background-color: rgba(255, 193, 7, 0.1);
+}

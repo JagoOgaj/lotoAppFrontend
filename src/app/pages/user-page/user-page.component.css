@@ -22,21 +22,85 @@
   background-color: #f5cba7 !important;
 }
 
-.card {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.small-countdown {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.card {
-  overflow: hidden;
-}
-
 .card-header {
   word-wrap: break-word;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header section */
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+h2 span {
+  color: #f39c12;
+  /* Couleur d'accent pour "pte" */
+}
+
+/* Text Styling */
+.lead {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+/* Card styles */
+.card {
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Card body shadow */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .col-lg-6 {
+    justify-content: center;
+    margin-bottom: 20px;
+  }
 }
