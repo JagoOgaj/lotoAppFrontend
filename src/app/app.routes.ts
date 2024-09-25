@@ -12,5 +12,12 @@ export const routes: Routes = [
   { path: 'account', component: UserPageComponent }, //Metre un Auth-Guard pour protéger la route
   { path: 'draw', component: DrawComponent }, // Mettre un auth-Guard et rajouter le parametre /:id
   { path: 'contact', component: ContactComponent },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import(
+        '/Users/samyoki/Desktop/lotoProject/lotoAppfrontend/src/app/pages/admin/admin.routes'
+      ).then((m) => m.adminRoutes),
+  },
   { path: '**', redirectTo: 'home' },
 ];

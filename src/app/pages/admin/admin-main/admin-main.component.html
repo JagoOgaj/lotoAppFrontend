@@ -1,0 +1,8 @@
+<app-slide-bar
+  [isSlideBarCollapsed]="isSlideBarCollapsed()"
+  (setIsSlideBarCollapsed)="changeIsSlideBarCollapsed($event)"
+/>
+<app-admin-content
+  [isSlideBarCollapsed]="isSlideBarCollapsed()"
+  [screenWidth]="screenWidth()"
+/>

@@ -1,0 +1,130 @@
+<section class="container mt-5">
+  <div class="card shadow-sm">
+    <div
+      class="card-header bg-secondary text-white d-flex justify-content-between align-items-center"
+    >
+      <h4 class="mb-0">Détails du Tirage</h4>
+
+      <!-- Icon button for small screens, text button for larger screens -->
+      <div class="d-flex">
+        <button
+          class="btn btn-warning d-none d-md-inline-block"
+          (click)="toggleEditMode()"
+        >
+          {{ editMode ? "Annuler" : "Modifier" }}
+        </button>
+        <button class="btn btn-warning d-md-none" (click)="toggleEditMode()">
+          <i
+            class="bi"
+            [ngClass]="editMode ? 'bi-x-circle' : 'bi-pencil-square'"
+          ></i>
+        </button>
+
+        <!-- Second button for redirection -->
+        <button
+          class="btn btn-primary ms-2 d-none d-md-inline-block"
+          (click)="navigatToManageParticipant()"
+        >
+          Modifier les participants
+        </button>
+        <button
+          class="btn btn-primary ms-2 d-md-none"
+          (click)="navigatToManageParticipant()"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form (ngSubmit)="saveChanges()">
+        <div class="form-group mb-3">
+          <label for="nom">Nom du Tirage</label>
+          <input
+            type="text"
+            id="nom"
+            class="form-control"
+            [(ngModel)]="tempTirage.nom"
+            name="nom"
+            [readonly]="!editMode"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="recompense">Récompense</label>
+          <input
+            type="text"
+            id="recompense"
+            class="form-control"
+            [(ngModel)]="tempTirage.recompense"
+            name="recompense"
+            [readonly]="!editMode"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="participantsMax">Nombre Maximum de Participants</label>
+          <input
+            type="number"
+            id="participantsMax"
+            class="form-control"
+            [(ngModel)]="tempTirage.nombreParticipantsMax"
+            name="nombreParticipantsMax"
+            [readonly]="!editMode"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="status">Status</label>
+          <select
+            id="status"
+            class="form-select"
+            [(ngModel)]="tempTirage.status"
+            name="status"
+            [disabled]="!editMode"
+          >
+            <option value="En cours">En cours</option>
+            <option value="Terminé">Terminé</option>
+            <option value="Annulé">Annulé</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="dateTirage">Date du Tirage</label>
+          <input
+            type="date"
+            id="dateTirage"
+            class="form-control"
+            [(ngModel)]="tempTirage.dateTirage"
+            name="dateTirage"
+            [readonly]="!editMode"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="dateFin">Date de Fin</label>
+          <input
+            type="date"
+            id="dateFin"
+            class="form-control"
+            [(ngModel)]="tempTirage.dateFin"
+            name="dateFin"
+            [readonly]="!editMode"
+          />
+        </div>
+
+        <button *ngIf="editMode" type="submit" class="btn btn-success">
+          Enregistrer
+        </button>
+        <button
+          *ngIf="editMode"
+          type="button"
+          class="btn btn-secondary"
+          (click)="toggleEditMode()"
+        >
+          Annuler
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

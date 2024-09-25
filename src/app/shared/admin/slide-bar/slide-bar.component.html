@@ -1,0 +1,41 @@
+<div
+  class="sidenav"
+  [ngClass]="isSlideBarCollapsed() ? 'sidenav-collapsed' : ''"
+>
+  <div class="logo-container">
+    <button class="logo" (click)="toggleCollapse()">
+      <i class="fal fa-bars"></i>
+    </button>
+    @if (!isSlideBarCollapsed()) {
+    <div class="logo-text">LotoApp</div>
+    <button class="btn-close" (click)="closeSlideBar()">
+      <i class="fal fa-times close-icon"></i>
+    </button>
+    }
+  </div>
+  <div class="sidenav-nav">
+    @for (item of items; track $index){
+    <li class="sidenav-nav-item">
+      <a
+        class="sidenav-nav-link"
+        [routerLink]="item.routerLink"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="sidenav-link-icon" [class]="item.icon"></i>
+        @if (!isSlideBarCollapsed()) {
+        <span class="sidenav-link-text">{{ item.label }}</span>
+        }
+      </a>
+    </li>
+    }
+    <li class="sidenav-nav-item">
+      <a class="sidenav-nav-link">
+        <i class="sidenav-link-icon bi bi-box-arrow-right"></i>
+        @if (!isSlideBarCollapsed()) {
+        <span class="sidenav-link-text">Déconexion</span>
+        }
+      </a>
+    </li>
+  </div>
+</div>

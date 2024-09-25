@@ -1,0 +1,59 @@
+<div class="container-fluid mt-5">
+  <section>
+    <div class="row mt-4 g-4 text-center">
+      <div class="col-12">
+        <h2 class="fs-1 fw-bold mb-4">
+          Gestion des participants <span class="text-warning">du tirage</span>
+        </h2>
+        <p class="lead text-muted">
+          Gérez les participants de manière simple et efficace.
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-2 g-4">
+      <div class="col-lg-6 col-md-12 d-flex justify-content-end">
+        <div class="card shadow-sm border-light h-100">
+          <div class="card-body">
+            <h5 class="card-title">Gérez facilement vos participants</h5>
+            <p class="card-text">
+              Ajoutez, modifiez ou supprimez des participants avec simplicité et
+              rapidité grâce à notre interface intuitive.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 d-flex justify-content-start">
+        <div class="card shadow-sm border-light h-100">
+          <div class="card-body">
+            <h5 class="card-title">Surveillez vos tirages</h5>
+            <p class="card-text">
+              Consultez les détails de chaque tirage, y compris les participants
+              et les récompenses, afin de rester informé à chaque étape.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div *ngIf="tirage; else noTirage">
+    <app-tirage-overview [tirage]="tirage"></app-tirage-overview>
+
+    <app-participants-list
+      [tirage]="tirage"
+      [participants]="participants"
+      [paginatedParticipants]="paginatedParticipants"
+      [searchTerm]="searchTerm"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+    >
+    </app-participants-list>
+  </div>
+
+  <ng-template #noTirage>
+    <div class="text-center mt-5">
+      <h2 class="text-muted" style="font-size: 2.5rem">Aucun tirage actuel</h2>
+    </div>
+  </ng-template>
+</div>

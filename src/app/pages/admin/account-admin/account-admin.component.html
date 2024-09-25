@@ -1,0 +1,90 @@
+<section class="container py-5 mt-5">
+  <div class="row mt-4 g-4 text-center">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-4">
+        Bonjour <span class="text-warning">{{ adminName }}</span>
+      </h2>
+      <p class="lead text-muted">
+        Gérez votre compte facilement et efficacement.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mt-2 g-4">
+    <div class="col-lg-6 d-flex justify-content-end">
+      <div class="card shadow-sm border-light h-100">
+        <div class="card-body">
+          <h5 class="card-title">Une expérience fluide</h5>
+          <p class="card-text">
+            Notre interface intuitive vous permet de gérer toutes vos
+            informations et de naviguer facilement à travers les fonctionnalités
+            disponibles.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 d-flex justify-content-start">
+      <div class="card shadow-sm border-light h-100">
+        <div class="card-body">
+          <h5 class="card-title">Sécurisez vos données</h5>
+          <p class="card-text">
+            Nous mettons un point d'honneur à assurer la sécurité de vos données
+            tout en vous offrant la possibilité de les gérer à votre convenance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section
+  class="container section-padding py-5 mt-5"
+  style="margin-bottom: 80px"
+>
+  <div class="container mt-4">
+    <!-- Nav Pills pour les écrans petits -->
+    <ul class="nav nav-pills d-md-none mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="pill" href="#adminProfile"
+          ><i class="bi bi-info-square-fill"></i> Profil</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#adminPassword"
+          ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
+        >
+      </li>
+    </ul>
+
+    <div class="row">
+      <div class="col-md-3 d-none d-md-block">
+        <ul class="nav flex-column nav-pills">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-bs-toggle="pill"
+              href="#adminProfile"
+              ><i class="bi bi-info-square-fill"></i> Profil</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#adminPassword"
+              ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="adminProfile">
+            <app-admin-info />
+          </div>
+          <div class="tab-pane fade" id="adminPassword">
+            <app-admin-pwd />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+.container {
+  max-width: 800px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  margin-left: 10px;
+}
