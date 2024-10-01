@@ -40,4 +40,8 @@
     </div>
   </section>
 </div>
-<app-tirage-list-shared [tirages]="tirages" />
+@if (tirages.length > 0) {
+  <app-tirage-list-shared [tirages]="tirages" (updateParent)="onUpdate()" />
+} @else {
+  <div class="text-muted text-center">Aucun tirage</div>
+}

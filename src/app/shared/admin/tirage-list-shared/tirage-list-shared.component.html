@@ -100,29 +100,29 @@
               </thead>
               <tbody>
                 <tr *ngFor="let tirage of paginatedTirages">
-                  <td>{{ tirage.nom }}</td>
-                  <td>{{ tirage.recompense }}</td>
+                  <td>{{ tirage.name }}</td>
+                  <td>{{ tirage.reward_price }}</td>
                   <td>
-                    {{ tirage.nombreParticipants }} /
-                    {{ tirage.nombreParticipantsMax }}
+                    {{ tirage.participant_count }} /
+                    {{ tirage.max_participants }}
                   </td>
                   <td>
                     <span
                       class="badge"
                       [ngClass]="{
                         'bg-success': tirage.status === 'En cours',
-                        'bg-danger': tirage.status !== 'En cours'
+                        'bg-danger': tirage.status !== 'En cours',
                       }"
                     >
                       {{ tirage.status }}
                     </span>
                   </td>
-                  <td>{{ tirage.dateTirage | date : "dd/MM/yyyy" }}</td>
-                  <td>{{ tirage.dateFin | date : "dd/MM/yyyy" }}</td>
+                  <td>{{ tirage.start_date | date: "dd/MM/yyyy" }}</td>
+                  <td>{{ tirage.end_date | date: "dd/MM/yyyy" }}</td>
                   <td class="text-center">
                     <button
                       class="btn btn-link text-info p-0"
-                      (click)="viewDetails(tirage)"
+                      (click)="viewDetails(tirage.id)"
                     >
                       <i class="bi bi-eye"></i>
                     </button>
@@ -130,7 +130,7 @@
                       class="btn btn-link text-danger p-0"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteUserModal"
-                      (click)="confirmDelete(tirage)"
+                      (click)="confirmDelete(tirage.id)"
                     >
                       <i class="bi bi-trash fs-5"></i>
                     </button>
@@ -195,29 +195,65 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="createTirage()">
+        <form [formGroup]="newTirage" (ngSubmit)="createTirage()">
+          <!-- Titre -->
           <div class="mb-3">
             <label for="titre" class="form-label">Titre</label>
             <input
               type="text"
               class="form-control"
               id="titre"
-              [(ngModel)]="newTirage.nom"
-              name="titre"
+              formControlName="name"
+              [ngClass]="{ 'is-invalid': newTirage.get('name')?.errors }"
               required
             />
+            <div
+              *ngIf="
+                newTirage.get('name')?.invalid && newTirage.get('name')?.touched
+              "
+              class="text-danger"
+            >
+              Titre requis (au moins 2 caractères).
+            </div>
+            <div
+              *ngIf="newTirage.get('name')?.errors?.['serverError']"
+              class="invalid-feedback"
+            >
+              {{ newTirage.get("name")?.errors?.["serverError"] }}
+            </div>
           </div>
+
+          <!-- Récompense -->
           <div class="mb-3">
             <label for="recompense" class="form-label">Récompense</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="recompense"
-              [(ngModel)]="newTirage.recompense"
-              name="recompense"
+              formControlName="reward_price"
+              [ngClass]="{
+                'is-invalid': newTirage.get('reward_price')?.errors,
+              }"
               required
             />
+            <div
+              *ngIf="
+                newTirage.get('reward_price')?.invalid &&
+                newTirage.get('reward_price')?.touched
+              "
+              class="text-danger"
+            >
+              Récompense requise (doit être supérieur à 0).
+            </div>
+            <div
+              *ngIf="newTirage.get('reward_price')?.errors?.['serverError']"
+              class="invalid-feedback"
+            >
+              {{ newTirage.get("reward_price")?.errors?.["serverError"] }}
+            </div>
           </div>
+
+          <!-- Participants Max -->
           <div class="mb-3">
             <label for="participantsMax" class="form-label"
               >Participants Max</label
@@ -226,34 +262,105 @@
               type="number"
               class="form-control"
               id="participantsMax"
-              [(ngModel)]="newTirage.nombreParticipantsMax"
-              name="participantsMax"
+              formControlName="max_participants"
+              [ngClass]="{
+                'is-invalid': newTirage.get('max_participants')?.errors,
+              }"
               required
             />
+            <div
+              *ngIf="
+                newTirage.get('max_participants')?.invalid &&
+                newTirage.get('max_participants')?.touched
+              "
+              class="text-danger"
+            >
+              Nombre de participants requis (doit être supérieur à 0).
+            </div>
+            <div
+              *ngIf="newTirage.get('name')?.errors?.['serverError']"
+              class="invalid-feedback"
+            >
+              {{ newTirage.get("name")?.errors?.["serverError"] }}
+            </div>
           </div>
+
+          <!-- Statut -->
           <div class="mb-3">
-            <label for="dateTirage" class="form-label">Date du Tirage</label>
+            <label for="status" class="form-label">Statut</label>
+            <select
+              class="form-select"
+              id="status"
+              formControlName="status"
+              (change)="onStatusChange()"
+            >
+              <option value="EN_COUR">En cours</option>
+              <option value="SIMULATION">Simulation</option>
+            </select>
+          </div>
+
+          <!-- Date de début (visible uniquement si statut = "EN_COUR") -->
+          <div class="mb-3" *ngIf="showDateFields">
+            <label for="startDate" class="form-label">Date de début</label>
             <input
               type="date"
               class="form-control"
-              id="dateTirage"
-              [(ngModel)]="newTirage.dateTirage"
-              name="dateTirage"
+              id="startDate"
+              formControlName="start_date"
               required
+              [ngClass]="{ 'is-invalid': newTirage.get('start_date')?.errors }"
             />
+            <div
+              *ngIf="
+                newTirage.get('start_date')?.invalid &&
+                newTirage.get('start_date')?.touched
+              "
+              class="text-danger"
+            >
+              Date de début requise.
+            </div>
+            <div
+              *ngIf="newTirage.get('start_date')?.errors?.['serverError']"
+              class="invalid-feedback"
+            >
+              {{ newTirage.get("start_date")?.errors?.["serverError"] }}
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="dateFin" class="form-label">Date de Fin</label>
+
+          <!-- Date de fin (visible uniquement si statut = "EN_COUR") -->
+          <div class="mb-3" *ngIf="showDateFields">
+            <label for="endDate" class="form-label">Date de fin</label>
             <input
               type="date"
               class="form-control"
-              id="dateFin"
-              [(ngModel)]="newTirage.dateFin"
-              name="dateFin"
+              id="endDate"
+              formControlName="end_date"
               required
+              [ngClass]="{ 'is-invalid': newTirage.get('end_date')?.errors }"
             />
+            <div
+              *ngIf="
+                newTirage.get('end_date')?.invalid &&
+                newTirage.get('end_date')?.touched
+              "
+              class="text-danger"
+            >
+              Date de fin requise.
+            </div>
+            <div
+              *ngIf="newTirage.get('end_date')?.errors?.['serverError']"
+              class="invalid-feedback"
+            >
+              {{ newTirage.get("end_date")?.errors?.["serverError"] }}
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+
+          <!-- Bouton Créer -->
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="newTirage.invalid"
+          >
             Créer
           </button>
         </form>

@@ -8,9 +8,8 @@ describe('HeroSharedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroSharedComponent]
-    })
-    .compileComponents();
+      imports: [HeroSharedComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HeroSharedComponent);
     component = fixture.componentInstance;

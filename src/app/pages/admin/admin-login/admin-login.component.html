@@ -1,0 +1,97 @@
+<section class="container">
+  <div class="row mt-4 g-4 text-center">
+    <div class="col-12">
+      <h2 class="fs-1 fw-bold mb-4">
+        Connexion en tant que <span class="text-warning">Admin</span>
+      </h2>
+      <p class="lead text-muted">Endroit réserver</p>
+    </div>
+  </div>
+</section>
+
+<div
+  class="container d-flex justify-content-center align-items-center"
+  style="min-height: 60vh"
+>
+  <div class="form-container">
+    <div class="card" style="width: 24rem">
+      <div class="card-body text-center">
+        <h5 class="card-title text-center">Connexion</h5>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="Email"
+              formControlName="email"
+              required
+            />
+            <label for="email">Email</label>
+            <div
+              *ngIf="
+                loginForm.get('email')?.invalid &&
+                (loginForm.get('email')?.touched ||
+                  loginForm.get('email')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Veuillez entrer un email valide.</small
+              >
+            </div>
+            <div *ngIf="serverErrors?.details?.emailError" class="text-danger">
+              {{ serverErrors?.details?.emailError }}
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="Mot de passe"
+              formControlName="password"
+              required
+            />
+            <label for="password">Mot de passe</label>
+            <div
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.touched ||
+                  loginForm.get('password')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Le mot de passe doit comporter au moins 8 caractères.</small
+              >
+            </div>
+            <div
+              *ngIf="serverErrors?.details?.passwordError"
+              class="text-danger"
+            >
+              {{ serverErrors?.details?.passwordError }}
+            </div>
+          </div>
+          <div class="text-center">
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              [disabled]="loginForm.invalid"
+            >
+              Connectez-vous
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="container">
+  <div class="row mt-4 g-4 text-center">
+    <div class="col-12">
+      <button class="w-100 btn btn-warning" role="button" (click)="goToHome()">
+        &#8592; Home
+      </button>
+    </div>
+  </div>
+</section>

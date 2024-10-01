@@ -11,6 +11,9 @@
         </p>
       </div>
     </div>
-    <app-tirage-edit />
+    <app-tirage-edit
+      [tirage]="tirageOverview"
+      (updateParent)="onTirageUpdate()"
+    />
   </section>
 </div>

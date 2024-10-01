@@ -5,115 +5,145 @@
     >
       <h4 class="mb-0">Détails du Tirage</h4>
 
-      <!-- Icon button for small screens, text button for larger screens -->
       <div class="d-flex">
         <button
           class="btn btn-warning d-none d-md-inline-block"
           (click)="toggleEditMode()"
+          [disabled]="isDone()"
         >
           {{ editMode ? "Annuler" : "Modifier" }}
         </button>
-        <button class="btn btn-warning d-md-none" (click)="toggleEditMode()">
-          <i
-            class="bi"
-            [ngClass]="editMode ? 'bi-x-circle' : 'bi-pencil-square'"
-          ></i>
-        </button>
 
-        <!-- Second button for redirection -->
         <button
           class="btn btn-primary ms-2 d-none d-md-inline-block"
           (click)="navigatToManageParticipant()"
+          [disabled]="isDone()"
         >
           Modifier les participants
         </button>
         <button
-          class="btn btn-primary ms-2 d-md-none"
-          (click)="navigatToManageParticipant()"
+          class="btn btn-info"
+          [disabled]="!isDone()"
+          (click)="navigatToTirageResult()"
         >
-          <i class="bi bi-box-arrow-right"></i>
+          Afficher les résultats
+        </button>
+        <button
+          class="btn btn-danger ms-2 d-none d-md-inline-block"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmStatusModal"
+          [disabled]="!isInSimulation() || !isInValidation()"
+        >
+          Terminer le tirage
         </button>
       </div>
     </div>
 
     <div class="card-body">
-      <form (ngSubmit)="saveChanges()">
+      <form [formGroup]="updateTirageForm" (ngSubmit)="saveChanges()">
+        <!-- Nom du Tirage -->
         <div class="form-group mb-3">
           <label for="nom">Nom du Tirage</label>
           <input
             type="text"
             id="nom"
             class="form-control"
-            [(ngModel)]="tempTirage.nom"
-            name="nom"
+            formControlName="name"
             [readonly]="!editMode"
           />
+          <div *ngIf="hasServerError('name')" class="text-danger">
+            {{ hasServerError("name") }}
+          </div>
         </div>
 
+        <!-- Récompense -->
         <div class="form-group mb-3">
           <label for="recompense">Récompense</label>
           <input
             type="text"
             id="recompense"
             class="form-control"
-            [(ngModel)]="tempTirage.recompense"
-            name="recompense"
+            formControlName="reward_price"
             [readonly]="!editMode"
           />
+          <div *ngIf="hasServerError('reward_price')" class="text-danger">
+            {{ hasServerError("reward_price") }}
+          </div>
         </div>
 
+        <!-- Nombre Maximum de Participants -->
         <div class="form-group mb-3">
           <label for="participantsMax">Nombre Maximum de Participants</label>
           <input
             type="number"
             id="participantsMax"
             class="form-control"
-            [(ngModel)]="tempTirage.nombreParticipantsMax"
-            name="nombreParticipantsMax"
+            formControlName="max_participants"
             [readonly]="!editMode"
           />
+          <div *ngIf="hasServerError('max_participants')" class="text-danger">
+            {{ hasServerError("max_participants") }}
+          </div>
         </div>
 
-        <div class="form-group mb-3">
+        <!-- Status -->
+
+        <div class="form-group mb-3" *ngIf="tirage.status !== 'SIMULATION'">
           <label for="status">Status</label>
           <select
             id="status"
             class="form-select"
-            [(ngModel)]="tempTirage.status"
-            name="status"
+            formControlName="status"
             [disabled]="!editMode"
           >
-            <option value="En cours">En cours</option>
-            <option value="Terminé">Terminé</option>
-            <option value="Annulé">Annulé</option>
+            <option
+              *ngFor="let option of getStatusOptions()"
+              [value]="option.value"
+            >
+              {{ option.label }}
+            </option>
           </select>
+          <div *ngIf="hasServerError('status')" class="text-danger">
+            {{ hasServerError("status") }}
+          </div>
         </div>
 
+        <!-- Date du Tirage -->
         <div class="form-group mb-3">
           <label for="dateTirage">Date du Tirage</label>
           <input
             type="date"
             id="dateTirage"
             class="form-control"
-            [(ngModel)]="tempTirage.dateTirage"
-            name="dateTirage"
+            formControlName="start_date"
             [readonly]="!editMode"
           />
+          <div *ngIf="hasServerError('start_date')" class="text-danger">
+            {{ hasServerError("start_date") }}
+          </div>
         </div>
 
+        <!-- Date de Fin -->
         <div class="form-group mb-3">
           <label for="dateFin">Date de Fin</label>
           <input
             type="date"
             id="dateFin"
             class="form-control"
-            [(ngModel)]="tempTirage.dateFin"
-            name="dateFin"
+            formControlName="end_date"
             [readonly]="!editMode"
           />
+          <div *ngIf="hasServerError('end_date')" class="text-danger">
+            {{ hasServerError("end_date") }}
+          </div>
         </div>
 
-        <button *ngIf="editMode" type="submit" class="btn btn-success">
+        <button
+          *ngIf="editMode"
+          type="submit"
+          class="btn btn-success"
+          [disabled]="!updateTirageForm.dirty || !updateTirageForm.valid"
+        >
           Enregistrer
         </button>
         <button
@@ -128,3 +158,41 @@
     </div>
   </div>
 </section>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="confirmStatusModal"
+  tabindex="-1"
+  aria-labelledby="confirmStatusModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmStatusModalLabel">
+          Confirmer le changement de statut
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir terminer ce tirage ? Une fois que vous avez
+        confirmé, le statut sera changé en "Terminé" et ne pourra plus être
+        modifié.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" (click)="confirmStatus()">
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

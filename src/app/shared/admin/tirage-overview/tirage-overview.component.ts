@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { LotteryOverviewResponse } from '../../../constants/ressources/user/tirageUserRessource';
+import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tirage-overview',
@@ -9,17 +12,25 @@ import { Component, Input } from '@angular/core';
   styleUrl: './tirage-overview.component.css',
 })
 export class TirageOverviewComponent {
-  @Input() tirage!: {
-    nom: string;
-    recompense: string;
-    nombreParticipants: number;
-    nombreParticipantsMax: number;
-    status: string;
-    dateTirage: Date;
-    dateFin: Date;
-  };
+  @Input() tirage!: LotteryOverviewResponse;
+  private router = inject(Router);
 
   showDetails() {
-    console.log('Détails du tirage:', this.tirage); // rediriger vers tirage-details/:id
+    this.router.navigate(['tirage-details/', this.tirage.id]); // rediriger vers tirage-details/:id
+  }
+
+  renderStatusToTemplate(status: string): string {
+    if (status == TirageStatus.EN_COUR) {
+      return 'En cours';
+    } else if (status == TirageStatus.EN_VALIDATION) {
+      return 'En validation';
+    } else if (status == TirageStatus.TERMINE) {
+      return 'Termine';
+    } else if (status == TirageStatus.SIMULATION) {
+      return 'Simulation';
+    } else if (status == TirageStatus.SIMULATION_TERMINE) {
+      return 'Simmulation termine';
+    }
+    return '';
   }
 }

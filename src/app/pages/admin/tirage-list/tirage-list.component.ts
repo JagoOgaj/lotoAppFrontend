@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TirageListSharedComponent } from '../../../shared/admin/tirage-list-shared/tirage-list-shared.component';
+import { LotteriesOverviewResponse } from '../../../constants/ressources/user/tirageUserRessource';
+import { TirageListService } from './service/tirage-list.service';
 
 @Component({
   selector: 'app-tirage-list',
@@ -8,87 +10,27 @@ import { TirageListSharedComponent } from '../../../shared/admin/tirage-list-sha
   templateUrl: './tirage-list.component.html',
   styleUrl: './tirage-list.component.css',
 })
-export class TirageListComponent {
-  tirages: {
-    nom: string;
-    recompense: string;
-    nombreParticipants: number;
-    nombreParticipantsMax: number;
-    status: string;
-    dateTirage: Date;
-    dateFin: Date;
-  }[] = [
-    {
-      nom: 'Tirage Loto1',
-      recompense: '5000€',
-      nombreParticipants: 20, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'Terminé',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 10)),
-    },
-    {
-      nom: 'Tirage Loto2',
-      recompense: '5000€',
-      nombreParticipants: 40, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-    {
-      nom: 'Tirage Loto3',
-      recompense: '5000€',
-      nombreParticipants: 60, // Initialisé à 0
-      nombreParticipantsMax: 20,
-      status: 'En cours',
-      dateTirage: new Date(),
-      dateFin: new Date(new Date().setDate(new Date().getDate() + 7)),
-    },
-  ];
+export class TirageListComponent implements OnInit {
+  tirages: LotteriesOverviewResponse;
+
+  constructor(private tirageListService: TirageListService) {
+    this.tirages = [] as LotteriesOverviewResponse;
+  }
+
+  ngOnInit(): void {
+    this.loadTirages();
+  }
+
+  loadTirages(): void {
+    this.tirageListService.getTirageList().subscribe({
+      next: (data) => {
+        this.tirages = data.data;
+      },
+      error: (err) => {},
+    });
+  }
+
+  onUpdate(): void {
+    this.loadTirages();
+  }
 }

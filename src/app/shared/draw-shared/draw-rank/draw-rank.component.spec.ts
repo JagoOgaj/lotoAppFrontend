@@ -8,9 +8,8 @@ describe('DrawRankComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrawRankComponent]
-    })
-    .compileComponents();
+      imports: [DrawRankComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DrawRankComponent);
     component = fixture.componentInstance;

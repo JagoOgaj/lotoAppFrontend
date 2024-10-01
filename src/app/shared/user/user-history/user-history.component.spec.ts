@@ -8,9 +8,8 @@ describe('UserHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserHistoryComponent]
-    })
-    .compileComponents();
+      imports: [UserHistoryComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserHistoryComponent);
     component = fixture.componentInstance;

@@ -1,9 +1,9 @@
+<h2 class="fs-1 fw-bold mb-3 text-center">
+  Vos <span class="text-warning">informations</span>
+</h2>
 <div class="container mt-4">
-  <h2 class="fs-1 fw-bold mb-3 text-center">
-    Vos <span class="text-warning">informations</span>
-  </h2>
   <div class="form-container">
-    <form>
+    <form [formGroup]="adminFormInfo" (ngSubmit)="onSubmit()">
       <div class="mb-3 row">
         <div class="col-12 col-md-6">
           <div class="form-floating">
@@ -13,10 +13,16 @@
               id="firstName"
               placeholder="Prénom"
               required
+              formControlName="first_name"
             />
             <label for="firstName">Prénom</label>
           </div>
+          <!-- Affichage des erreurs pour le prénom -->
+          <div *ngIf="errorResponse?.details?.first_name" class="text-danger">
+            {{ errorResponse?.details?.first_name }}
+          </div>
         </div>
+
         <div class="col-12 col-md-6">
           <div class="form-floating">
             <input
@@ -25,8 +31,13 @@
               id="lastName"
               placeholder="Nom"
               required
+              formControlName="last_name"
             />
             <label for="lastName">Nom</label>
+          </div>
+          <!-- Affichage des erreurs pour le nom -->
+          <div *ngIf="errorResponse?.details?.last_name" class="text-danger">
+            {{ errorResponse?.details?.last_name }}
           </div>
         </div>
       </div>
@@ -39,26 +50,22 @@
             id="email"
             placeholder="Email"
             required
+            formControlName="email"
           />
           <label for="email">Email</label>
         </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="form-floating">
-          <input
-            type="tel"
-            class="form-control"
-            id="phone"
-            placeholder="Téléphone"
-            required
-          />
-          <label for="phone">Téléphone</label>
+        <!-- Affichage des erreurs pour l'email -->
+        <div *ngIf="errorResponse?.details?.email" class="text-danger">
+          {{ errorResponse?.details?.email }}
         </div>
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-warning w-100">
+        <button
+          type="submit"
+          class="btn btn-warning w-100"
+          [disabled]="!isFormChange || adminFormInfo.invalid"
+        >
           Enregistrer les Modifications
         </button>
       </div>

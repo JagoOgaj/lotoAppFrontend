@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './hero-shared.component.html',
-  styleUrl: './hero-shared.component.css'
+  styleUrl: './hero-shared.component.css',
 })
-export class HeroSharedComponent {
-
-}
+export class HeroSharedComponent {}

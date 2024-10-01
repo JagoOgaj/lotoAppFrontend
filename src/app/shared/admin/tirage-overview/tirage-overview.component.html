@@ -1,53 +1,60 @@
 <section class="py-5 mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h4 class="card-title mb-0"><i class="bi bi-eye"></i> Aperçu du tirage</h4>
-            <button class="btn btn-warning" (click)="showDetails()">
-                <i class="bi bi-info-circle-fill"></i> Détails
-            </button>
-        </div>
-        <div class="card-body">
-            <div class="row text-center">
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Nom du tirage</h5>
-                        <p class="text-primary fs-5">{{ tirage.nom }}</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Récompense</h5>
-                        <p class="text-success fs-5">{{ tirage.recompense }}</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Nombre de participants</h5>
-                        <p class="text-info fs-5">{{ tirage.nombreParticipants }} / {{ tirage.nombreParticipantsMax }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Status</h5>
-                        <p class="text-warning fs-5">{{ tirage.status }}</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Date du tirage</h5>
-                        <p class="fs-5">{{ tirage.dateTirage | date: 'dd/MM/yyyy' }}</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 mb-3">
-                    <div class="card p-3 border-light shadow-sm">
-                        <h5 class="mb-1">Date de fin</h5>
-                        <p class="fs-5">{{ tirage.dateFin | date: 'dd/MM/yyyy' }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="card shadow-sm">
+    <div
+      class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+    >
+      <h4 class="card-title mb-0">
+        <i class="bi bi-eye"></i> Aperçu du tirage
+      </h4>
+      <button class="btn btn-warning" (click)="showDetails()">
+        <i class="bi bi-info-circle-fill"></i> Détails
+      </button>
     </div>
+    <div class="card-body">
+      <div class="row text-center">
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Nom du tirage</h5>
+            <p class="text-primary fs-5">{{ tirage.name }}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Récompense</h5>
+            <p class="text-success fs-5">{{ tirage.reward_price }}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Nombre de participants</h5>
+            <p class="text-info fs-5">
+              {{ tirage.max_participants }} / {{ tirage.participant_count }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Status</h5>
+            <p class="text-warning fs-5">
+              {{ renderStatusToTemplate(tirage.status) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Date du tirage</h5>
+            <p class="fs-5">{{ tirage.start_date | date: "dd/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card p-3 border-light shadow-sm">
+            <h5 class="mb-1">Date de fin</h5>
+            <p class="fs-5">{{ tirage.end_date | date: "dd/MM/yyyy" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

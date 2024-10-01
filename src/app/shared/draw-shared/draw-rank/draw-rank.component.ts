@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  DrawRank,
+  DrawRanks,
+  LotteryInfoRankResponse,
+} from '../../../constants/ressources/user/LotteryInfoRessource';
 
 @Component({
   selector: 'app-draw-rank',
@@ -8,7 +13,12 @@ import { Component } from '@angular/core';
   templateUrl: './draw-rank.component.html',
   styleUrl: './draw-rank.component.css',
 })
-export class DrawRankComponent {
+export class DrawRankComponent implements OnInit {
+  @Input() drawRank!: LotteryInfoRankResponse;
+
+  /**
+   * 
+  
   players = [
     //Todo info en back-end
     { rank: 1, name: 'Joueur 1', score: 100, winnings: 5000 },
@@ -29,9 +39,16 @@ export class DrawRankComponent {
   ];
 
   currentUser = { rank: 3, name: 'Joueur 12', score: 82, winnings: 1500 };
-
+**/
+  players: DrawRanks = [];
+  currentUser: DrawRank | undefined;
   currentPage = 1;
   itemsPerPage = 10;
+
+  ngOnInit(): void {
+    this.players = this.drawRank.players;
+    this.currentUser = this.drawRank.currentUser;
+  }
 
   getPaginatedPlayers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -57,7 +74,7 @@ export class DrawRankComponent {
 
   isCurrentUserOnCurrentPage() {
     return this.getPaginatedPlayers().some(
-      (player) => player.name === this.currentUser.name
+      (player) => player.name === this.currentUser?.name,
     );
   }
 }

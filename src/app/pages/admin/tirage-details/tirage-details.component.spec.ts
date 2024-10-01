@@ -8,9 +8,8 @@ describe('TirageDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TirageDetailsComponent]
-    })
-    .compileComponents();
+      imports: [TirageDetailsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TirageDetailsComponent);
     component = fixture.componentInstance;

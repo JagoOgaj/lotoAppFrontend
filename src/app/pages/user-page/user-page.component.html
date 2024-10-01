@@ -4,7 +4,7 @@
   <div class="row mt-4 g-4 text-center">
     <div class="col-12">
       <h2 class="fs-1 fw-bold mb-4">
-        Salut <span class="text-warning">User</span>
+        Salut <span class="text-warning">{{ getFullNameUser() }}</span>
         <!--Modifier user par le nom de l'utilisateur-->
       </h2>
       <p class="lead text-muted">
@@ -71,7 +71,11 @@
         </a>
       </li>
       <li class="nav-item">
-        <button class="nav-link btn btn-danger" id="logoutButton">
+        <button
+          class="nav-link btn btn-danger"
+          id="logoutButton"
+          (click)="logout()"
+        >
           Déconnexion
         </button>
       </li>
@@ -101,7 +105,7 @@
             >
           </li>
           <li class="nav-item">
-            <button class="nav-link btn" id="logoutButton">
+            <button class="nav-link btn" id="logoutButton" (click)="logout()">
               <i class="bi bi-door-closed-fill"></i> Déconnexion
             </button>
           </li>
@@ -111,7 +115,7 @@
       <div class="col-md-9">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="category1">
-            <app-user-informations />
+            <app-user-informations [userInfo]="userInfo" />
           </div>
           <div class="tab-pane fade" id="category2">
             <app-user-password />

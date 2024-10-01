@@ -1,10 +1,22 @@
 <app-navbar-shared [pageState]="pageState" />
 
 <section id="draw-overview" class="container py-5 mt-5">
-  <app-draw-overview />
+  @if (tirageOverview != null) {
+    <app-draw-overview [drawData]="tirageOverview" />
+  } @else {
+    <div class="text-muted text-center">
+      <h2 class="fs-1 fw-bold mb-3">Erreur de récupération des informations</h2>
+    </div>
+  }
 </section>
 
 <section class="container py-5 mt-5">
-  <app-draw-rank />
+  @if (tirageRank != null) {
+    <app-draw-rank [drawRank]="tirageRank" />
+  } @else {
+    <div class="text-muted text-center">
+      <h2 class="fs-1 fw-bold mb-3">Erreur de récupération du classement</h2>
+    </div>
+  }
 </section>
 <app-footer-shared />

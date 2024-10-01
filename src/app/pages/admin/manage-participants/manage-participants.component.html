@@ -36,24 +36,34 @@
       </div>
     </div>
   </section>
+  <section>
+    @if (tirage != null) {
+      <app-tirage-overview [tirage]="tirage"></app-tirage-overview>
+    } @else {
+      <div class="text-center mt-5">
+        <h2 class="text-muted" style="font-size: 2.5rem">
+          Aucun tirage trouvé
+        </h2>
+      </div>
+    }
+  </section>
 
-  <div *ngIf="tirage; else noTirage">
-    <app-tirage-overview [tirage]="tirage"></app-tirage-overview>
-
-    <app-participants-list
-      [tirage]="tirage"
-      [participants]="participants"
-      [paginatedParticipants]="paginatedParticipants"
-      [searchTerm]="searchTerm"
-      [currentPage]="currentPage"
-      [totalPages]="totalPages"
-    >
-    </app-participants-list>
-  </div>
-
-  <ng-template #noTirage>
+  @if (participants != null) {
+    <section>
+      <app-participants-list
+        [tirage]="tirage"
+        [participants]="participants"
+        [paginatedParticipants]="paginatedParticipants"
+        [searchTerm]="searchTerm"
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (updateParent)="onUpdate()"
+      >
+      </app-participants-list>
+    </section>
+  } @else {
     <div class="text-center mt-5">
-      <h2 class="text-muted" style="font-size: 2.5rem">Aucun tirage actuel</h2>
+      <h2 class="text-muted" style="font-size: 2.5rem">Aucun tirage trouvé</h2>
     </div>
-  </ng-template>
+  }
 </div>

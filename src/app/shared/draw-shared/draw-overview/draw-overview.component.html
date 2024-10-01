@@ -12,25 +12,25 @@
     </h2>
     <table class="table table-bordered">
       <tbody>
-        <tr *ngFor="let data of drawData">
-          <td>
-            <strong>{{ data.label }}:</strong>
-          </td>
-          <td>
-            <span *ngIf="isDate(data.value)">{{
-              data.value | date : "fullDate"
-            }}</span>
-            <span
-              *ngIf="isNumber(data.value) && data.label === 'Montant Total'"
-              >{{ data.value | currency : "EUR" }}</span
-            >
-            <span
-              *ngIf="
-                isNumber(data.value) && data.label === 'Nombre de Participants'
-              "
-              >{{ data.value }}</span
-            >
-          </td>
+        <tr>
+          <td><strong>Nom du Tirage:</strong></td>
+          <td>{{ name }}</td>
+        </tr>
+        <tr>
+          <td><strong>Date de Début:</strong></td>
+          <td>{{ startDate | date: "fullDate" }}</td>
+        </tr>
+        <tr>
+          <td><strong>Date de Fin:</strong></td>
+          <td>{{ endDate | date: "fullDate" }}</td>
+        </tr>
+        <tr>
+          <td><strong>Montant Total:</strong></td>
+          <td>{{ rewardPrice | currency: "EUR" }}</td>
+        </tr>
+        <tr>
+          <td><strong>Nombre de Participants:</strong></td>
+          <td>{{ participantCount }}</td>
         </tr>
       </tbody>
     </table>

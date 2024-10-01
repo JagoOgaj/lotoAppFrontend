@@ -8,9 +8,8 @@ describe('DrawOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrawOverviewComponent]
-    })
-    .compileComponents();
+      imports: [DrawOverviewComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DrawOverviewComponent);
     component = fixture.componentInstance;

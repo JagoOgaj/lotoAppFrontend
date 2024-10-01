@@ -1,25 +1,32 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { LotteryOverviewResponse } from '../../../constants/ressources/user/tirageUserRessource';
 
 @Component({
   selector: 'app-draw-overview',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './draw-overview.component.html',
-  styleUrl: './draw-overview.component.css',
+  styleUrls: ['./draw-overview.component.css'],
 })
 export class DrawOverviewComponent {
-  drawData: Array<{ label: string; value: string | number | Date }> = [
-    { label: 'Date du Tirage', value: new Date() }, // Date
-    { label: 'Montant Total', value: 10000 }, // Nombre
-    { label: 'Nombre de Participants', value: 150 }, // Nombre
-  ];
+  @Input() drawData!: LotteryOverviewResponse;
 
-  isDate(value: any): value is Date {
-    return value instanceof Date;
-  }
+  name: string = '';
+  startDate: Date | string = 'Non spécifiée';
+  endDate: Date | string = 'Non spécifiée';
+  rewardPrice: number = 0;
+  participantCount: number = 0;
 
-  isNumber(value: any): value is number {
-    return typeof value === 'number';
+  ngOnInit(): void {
+    this.name = this.drawData.name;
+    this.startDate = this.drawData.start_date
+      ? new Date(this.drawData.start_date)
+      : 'Non spécifiée';
+    this.endDate = this.drawData.end_date
+      ? new Date(this.drawData.end_date)
+      : 'Non spécifiée';
+    this.rewardPrice = this.drawData.reward_price;
+    this.participantCount = this.drawData.participant_count;
   }
 }

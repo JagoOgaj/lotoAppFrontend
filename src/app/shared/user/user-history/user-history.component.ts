@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserHistoryService } from './service/user-history.service';
+import { LotteryHistories } from '../../../constants/ressources/user/tirageUserRessource';
+import { UserSharedService } from '../service/user-shared.service';
+import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
 
 @Component({
   selector: 'app-user-history',
@@ -11,16 +15,19 @@ import { Router } from '@angular/router';
 })
 export class UserHistoryComponent implements OnInit {
   private readonly router = Inject(Router);
-  haveHistory: boolean = false;
   parties: any[] = []; // Liste des parties
-  paginatedParties: any[] = []; // Liste des parties à afficher pour la page courante
+  paginatedParties: LotteryHistories = []; // Liste des parties à afficher pour la page courante
   currentPage: number = 1;
   itemsPerPage: number = 3; // Nombre de cartes par page
   totalPages: number = 0;
   pages: number[] = [];
+  histories: LotteryHistories | null = null;
+
+  constructor(private userHistoryService: UserHistoryService) {}
 
   ngOnInit(): void {
     // Exemples de parties jouées
+    /*
     this.parties = [
       {
         id: 1,
@@ -56,11 +63,15 @@ export class UserHistoryComponent implements OnInit {
       },
       // Plus de parties...
     ];
-
+*/ this.loadHistories();
     // Calculer le nombre total de pages
-    this.totalPages = Math.ceil(this.parties.length / this.itemsPerPage);
-    this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
-    this.paginate();
+    if (this.histories) {
+      this.histories = this.histories;
+      // Calculer le nombre total de pages
+      this.totalPages = Math.ceil(this.parties.length / this.itemsPerPage);
+      this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
+      this.paginate();
+    }
   }
 
   // Méthode pour changer de page
@@ -77,7 +88,43 @@ export class UserHistoryComponent implements OnInit {
     this.paginatedParties = this.parties.slice(startIndex, endIndex);
   }
 
+  renderStatusToTemplate(status: string): string {
+    if (this.tirageIsInCurrent(status)) {
+      return 'En cours';
+    } else if (this.tirageIsInValidation(status)) {
+      return 'En validation';
+    } else if (this.tirageIsDone(status)) {
+      return 'Termine';
+    }
+    return '';
+  }
+
+  canShowDetails(status: string): boolean {
+    return this.tirageIsDone(status);
+  }
+
+  tirageIsDone(status: string): boolean {
+    return status == TirageStatus.TERMINE;
+  }
+
+  tirageIsInValidation(status: string): boolean {
+    return status == TirageStatus.EN_VALIDATION;
+  }
+
+  tirageIsInCurrent(status: string): boolean {
+    return status == TirageStatus.EN_COUR;
+  }
+
   voirDetailsTirage(id: number): void {
-    //this.router.navigate(['/tirage', id]); Todo Créer une nouvelle route et composant Tirage
+    this.router.navigate(['/draw', id]);
+  }
+
+  loadHistories(): void {
+    this.userHistoryService.getHistory().subscribe({
+      next: (data) => {
+        this.histories = data.data;
+      },
+      error: (err) => {},
+    });
   }
 }

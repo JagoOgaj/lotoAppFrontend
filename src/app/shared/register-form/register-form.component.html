@@ -22,7 +22,7 @@
           />
         </svg>
         <h5 class="card-title text-center">Inscription</h5>
-        <form>
+        <form [formGroup]="registryForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <div class="form-floating">
               <input
@@ -30,9 +30,24 @@
                 id="firstName"
                 class="form-control"
                 placeholder="Prénom"
+                formControlName="first_name"
                 required
               />
               <label for="firstName">Prénom</label>
+            </div>
+            <div
+              *ngIf="
+                registryForm.get('first_name')?.invalid &&
+                (registryForm.get('first_name')?.touched ||
+                  registryForm.get('first_name')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Veuillez entrer un prénom valide.</small
+              >
+            </div>
+            <div *ngIf="serverErrors?.details?.first_name" class="text-danger">
+              {{ serverErrors?.details?.first_name }}
             </div>
           </div>
           <div class="mb-3">
@@ -42,9 +57,22 @@
                 id="lastName"
                 class="form-control"
                 placeholder="Nom"
+                formControlName="last_name"
                 required
               />
               <label for="lastName">Nom</label>
+            </div>
+            <div
+              *ngIf="
+                registryForm.get('last_name')?.invalid &&
+                (registryForm.get('last_name')?.touched ||
+                  registryForm.get('last_name')?.dirty)
+              "
+            >
+              <small class="text-danger">Veuillez entrer un nom valide.</small>
+            </div>
+            <div *ngIf="serverErrors?.details?.last_name" class="text-danger">
+              {{ serverErrors?.details?.last_name }}
             </div>
           </div>
           <div class="mb-3">
@@ -54,20 +82,24 @@
                 id="email"
                 class="form-control"
                 placeholder="Email"
+                formControlName="email"
                 required
               />
               <label for="email">Email</label>
             </div>
-          </div>
-          <div class="mb-3">
-            <div class="form-floating">
-              <input
-                type="tel"
-                id="phone"
-                class="form-control"
-                placeholder="Téléphone"
-              />
-              <label for="phone">Téléphone (facultatif)</label>
+            <div
+              *ngIf="
+                registryForm.get('email')?.invalid &&
+                (registryForm.get('email')?.touched ||
+                  registryForm.get('email')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Veuillez entrer un email valide.</small
+              >
+            </div>
+            <div *ngIf="serverErrors?.details?.email" class="text-danger">
+              {{ serverErrors?.details?.email }}
             </div>
           </div>
           <div class="mb-3">
@@ -77,24 +109,32 @@
                 id="password"
                 class="form-control"
                 placeholder="Mot de passe"
+                formControlName="password"
                 required
               />
               <label for="password">Mot de passe</label>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="identityFile" class="form-label"
-              >Pièce d'identité</label
+            <div
+              *ngIf="
+                registryForm.get('password')?.invalid &&
+                (registryForm.get('password')?.touched ||
+                  registryForm.get('password')?.dirty)
+              "
             >
-            <input
-              type="file"
-              id="identityFile"
-              class="form-control"
-              accept=".jpg, .jpeg, .png, .pdf"
-            />
+              <small class="text-danger"
+                >Le mot de passe doit comporter au moins 8 caractères.</small
+              >
+            </div>
+            <div *ngIf="serverErrors?.details?.password" class="text-danger">
+              {{ serverErrors?.details?.password }}
+            </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-warning w-100">
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              [disabled]="registryForm.invalid"
+            >
               Créer un compte
             </button>
             <a (click)="onTabChange()" class="nav-link" role="button"

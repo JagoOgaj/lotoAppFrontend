@@ -8,9 +8,8 @@ describe('TirageListSharedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TirageListSharedComponent]
-    })
-    .compileComponents();
+      imports: [TirageListSharedComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TirageListSharedComponent);
     component = fixture.componentInstance;

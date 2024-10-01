@@ -1,10 +1,11 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-content',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgxSpinnerModule],
   templateUrl: './admin-content.component.html',
   styleUrl: './admin-content.component.css',
 })

@@ -2,7 +2,7 @@
   <div class="row mt-4 g-4 text-center">
     <div class="col-12">
       <h2 class="fs-1 fw-bold mb-4">
-        Bonjour <span class="text-warning">{{ adminName }}</span>
+        Bonjour <span class="text-warning">{{ getFullNameAdmin() }}</span>
       </h2>
       <p class="lead text-muted">
         Gérez votre compte facilement et efficacement.
@@ -54,6 +54,15 @@
           ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
         >
       </li>
+      <li class="nav-item">
+        <button
+          class="nav-link btn btn-danger"
+          id="logoutButton"
+          (click)="logout()"
+        >
+          Déconnexion
+        </button>
+      </li>
     </ul>
 
     <div class="row">
@@ -72,13 +81,18 @@
               ><i class="bi bi-file-lock2-fill"></i> Mot de passe</a
             >
           </li>
+          <li class="nav-item">
+            <button class="nav-link btn" id="logoutButton" (click)="logout()">
+              <i class="bi bi-door-closed-fill"></i> Déconnexion
+            </button>
+          </li>
         </ul>
       </div>
 
       <div class="col-md-9">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="adminProfile">
-            <app-admin-info />
+            <app-admin-info [adminInfo]="adminInfo" />
           </div>
           <div class="tab-pane fade" id="adminPassword">
             <app-admin-pwd />

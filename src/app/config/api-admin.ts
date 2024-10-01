@@ -1,0 +1,21 @@
+export const ApiAdmin = {
+  BASE_URL: 'http://127.0.0.1:5000/admin',
+  ENDPOINT: {
+    LOGIN: '/login',
+    ACCOUNT_INFO: '/account-info',
+    UPDATE_INFO: '/update-info',
+    UPDATE_PASSWORD: '/update-password',
+    CREATE_LOTTERY: '/create-lottery',
+    DELETE_LOTTERY: (id: number) => `/delete-lottery/${id}`,
+    LOTTERY_LIST: '/lottery-list',
+    LOTTERY_DETAILS: (id: number) => `/lottery-details/${id}`,
+    LOTTERY_UPDATE: (id: number) => `/update-lottery/${id}`,
+    PARTICIPANTS_LIST: (id: number) => `/participants-list/${id}`,
+    LOTTERY_RANK: (id: number) => `/lottery-rank/${id}`,
+    MANAGE_PARTICIPANTS_REMOVE: `/manage-participants/remove`,
+    MANAGE_PARTICIPANTS_ADD: (id: number) => `/manage-participants/add/${id}`,
+    LOTTERY_VALIDATE: (id: number) => `/lottery/validate/${id}`,
+    POPULATE_FAKE_USER: (id: number) => `/populate-fake-users/${id}`,
+    LOGOUT: '/logout',
+  },
+};

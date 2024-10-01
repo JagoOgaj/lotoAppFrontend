@@ -8,9 +8,8 @@ describe('TirageEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TirageEditComponent]
-    })
-    .compileComponents();
+      imports: [TirageEditComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TirageEditComponent);
     component = fixture.componentInstance;

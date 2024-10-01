@@ -8,9 +8,8 @@ describe('LottoryFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LottoryFormComponent]
-    })
-    .compileComponents();
+      imports: [LottoryFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LottoryFormComponent);
     component = fixture.componentInstance;

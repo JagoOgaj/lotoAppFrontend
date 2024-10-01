@@ -1,3 +1,4 @@
+<!-- login-form.component.html -->
 <div
   class="container d-flex justify-content-center align-items-center"
   style="min-height: 60vh"
@@ -5,32 +6,32 @@
   <div class="form-container">
     <div class="card" style="width: 24rem">
       <div class="card-body text-center">
-        <svg
-          class="mx-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          width="50"
-          height="50"
-          fill="currentColor"
-          class="bi bi-person-circle"
-          viewBox="0 0 16 16"
-        >
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-          <path
-            fill-rule="evenodd"
-            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-          />
-        </svg>
         <h5 class="card-title text-center">Connexion</h5>
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-floating mb-3">
             <input
               type="email"
               class="form-control"
               id="email"
               placeholder="Email"
+              formControlName="email"
               required
             />
             <label for="email">Email</label>
+            <div
+              *ngIf="
+                loginForm.get('email')?.invalid &&
+                (loginForm.get('email')?.touched ||
+                  loginForm.get('email')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Veuillez entrer un email valide.</small
+              >
+            </div>
+            <div *ngIf="serverErrors?.details?.emailError" class="text-danger">
+              {{ serverErrors?.details?.emailError }}
+            </div>
           </div>
           <div class="form-floating mb-3">
             <input
@@ -38,12 +39,34 @@
               class="form-control"
               id="password"
               placeholder="Mot de passe"
+              formControlName="password"
               required
             />
             <label for="password">Mot de passe</label>
+            <div
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.touched ||
+                  loginForm.get('password')?.dirty)
+              "
+            >
+              <small class="text-danger"
+                >Le mot de passe doit comporter au moins 8 caractères.</small
+              >
+            </div>
+            <div
+              *ngIf="serverErrors?.details?.passwordError"
+              class="text-danger"
+            >
+              {{ serverErrors?.details?.passwordError }}
+            </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-warning w-100">
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              [disabled]="loginForm.invalid"
+            >
               Connectez-vous
             </button>
             <a (click)="onTabChange()" class="nav-link" role="button"

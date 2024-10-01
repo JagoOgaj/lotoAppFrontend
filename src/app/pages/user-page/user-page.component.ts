@@ -5,6 +5,9 @@ import { UserInformationsComponent } from '../../shared/user/user-informations/u
 import { UserPasswordComponent } from '../../shared/user/user-password/user-password.component';
 import { UserPlayComponent } from '../../shared/user/user-play/user-play.component';
 import { UserHistoryComponent } from '../../shared/user/user-history/user-history.component';
+import { UserInfoRessource } from '../../constants/ressources/user/userInfoRessource';
+import { UserPageServiceService } from './service/user-page-service.service';
+import { AuthService } from '../../core/service/auth.service';
 
 @Component({
   selector: 'app-user-page',
@@ -22,8 +25,37 @@ import { UserHistoryComponent } from '../../shared/user/user-history/user-histor
 })
 export class UserPageComponent implements OnInit {
   pageState: string = 'login';
+  userInfo: UserInfoRessource;
+
+  constructor(
+    private userService: UserPageServiceService,
+    private authService: AuthService,
+  ) {
+    this.userInfo = {} as UserInfoRessource;
+  }
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+    this.loadUserInfo();
+  }
+
+  loadUserInfo(): void {
+    this.userService.getUserInfo().subscribe({
+      next: (data) => {
+        this.userInfo = data;
+      },
+      error: (err) => {},
+    });
+  }
+
+  logout(): void {
+    this.userService.logoutUser().subscribe({
+      next: (data) => {},
+      error: (err) => {},
+    });
+    this.authService.logout();
+  }
+
+  getFullNameUser(): string {
+    return `${this.userInfo.first_name} ${this.userInfo.last_name}`;
   }
 }
