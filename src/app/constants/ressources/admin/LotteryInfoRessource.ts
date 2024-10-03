@@ -24,3 +24,23 @@ export interface AllLotteryError {
   errors: boolean;
   details?: string[];
 }
+
+export interface DrawRank {
+  rank: number;
+  name: string;
+  score: number;
+  winnings: number;
+}
+
+export type DrawRanks = DrawRank[];
+
+export interface AdminLotteryInfoRankResponse {
+  message: string;
+  data: DrawRanks;
+}
+
+export interface AdminLotteryInfoRankError {
+  message: string;
+  errors: boolean;
+  details?: string;
+}

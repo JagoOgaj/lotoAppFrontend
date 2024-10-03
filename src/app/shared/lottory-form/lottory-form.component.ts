@@ -105,11 +105,9 @@ export class LottoryFormComponent implements OnInit {
         ?.setErrors({ backend: errorResponse.details.numbers.join(', ') });
     }
     if (errorResponse.details?.lucky_numbers) {
-      this.registryLotteryForm
-        .get('lucky_numbers')
-        ?.setErrors({
-          backend: errorResponse.details.lucky_numbers.join(', '),
-        });
+      this.registryLotteryForm.get('lucky_numbers')?.setErrors({
+        backend: errorResponse.details.lucky_numbers.join(', '),
+      });
     }
   }
 

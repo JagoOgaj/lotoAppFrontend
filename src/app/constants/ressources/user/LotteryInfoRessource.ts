@@ -21,7 +21,8 @@ export interface DrawRank {
 export type DrawRanks = DrawRank[];
 
 export interface LotteryInfoRankResponse {
-  players: DrawRanks;
+  message: string;
+  data: DrawRanks;
   currentUser: DrawRank;
 }
 

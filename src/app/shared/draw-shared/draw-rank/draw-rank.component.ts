@@ -46,7 +46,7 @@ export class DrawRankComponent implements OnInit {
   itemsPerPage = 10;
 
   ngOnInit(): void {
-    this.players = this.drawRank.players;
+    this.players = this.drawRank.data;
     this.currentUser = this.drawRank.currentUser;
   }
 

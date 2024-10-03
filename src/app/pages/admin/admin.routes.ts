@@ -4,6 +4,7 @@ import { ManageParticipantsComponent } from './manage-participants/manage-partic
 import { TirageDetailsComponent } from './tirage-details/tirage-details.component';
 import { TirageListComponent } from './tirage-list/tirage-list.component';
 import { AccountAdminComponent } from './account-admin/account-admin.component';
+import { TirageResultComponent } from './tirage-result/tirage-result.component';
 
 export const adminRoutes: Routes = [
   {
@@ -16,6 +17,7 @@ export const adminRoutes: Routes = [
       },
       { path: 'tirage-list', component: TirageListComponent },
       { path: 'tirage-details/:id', component: TirageDetailsComponent },
+      { path: 'tiraga-result/:id', component: TirageResultComponent },
       { path: 'account', component: AccountAdminComponent },
       { path: '**', redirectTo: 'tirage-list' },
     ],

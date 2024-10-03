@@ -1,0 +1,117 @@
+@if (lotteryInfo != null) {
+  <div class="row g-5" style="margin-top: 50px">
+    <div class="col-12 col-lg-5">
+      <img
+        src="assets/test3.jpg"
+        alt="draw-overview-img"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+    <div class="col-12 col-lg-7">
+      <h2 class="fs-1 fw-bold mb-3">
+        Détails du <span class="text-warning">Tirage</span>
+      </h2>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td><strong>Nom du Tirage:</strong></td>
+            <td>{{ lotteryInfo.name }}</td>
+          </tr>
+          <tr>
+            <td><strong>Date de Début:</strong></td>
+            @if (lotteryInfo.start_date) {
+              <td>{{ lotteryInfo.start_date }}</td>
+            } @else {
+              <td>Aucune date de début</td>
+            }
+          </tr>
+          <tr>
+            <td><strong>Date de Fin:</strong></td>
+            @if (lotteryInfo.end_date) {
+              <td>{{ lotteryInfo.end_date }}</td>
+            } @else {
+              <td>Aucune date de fin</td>
+            }
+          </tr>
+          <tr>
+            <td><strong>Montant Total:</strong></td>
+            <td>{{ lotteryInfo.reward_price }}</td>
+          </tr>
+          <tr>
+            <td><strong>Nombre de Participants:</strong></td>
+            <td>{{ lotteryInfo.participant_count }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+} @else {
+  <div class="text-center mt-5">
+    <h2 class="text-muted" style="font-size: 2.5rem">Aucun tirage trouvé</h2>
+  </div>
+}
+
+@if (ranking != null) {
+  <div class="container mt-4">
+    <h2 class="fs-1 fw-bold mb-3">
+      <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
+    </h2>
+
+    <!-- Tableau pour afficher les joueurs paginés -->
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Rang</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Score</th>
+          <th scope="col">Somme Gagnée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of getPaginatedPlayers()">
+          <td>#{{ player.rank }}</td>
+          <td>{{ player.name }}</td>
+          <td>{{ player.score }}</td>
+          <td>{{ player.winnings }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center pagination-warning">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a
+            class="page-link"
+            (click)="goToPage(currentPage - 1)"
+            aria-label="Previous"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li
+          *ngFor="let page of getTotalPagesArray(); let i = index"
+          class="page-item"
+          [class.active]="currentPage === i + 1"
+        >
+          <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a
+            class="page-link"
+            (click)="goToPage(currentPage + 1)"
+            aria-label="Next"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+} @else {
+  <div class="text-center mt-5">
+    <h2 class="text-muted" style="font-size: 2.5rem">
+      Aucun classement trouvé
+    </h2>
+  </div>
+}

@@ -68,19 +68,15 @@ export class AdminPwdComponent implements OnInit {
 
           if (this.serverErrors?.details) {
             if (this.serverErrors.details.password) {
-              this.updateFormPassword
-                .get('old_password')
-                ?.setErrors({
-                  serverError: this.serverErrors.details.password,
-                });
+              this.updateFormPassword.get('old_password')?.setErrors({
+                serverError: this.serverErrors.details.password,
+              });
             }
 
             if (this.serverErrors.details.new_password) {
-              this.updateFormPassword
-                .get('new_password')
-                ?.setErrors({
-                  serverError: this.serverErrors.details.new_password[0],
-                });
+              this.updateFormPassword.get('new_password')?.setErrors({
+                serverError: this.serverErrors.details.new_password[0],
+              });
             }
           }
         },
