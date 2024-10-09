@@ -64,10 +64,6 @@ export class LottoryFormComponent implements OnInit {
           null,
           [Validators.required, Validators.min(1), Validators.max(10)],
         ],
-        lucky3: [
-          null,
-          [Validators.required, Validators.min(1), Validators.max(10)],
-        ],
       }),
     });
   }
@@ -79,7 +75,7 @@ export class LottoryFormComponent implements OnInit {
     const dataToSubmit: LotteryRegistryData = {
       lottery_id: this.idTirrage,
       numbers: `${formValues.numbers.num1},${formValues.numbers.num2},${formValues.numbers.num3},${formValues.numbers.num4},${formValues.numbers.num5}`,
-      lucky_numbers: `${formValues.lucky_numbers.lucky1},${formValues.lucky_numbers.lucky2},${formValues.lucky_numbers.lucky3}`,
+      lucky_numbers: `${formValues.lucky_numbers.lucky1},${formValues.lucky_numbers.lucky2}`,
     };
     this.registryLotteryService.registryToLottery(dataToSubmit).subscribe({
       next: (response) => {

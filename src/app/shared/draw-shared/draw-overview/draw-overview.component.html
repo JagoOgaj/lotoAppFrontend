@@ -14,23 +14,23 @@
       <tbody>
         <tr>
           <td><strong>Nom du Tirage:</strong></td>
-          <td>{{ name }}</td>
+          <td>{{ drawData.name }}</td>
         </tr>
         <tr>
           <td><strong>Date de Début:</strong></td>
-          <td>{{ startDate | date: "fullDate" }}</td>
+          <td>{{ drawData.start_date | date: "dd/MM/yyyy" }}</td>
         </tr>
         <tr>
           <td><strong>Date de Fin:</strong></td>
-          <td>{{ endDate | date: "fullDate" }}</td>
+          <td>{{ drawData.end_date | date: "dd/MM/yyyy" }}</td>
         </tr>
         <tr>
           <td><strong>Montant Total:</strong></td>
-          <td>{{ rewardPrice | currency: "EUR" }}</td>
+          <td>{{ drawData.reward_price }}€</td>
         </tr>
         <tr>
           <td><strong>Nombre de Participants:</strong></td>
-          <td>{{ participantCount }}</td>
+          <td>{{ drawData.participant_count }}</td>
         </tr>
       </tbody>
     </table>

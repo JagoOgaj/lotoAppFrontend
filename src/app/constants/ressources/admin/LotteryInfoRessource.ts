@@ -6,6 +6,10 @@ import {
 export interface LotteryInfoAdminResponse {
   message: string;
   data: LotteryOverviewResponse;
+  numbers?: {
+    winning_numbers: string;
+    lucky_numbers: string;
+  };
 }
 
 export interface LotteryInfoAdminErreur {

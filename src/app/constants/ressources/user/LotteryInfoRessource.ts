@@ -1,8 +1,12 @@
-import { LotteryOverviewResponse } from './tirageUserRessource';
+import {
+  LotteryOverviewResponse,
+  LotteryResultReponse,
+} from './tirageUserRessource';
 
 export interface LotteryInfoResponse {
   message: string;
   data: LotteryOverviewResponse;
+  numbers: LotteryResultReponse;
 }
 
 export interface LotteryInfoErreur {

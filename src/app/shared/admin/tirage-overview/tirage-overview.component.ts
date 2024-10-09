@@ -16,7 +16,7 @@ export class TirageOverviewComponent {
   private router = inject(Router);
 
   showDetails() {
-    this.router.navigate(['tirage-details/', this.tirage.id]); // rediriger vers tirage-details/:id
+    this.router.navigate(['/admin/tirage-details', this.tirage.id]);
   }
 
   renderStatusToTemplate(status: string): string {

@@ -5,8 +5,12 @@ import { DrawOverviewComponent } from '../../shared/draw-shared/draw-overview/dr
 import { FooterSharedComponent } from '../../shared/footer-shared/footer-shared.component';
 import { ActivatedRoute } from '@angular/router';
 import { DrawService } from './service/draw.service';
-import { LotteryOverviewResponse } from '../../constants/ressources/user/tirageUserRessource';
+import {
+  LotteryOverviewResponse,
+  LotteryResultReponse,
+} from '../../constants/ressources/user/tirageUserRessource';
 import { LotteryInfoRankResponse } from '../../constants/ressources/user/LotteryInfoRessource';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-draw',
@@ -16,6 +20,7 @@ import { LotteryInfoRankResponse } from '../../constants/ressources/user/Lottery
     DrawRankComponent,
     DrawOverviewComponent,
     FooterSharedComponent,
+    CommonModule,
   ],
   templateUrl: './draw.component.html',
   styleUrl: './draw.component.css',
@@ -24,6 +29,10 @@ export class DrawComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   pageState: string = 'draw';
   tirageOverview: LotteryOverviewResponse;
+  results: LotteryResultReponse = {
+    winning_numbers: '',
+    lucky_numbers: '',
+  };
   tirageRank: LotteryInfoRankResponse;
 
   constructor(private drawService: DrawService) {
@@ -37,7 +46,6 @@ export class DrawComponent implements OnInit {
     if (idNullable) {
       const realId = +idNullable;
       this.loadTirageOverview(realId);
-      this.loadTiragRank(realId);
     }
   }
 
@@ -45,15 +53,7 @@ export class DrawComponent implements OnInit {
     this.drawService.getTirageOverview(id).subscribe({
       next: (data) => {
         this.tirageOverview = data.data;
-      },
-      error: (err) => {},
-    });
-  }
-
-  loadTiragRank(id: number): void {
-    this.drawService.getRankTirage(id).subscribe({
-      next: (data) => {
-        this.tirageRank = data;
+        this.results = data.numbers;
       },
       error: (err) => {},
     });

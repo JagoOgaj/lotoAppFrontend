@@ -11,9 +11,319 @@
         </p>
       </div>
     </div>
-    <app-tirage-edit
-      [tirage]="tirageOverview"
-      (updateParent)="onTirageUpdate()"
-    />
+
+    <section class="container mt-5">
+      <div class="card shadow-sm">
+        <div
+          class="card-header bg-secondary text-white d-flex justify-content-between align-items-center"
+        >
+          <h4 class="mb-0">Détails du Tirage</h4>
+
+          <div class="d-flex">
+            <!-- Modifier les participants -->
+            <button
+              class="btn btn-primary ms-2 d-md-none"
+              (click)="navigatToManageParticipant()"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button
+              class="btn btn-primary ms-2 d-none d-md-inline-block"
+              (click)="navigatToManageParticipant()"
+            >
+              {{
+                isDone() ? "Voir les participants" : "Modifier les participants"
+              }}
+            </button>
+            @if (!isDone()) {
+              <button
+                class="btn btn-danger ms-2 d-md-none"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                [disabled]="disabledEndTirage"
+                (click)="modalColapse()"
+              >
+                <i class="bi bi-check-circle"></i>
+              </button>
+              <button
+                class="btn btn-danger ms-2 d-none d-md-inline-block"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                [disabled]="disabledEndTirage"
+                (click)="modalColapse()"
+              >
+                {{ modalColapsed ? "Annuler" : "Terminer le tirage" }}
+              </button>
+            } @else {
+              <button
+                class="btn btn-success ms-2 d-md-none"
+                role="button"
+                (click)="viewResult(tirageOverview?.id)"
+              >
+                <i class="bi bi-check-circle"></i>
+              </button>
+              <button
+                class="btn btn-success ms-2 d-none d-md-inline-block"
+                role="button"
+                (click)="viewResult(tirageOverview?.id)"
+              >
+                Voir résultats
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="accordion" id="confirmStatusCollapse">
+            <div class="accordion-item">
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingOne"
+                data-bs-parent="#confirmStatusCollapse"
+              >
+                <div class="accordion-body text-center">
+                  @if (!disabledConfirmEndTirage) {
+                    <h5 class="fw-bold">
+                      Êtes-vous sûr de vouloir terminer ce tirage ?
+                    </h5>
+                    <p>
+                      Une fois que vous avez confirmé, le statut sera changé en
+                      "Terminé" et ne pourra plus être modifié.
+                    </p>
+
+                    <!-- Boutons Radio pour choisir d'entrer les numéros gagnants -->
+                    <div class="mb-4">
+                      <h6 class="fw-bold">
+                        Voulez-vous entrer les numéros gagnants ?
+                      </h6>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="winningNumbersOption"
+                          id="enterNumbersYes"
+                          (change)="showWinningNumbersForm(true)"
+                        />
+                        <label class="form-check-label" for="enterNumbersYes"
+                          >Oui</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="winningNumbersOption"
+                          id="enterNumbersNo"
+                          (change)="showWinningNumbersForm(false)"
+                          checked
+                        />
+                        <label class="form-check-label" for="enterNumbersNo"
+                          >Non</label
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Formulaire pour saisir les numéros gagnants -->
+                    <div class="mt-4" *ngIf="showWinningForm">
+                      <h5 class="fw-bold">Saisir les numéros gagnants</h5>
+                      <form [formGroup]="winningNumbersForm">
+                        <div class="mb-3">
+                          <label for="winningNumbers" class="form-label"
+                            >Numéros Gagnants (1-49)</label
+                          >
+                          <input
+                            type="text"
+                            id="winningNumbers"
+                            class="form-control"
+                            formControlName="winningNumbers"
+                            placeholder="Ex: 1,23,34,45,49"
+                            pattern="^((([1-9]|[1-3][0-9]|4[0-9]),?){5})$"
+                            required
+                          />
+                          <div class="form-text">
+                            Séparez les numéros par des virgules.
+                          </div>
+                          <div
+                            *ngIf="hasServerError('winning_numbers')"
+                            class="text-danger"
+                          >
+                            {{ hasServerError("winning_numbers") }}
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="bonusNumbers" class="form-label"
+                            >Numéros Bonus (1-9)</label
+                          >
+                          <input
+                            type="text"
+                            id="bonusNumbers"
+                            class="form-control"
+                            formControlName="bonusNumbers"
+                            placeholder="Ex: 1,2"
+                            pattern="^(([1-9]),?){1,2}$"
+                            required
+                          />
+                          <div class="form-text">
+                            Séparez les numéros par des virgules.
+                          </div>
+                          <div
+                            *ngIf="hasServerError('lucky_numbers')"
+                            class="text-danger"
+                          >
+                            {{ hasServerError("lucky_numbers") }}
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  } @else {
+                    <p>
+                      Il faut au moins 1 participant dans le tirage pour
+                      terminer le tirage.
+                    </p>
+                  }
+                </div>
+
+                <div class="text-center mb-3">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="
+                      disabledConfirmEndTirage || winningNumbersForm.invalid
+                    "
+                    (click)="confirmStatus()"
+                  >
+                    Confirmer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="updateTirageForm" (ngSubmit)="saveChanges()">
+            <!-- Nom du Tirage -->
+            <div class="mb-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  id="nom"
+                  class="form-control"
+                  formControlName="name"
+                  [readOnly]="isDone()"
+                />
+                <label for="nom">Nom du Tirage</label>
+              </div>
+              <div *ngIf="hasServerError('name')" class="text-danger">
+                {{ hasServerError("name") }}
+              </div>
+            </div>
+
+            <!-- Récompense -->
+            <div class="mb-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  id="recompense"
+                  class="form-control"
+                  formControlName="reward_price"
+                  [readOnly]="isDone()"
+                />
+                <label for="recompense">Récompense</label>
+              </div>
+              <div *ngIf="hasServerError('reward_price')" class="text-danger">
+                {{ hasServerError("reward_price") }}
+              </div>
+            </div>
+
+            <!-- Nombre Maximum de Participants -->
+            <div class="mb-3">
+              <div class="form-floating">
+                <input
+                  type="number"
+                  id="participantsMax"
+                  class="form-control"
+                  formControlName="max_participants"
+                  [readOnly]="isDone()"
+                />
+                <label for="participantsMax"
+                  >Nombre Maximum de Participants</label
+                >
+              </div>
+              <div
+                *ngIf="hasServerError('max_participants')"
+                class="text-danger"
+              >
+                {{ hasServerError("max_participants") }}
+              </div>
+            </div>
+
+            <!-- Status -->
+            @if (!isInSimulation()) {
+              <div class="mb-3">
+                <div class="form-floating">
+                  <select
+                    id="status"
+                    class="form-select"
+                    formControlName="status"
+                    [disabled]="isDone()"
+                  >
+                    <option
+                      *ngFor="let option of getStatusOptions()"
+                      [value]="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                  <label for="notification">Status</label>
+                </div>
+              </div>
+
+              <!-- Date du Tirage -->
+              <div class="mb-3">
+                <div class="form-floating">
+                  <input
+                    type="date"
+                    id="dateTirage"
+                    class="form-control"
+                    formControlName="start_date"
+                    [readOnly]="isDone()"
+                  />
+                  <label for="dateTirage">Date du Tirage</label>
+                </div>
+                <div *ngIf="hasServerError('start_date')" class="text-danger">
+                  {{ hasServerError("start_date") }}
+                </div>
+              </div>
+
+              <!-- Date de Fin -->
+              <div class="mb-3">
+                <div class="form-floating">
+                  <input
+                    type="date"
+                    id="dateFin"
+                    class="form-control"
+                    formControlName="end_date"
+                    [readOnly]="isDone()"
+                  />
+                  <label for="dateFin">Date de Fin</label>
+                </div>
+                <div *ngIf="hasServerError('end_date')" class="text-danger">
+                  {{ hasServerError("end_date") }}
+                </div>
+              </div>
+            }
+
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="!formChanged || updateTirageForm.invalid || hasErros"
+            >
+              Enregistrer
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   </section>
 </div>

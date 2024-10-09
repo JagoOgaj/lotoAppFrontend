@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +26,7 @@ import {
   AddParticipantsError,
   ManageRemoveParticipant,
 } from '../../../constants/ressources/admin/AdminManageParticipantsRessource';
+import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
 
 @Component({
   selector: 'app-participants-list',
@@ -26,7 +35,7 @@ import {
   templateUrl: './participants-list.component.html',
   styleUrl: './participants-list.component.css',
 })
-export class ParticipantsListComponent implements OnInit {
+export class ParticipantsListComponent implements OnInit, OnChanges {
   @Input() tirage!: LotteryOverviewResponse;
   @Input() participants!: Participants;
   @Input() paginatedParticipants: Participants = [];
@@ -38,15 +47,19 @@ export class ParticipantsListComponent implements OnInit {
   newUser: FormGroup;
   pages: number[] = [];
   selectedUser: ParticipantRessource | null = null;
-  backendErrors: AddParticipantsError | null = null;
+  backendErrors: AddParticipantsError | null = {
+    errors: true,
+    message: '',
+    details: {},
+  };
 
   constructor(
     private participantsService: ParticipantsListService,
     private fb: FormBuilder,
   ) {
     this.newUser = this.fb.group({
-      user_name: ['', Validators.required, Validators.minLength(2)],
-      email: ['', Validators.required, Validators.email],
+      user_name: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
       numbers: this.fb.group({
         num1: [
           null,
@@ -78,16 +91,20 @@ export class ParticipantsListComponent implements OnInit {
           null,
           [Validators.required, Validators.min(1), Validators.max(10)],
         ],
-        lucky3: [
-          null,
-          [Validators.required, Validators.min(1), Validators.max(10)],
-        ],
       }),
     });
   }
 
   ngOnInit(): void {
     this.updatePagination();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['participants']) {
+      this.newUser.reset();
+      document.getElementById('addUserCollapse')?.classList.remove('show');
+      this.updatePagination();
+    }
   }
 
   setSelectedUser(participant: ParticipantRessource) {
@@ -152,6 +169,45 @@ export class ParticipantsListComponent implements OnInit {
     this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
   }
 
+  getVisiblePages(): number[] {
+    const visiblePages = [];
+    const totalPages = this.totalPages;
+
+    // Logique pour afficher les pages
+    if (totalPages <= 5) {
+      // Afficher toutes les pages si <= 5 pages
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    // Toujours afficher la première page
+    visiblePages.push(1);
+
+    // Afficher des ellipses si la page actuelle n'est pas près du début
+
+    // Ajouter les pages autour de la page actuelle
+    for (
+      let i = Math.max(2, this.currentPage - 1);
+      i <= Math.min(totalPages - 1, this.currentPage + 1);
+      i++
+    ) {
+      visiblePages.push(i);
+    }
+
+    // Toujours afficher la dernière page
+    if (totalPages > 1) {
+      visiblePages.push(totalPages);
+    }
+
+    return visiblePages;
+  }
+
+  isDone(): boolean {
+    return (
+      this.tirage?.status == TirageStatus.TERMINE ||
+      this.tirage?.status == TirageStatus.SIMULATION_TERMINE
+    );
+  }
+
   submitForm(): void {
     this.backendErrors = null;
     if (this.newUser.valid) {
@@ -160,7 +216,7 @@ export class ParticipantsListComponent implements OnInit {
         user_name: formData.user_name,
         email: formData.email,
         numbers: `${formData.numbers.num1},${formData.numbers.num2},${formData.numbers.num3},${formData.numbers.num4},${formData.numbers.num5}`,
-        numbers_lucky: `${formData.lucky_numbers.lucky1},${formData.lucky_numbers.lucky2},${formData.lucky_numbers.lucky3}`,
+        numbers_lucky: `${formData.lucky_numbers.lucky1},${formData.lucky_numbers.lucky2}`,
       };
       this.participantsService
         .addParticipant(dataToSubmit, this.tirage.id)
@@ -171,32 +227,28 @@ export class ParticipantsListComponent implements OnInit {
           },
           error: (err: AddParticipantsError) => {
             this.backendErrors = err;
-            if (err.details?.user_name) {
-              this.newUser
-                .get('user_name')
-                ?.setErrors({ backend: err.details.user_name[0] });
-            }
-
-            if (err.details?.email) {
-              this.newUser
-                .get('email')
-                ?.setErrors({ backend: err.details.email[0] });
-            }
-
-            if (err.details?.numbers) {
-              this.newUser
-                .get('numbers')
-                ?.setErrors({ backend: err.details.numbers[0] });
-            }
-
-            if (err.details?.lucky_numbers) {
-              this.newUser
-                .get('lucky_numbers')
-                ?.setErrors({ backend: err.details.lucky_numbers[0] });
-            }
+            this.newUser.reset();
+            document
+              .getElementById('addUserCollapse')
+              ?.classList.remove('show');
           },
         });
     }
+  }
+
+  populateFakeUser(id: number): void {
+    if (id) {
+      this.participantsService.populateFakeUser(id).subscribe({
+        next: (response) => {
+          this.updateParent.emit();
+        },
+        error: (err) => {},
+      });
+    }
+  }
+
+  hasServerErorr(controlName: string): string | null {
+    return this.backendErrors?.details?.[controlName]?.[0] || null;
   }
 
   confirmDelete(): void {
@@ -206,7 +258,9 @@ export class ParticipantsListComponent implements OnInit {
         user_id: this.selectedUser.user_id,
       };
       this.participantsService.removeParticipant(dataToSubmit).subscribe({
-        next: (response) => {},
+        next: (response) => {
+          this.updateParent.emit();
+        },
         error: (err) => {},
       });
     }

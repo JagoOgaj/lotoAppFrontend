@@ -1,49 +1,145 @@
 @if (lotteryInfo != null) {
-  <div class="row g-5" style="margin-top: 50px">
-    <div class="col-12 col-lg-5">
-      <img
-        src="assets/test3.jpg"
-        alt="draw-overview-img"
-        class="img-fluid mx-auto d-block"
-      />
-    </div>
-    <div class="col-12 col-lg-7">
-      <h2 class="fs-1 fw-bold mb-3">
-        Détails du <span class="text-warning">Tirage</span>
-      </h2>
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <td><strong>Nom du Tirage:</strong></td>
-            <td>{{ lotteryInfo.name }}</td>
-          </tr>
-          <tr>
-            <td><strong>Date de Début:</strong></td>
-            @if (lotteryInfo.start_date) {
-              <td>{{ lotteryInfo.start_date }}</td>
-            } @else {
-              <td>Aucune date de début</td>
-            }
-          </tr>
-          <tr>
-            <td><strong>Date de Fin:</strong></td>
-            @if (lotteryInfo.end_date) {
-              <td>{{ lotteryInfo.end_date }}</td>
-            } @else {
-              <td>Aucune date de fin</td>
-            }
-          </tr>
-          <tr>
-            <td><strong>Montant Total:</strong></td>
-            <td>{{ lotteryInfo.reward_price }}</td>
-          </tr>
-          <tr>
-            <td><strong>Nombre de Participants:</strong></td>
-            <td>{{ lotteryInfo.participant_count }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="container-fluid mt-5 py-5">
+    <!-- Section: Gestion des Participants -->
+    <section>
+      <div class="row mt-4 g-4 text-center">
+        <div class="col-12">
+          <h2 class="fs-1 fw-bold mb-4">
+            Resultats <span class="text-warning"> du tirage</span>
+            {{ lotteryInfo.name }}
+          </h2>
+          <p class="lead text-muted">
+            Découvrez si votre ticket est gagnant et consultez les numéros
+            tirés.
+          </p>
+        </div>
+      </div>
+
+      <div class="row mt-5 g-4">
+        <div class="col-lg-6 col-md-12 d-flex justify-content-end">
+          <div class="card shadow-sm border-light h-100">
+            <div class="card-body">
+              <h5 class="card-title">Vérification de votre Ticket</h5>
+              <p class="card-text">
+                Comparez les numéros que vous avez choisis avec ceux tirés lors
+                du dernier tirage. Si vos numéros correspondent aux numéros
+                gagnants, vous avez remporté un prix !
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 d-flex justify-content-start">
+          <div class="card shadow-sm border-light h-100">
+            <div class="card-body">
+              <h5 class="card-title">Numéros du Dernier Tirage</h5>
+              <p class="card-text">
+                Consultez les numéros gagnants et les numéros bonus du dernier
+                tirage afin de savoir si vous avez gagné.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Détails du Tirage -->
+    <section class="container mt-5 py-5">
+      <div class="row g-5">
+        <div class="col-12 col-lg-5">
+          <img
+            src="assets/test3.jpg"
+            alt="draw-overview-img"
+            class="img-fluid rounded shadow-sm mx-auto d-block"
+          />
+        </div>
+        <div class="col-12 col-lg-7">
+          <h2 class="fs-1 fw-bold mb-4 text-primary">
+            Détails du <span class="text-warning">Tirage</span>
+          </h2>
+          <table class="table table-bordered table-hover table-striped">
+            <tbody>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-info-circle-fill"></i> Nom du Tirage
+                    :</strong
+                  >
+                </td>
+                <td>{{ lotteryInfo.name }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-calendar-check-fill"></i> Date de Début
+                    :</strong
+                  >
+                </td>
+                <td>
+                  {{
+                    lotteryInfo.start_date
+                      ? (lotteryInfo.start_date | date: "dd/MM/yyyy")
+                      : "Aucune date de début"
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-calendar-check-fill"></i> Date de Fin
+                    :</strong
+                  >
+                </td>
+                <td>
+                  {{
+                    lotteryInfo.end_date
+                      ? (lotteryInfo.end_date | date: "dd/MM/yyyy")
+                      : "Aucune date de fin"
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-currency-euro"></i> Montant Total :</strong
+                  >
+                </td>
+                <td>{{ lotteryInfo.reward_price }} €</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-people-fill"></i> Nombre de Participants
+                    :</strong
+                  >
+                </td>
+                <td>{{ lotteryInfo.participant_count }}</td>
+              </tr>
+              <!-- Section ajoutée : Affichage des Numéros Gagnants -->
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-5-square-fill"></i> Numéros Gagnants
+                    :</strong
+                  >
+                </td>
+                <td>
+                  {{ winning_numbers ? winning_numbers : "Non disponible" }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    ><i class="bi bi-star-fill"></i> Numéros Chanceux (Bonus)
+                    :</strong
+                  >
+                </td>
+                <td>{{ lucky_numbers ? lucky_numbers : "Non disponible" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 } @else {
   <div class="text-center mt-5">
@@ -52,19 +148,19 @@
 }
 
 @if (ranking != null) {
+  <!-- Section : Classement -->
   <div class="container mt-4">
-    <h2 class="fs-1 fw-bold mb-3">
+    <h2 class="fs-1 fw-bold mb-4 text-primary">
       <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
     </h2>
 
-    <!-- Tableau pour afficher les joueurs paginés -->
     <table class="table table-hover table-sm">
-      <thead>
+      <thead class="thead-dark">
         <tr>
-          <th scope="col">Rang</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Score</th>
-          <th scope="col">Somme Gagnée</th>
+          <th scope="col"><i class="bi bi-capslock-fill"></i> Rang</th>
+          <th scope="col"><i class="bi bi-bookmark-fill"></i> Nom</th>
+          <th scope="col"><i class="bi bi-trophy-fill"></i> Score</th>
+          <th scope="col"><i class="bi bi-currency-euro"></i> Somme Gagnée</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +168,7 @@
           <td>#{{ player.rank }}</td>
           <td>{{ player.name }}</td>
           <td>{{ player.score }}</td>
-          <td>{{ player.winnings }}</td>
+          <td>{{ roundReward(player.winnings) }} €</td>
         </tr>
       </tbody>
     </table>
@@ -110,8 +206,6 @@
   </div>
 } @else {
   <div class="text-center mt-5">
-    <h2 class="text-muted" style="font-size: 2.5rem">
-      Aucun classement trouvé
-    </h2>
+    <h2 class="text-muted" style="font-size: 2.5rem">Aucun gagnants</h2>
   </div>
 }

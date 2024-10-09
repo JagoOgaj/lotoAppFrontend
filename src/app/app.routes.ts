@@ -6,15 +6,32 @@ import { DrawComponent } from './pages/draw/draw.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AdminLoginComponent } from './pages/admin/admin-login/admin-login.component';
 import { authGuard } from './guards/auth.guard';
+import { TokenExpirationComponent } from './pages/token-expiration/token-expiration.component';
+import { TokenExpirationGuard } from './guards/tokenGuard/token-expiration.guard';
+import { RedirectUserAuthGuard } from './guards/redirect/user-redirect.guard';
+import { RedirectAdminAuthGuard } from './guards/redirect/admin-redirect.guards';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
-  { path: 'login', component: LoginRegisterPageComponent },
-  { path: 'account', component: UserPageComponent, canActivate: [authGuard] }, //Metre un Auth-Guard pour protéger la route
-  { path: 'draw/:id', component: DrawComponent, canActivate: [authGuard] }, // Mettre un auth-Guard et rajouter le parametre /:id
+  {
+    path: 'login',
+    component: LoginRegisterPageComponent,
+    canActivate: [RedirectUserAuthGuard],
+  },
+  { path: 'account', component: UserPageComponent }, //Metre un Auth-Guard pour protéger la route
+  { path: 'draw/:id', component: DrawComponent }, // Mettre un auth-Guard et rajouter le parametre /:id
+  {
+    path: 'token-expired',
+    component: TokenExpirationComponent,
+    canActivate: [TokenExpirationGuard],
+  },
   { path: 'contact', component: ContactComponent },
-  { path: 'login-admin', component: AdminLoginComponent },
+  {
+    path: 'login-admin',
+    component: AdminLoginComponent,
+    canActivate: [RedirectAdminAuthGuard],
+  },
   {
     path: 'admin',
     loadChildren: () =>

@@ -1,0 +1,22 @@
+.form-container {
+  background-color: #f8f9fa; /* Couleur de fond douce */
+  border-radius: 10px; /* Coins arrondis */
+  padding: 20px; /* Espace intérieur */
+}
+
+.card {
+  transition: transform 0.2s; /* Transition pour l'effet de survol */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Agrandir la carte au survol */
+}
+
+.btn-warning {
+  background-color: #ffcc00; /* Couleur d'arrière-plan personnalisée */
+  border: none; /* Supprimer la bordure */
+}
+
+.btn-warning:hover {
+  background-color: #e6b800; /* Couleur d'arrière-plan au survol */
+}

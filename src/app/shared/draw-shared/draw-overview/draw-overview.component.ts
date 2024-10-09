@@ -18,15 +18,5 @@ export class DrawOverviewComponent {
   rewardPrice: number = 0;
   participantCount: number = 0;
 
-  ngOnInit(): void {
-    this.name = this.drawData.name;
-    this.startDate = this.drawData.start_date
-      ? new Date(this.drawData.start_date)
-      : 'Non spécifiée';
-    this.endDate = this.drawData.end_date
-      ? new Date(this.drawData.end_date)
-      : 'Non spécifiée';
-    this.rewardPrice = this.drawData.reward_price;
-    this.participantCount = this.drawData.participant_count;
-  }
+  ngOnInit(): void {}
 }

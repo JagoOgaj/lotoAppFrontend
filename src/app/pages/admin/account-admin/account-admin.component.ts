@@ -39,11 +39,12 @@ export class AccountAdminComponent implements OnInit {
     return `${this.adminInfo.first_name} ${this.adminInfo.last_name}`;
   }
 
-  logout(): void {
-    this.adminAccountService.logout().subscribe({
-      next: (data) => {},
-      error: (err) => {},
-    });
-    this.authService.logout();
+  onUpdate(): void {
+    this.loadAdminInfo();
+  }
+
+  getGreetingMessage(): string {
+    const currentHour = new Date().getHours();
+    return currentHour >= 18 ? 'Bonsoir' : 'Bonjour';
   }
 }

@@ -6,7 +6,6 @@ import {
   LoginAdminResponse,
 } from '../../../../constants/ressources/admin/AdminLoginRessource';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ApiUser } from '../../../../config/api-user';
 import { ApiAdmin } from '../../../../config/api-admin';
 
 @Injectable({

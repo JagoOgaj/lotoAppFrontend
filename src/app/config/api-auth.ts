@@ -1,5 +1,5 @@
 export const ApiAuth = {
-  BASE_URL: 'http://127.0.0.1:5000/auth',
+  BASE_URL: 'http://127.0.0.1:8080/auth',
   ENDPOINT: {
     REFRESH: '/refresh',
     REVOKE_ACCESS: '/revoke_access',

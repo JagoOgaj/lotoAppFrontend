@@ -38,6 +38,8 @@ export class TirageListSharedService {
               status: errorDetails.status || null,
               max_participants: errorDetails.max_participants || null,
               reward_price: errorDetails.reward_price || null,
+              start_date: errorDetails.start_date || null,
+              end_date: errorDetails.end_date || null,
             },
           };
           return throwError(() => err);

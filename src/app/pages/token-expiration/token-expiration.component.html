@@ -1,0 +1,24 @@
+<div class="token-expiration-container">
+  <div class="content">
+    <!-- Titre et explication -->
+    <h2 class="text-center">Session expirée</h2>
+    <p class="text-center">
+      Il semble que votre session ait expiré. Vous pouvez soit rafraîchir votre
+      session pour continuer à utiliser l'application, soit vous déconnecter.
+    </p>
+
+    <!-- Section des boutons -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-12 col-md-6">
+        <button class="btn btn-primary btn-block" (click)="onRefreshToken()">
+          Rafraîchir le token
+        </button>
+      </div>
+      <div class="col-12 col-md-6 mt-3 mt-md-0">
+        <button class="btn btn-danger btn-block" (click)="onLogout()">
+          Déconnexion
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

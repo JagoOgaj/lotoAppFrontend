@@ -10,6 +10,10 @@ import {
   RemoveParticipantError,
   RemoveParticipantResponse,
 } from '../../../../constants/ressources/admin/AdminManageParticipantsRessource';
+import {
+  ParticipantsError,
+  PopulateFakeUserResponse,
+} from '../../../../constants/ressources/admin/AdminParticipantsRessource';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +75,30 @@ export class ParticipantsListService {
               email: erroDetails.email || null,
               user_name: erroDetails.user_name || null,
             },
+          };
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  populateFakeUser(id: number): Observable<PopulateFakeUserResponse> {
+    return this.http
+      .post<PopulateFakeUserResponse>(
+        `${ApiAdmin.BASE_URL}${ApiAdmin.ENDPOINT.POPULATE_FAKE_USER(id)}`,
+        {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        },
+      )
+      .pipe(
+        catchError((error) => {
+          const err: ParticipantsError = {
+            erros: true,
+            message:
+              error.error?.message ||
+              'Une erreur est survenu lors du remplissage automatique du tirage',
+            details:
+              error.error?.details ||
+              'Une erreur est survenu lors du remplissage automatique du tirage',
           };
           return throwError(() => err);
         }),

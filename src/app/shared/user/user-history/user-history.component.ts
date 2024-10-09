@@ -3,8 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserHistoryService } from './service/user-history.service';
 import { LotteryHistories } from '../../../constants/ressources/user/tirageUserRessource';
-import { UserSharedService } from '../service/user-shared.service';
 import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
+import { UserSharedService } from '../service/user-shared.service';
 
 @Component({
   selector: 'app-user-history',
@@ -14,7 +14,6 @@ import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.const
   styleUrl: './user-history.component.css',
 })
 export class UserHistoryComponent implements OnInit {
-  private readonly router = Inject(Router);
   parties: any[] = []; // Liste des parties
   paginatedParties: LotteryHistories = []; // Liste des parties à afficher pour la page courante
   currentPage: number = 1;
@@ -23,55 +22,18 @@ export class UserHistoryComponent implements OnInit {
   pages: number[] = [];
   histories: LotteryHistories | null = null;
 
-  constructor(private userHistoryService: UserHistoryService) {}
+  constructor(
+    private userHistoryService: UserHistoryService,
+    private router: Router,
+    private userSharedService: UserSharedService,
+  ) {}
 
   ngOnInit(): void {
-    // Exemples de parties jouées
-    /*
-    this.parties = [
-      {
-        id: 1,
-        date: '12 septembre 2024',
-        statut: 'Terminé',
-        numerosJoues: '3, 16, 22, 35, 49',
-        numerosChance: '7, 9',
-        dateTirage: '14 septembre 2024',
-      },
-      {
-        id: 2,
-        date: '5 septembre 2024',
-        statut: 'En cours',
-        numerosJoues: '2, 13, 28, 44, 50',
-        numerosChance: '4, 10',
-        dateTirage: '7 septembre 2024',
-      },
-      {
-        id: 3,
-        date: '1 septembre 2024',
-        statut: 'En vérification',
-        numerosJoues: '5, 12, 23, 38, 49',
-        numerosChance: '2, 6',
-        dateTirage: '3 septembre 2024',
-      },
-      {
-        id: 4,
-        date: '28 août 2024',
-        statut: 'Terminé',
-        numerosJoues: '10, 21, 30, 33, 47',
-        numerosChance: '8, 10',
-        dateTirage: '31 août 2024',
-      },
-      // Plus de parties...
-    ];
-*/ this.loadHistories();
-    // Calculer le nombre total de pages
-    if (this.histories) {
-      this.histories = this.histories;
-      // Calculer le nombre total de pages
-      this.totalPages = Math.ceil(this.parties.length / this.itemsPerPage);
-      this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
-      this.paginate();
-    }
+    this.loadHistories();
+    this.userSharedService.lotteryUpdate$.subscribe(() => {
+      // Écoute des mises à jour de loterie
+      this.loadHistories(); // Recharge les historiques à chaque mise à jour
+    });
   }
 
   // Méthode pour changer de page
@@ -116,15 +78,27 @@ export class UserHistoryComponent implements OnInit {
   }
 
   voirDetailsTirage(id: number): void {
-    this.router.navigate(['/draw', id]);
+    if (id) {
+      this.router.navigate(['/draw', id]);
+    }
   }
 
   loadHistories(): void {
     this.userHistoryService.getHistory().subscribe({
       next: (data) => {
         this.histories = data.data;
+        this.updatePagination();
       },
       error: (err) => {},
     });
+  }
+
+  updatePagination(): void {
+    if (this.histories) {
+      this.parties = this.histories; // Assigner les parties ici
+      this.totalPages = Math.ceil(this.parties.length / this.itemsPerPage);
+      this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
+      this.paginate(); // Effectuer la pagination ici
+    }
   }
 }

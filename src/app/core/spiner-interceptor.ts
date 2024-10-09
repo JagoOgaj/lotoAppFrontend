@@ -56,21 +56,31 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorMessage = 'Une erreur est survenue, réessayer plus tard'; // Message par défaut
 
-        if (error.status === 0) {
-          errorMessage = 'Impossible de se connecter au serveur';
-        }
-        if (error.error && error.error.errors) {
-          // Vérifie si le backend renvoie un message d'erreur spécifique
-          errorMessage = error.error.errors;
-        }
-        if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        }
-        if (error.error && error.error.details) {
-          errorMessage = error.error.details;
+        // Gérer les différents codes d'erreur
+        switch (error.status) {
+          case 400:
+            // Afficher un toast d'information pour le code d'erreur 400
+            this.toastr.info(
+              error.error?.message || 'Ressource non trouvé.',
+              'Informations',
+            );
+            break;
+          case 404:
+            // Afficher un toast d'erreur pour le code d'erreur 404
+            this.toastr.error(
+              error.error?.message || 'Requête incorrecte.',
+              'Erreur 404',
+            );
+            break;
+          case 0:
+            errorMessage = 'Impossible de se connecter au serveur';
+            break;
+          default:
+            if (error.error && error.error.message) {
+              errorMessage = error.error.message;
+            }
         }
 
-        this.toastr.error(errorMessage, 'La requête a échoué');
         return throwError(error); // Retourne l'erreur pour un traitement ultérieur
       }),
 

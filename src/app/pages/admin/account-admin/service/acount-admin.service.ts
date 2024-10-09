@@ -8,7 +8,6 @@ import {
   AdminLogoutResponse,
 } from '../../../../constants/ressources/admin/AdminInfoRessource';
 import { ApiAdmin } from '../../../../config/api-admin';
-import { Header } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',

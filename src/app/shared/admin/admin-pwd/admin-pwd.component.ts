@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './admin-pwd.component.css',
 })
 export class AdminPwdComponent implements OnInit {
+  @Output() updateParent: EventEmitter<void> = new EventEmitter<void>();
   updateFormPassword: FormGroup;
   serverErrors: UpdatePasswordAdminError | null = null;
 
@@ -60,6 +61,7 @@ export class AdminPwdComponent implements OnInit {
       this.updaPasswordService.updatePasswordAdmin(data).subscribe({
         next: () => {
           this.updateFormPassword.reset();
+          this.updateParent.emit();
         },
         error: (err) => {
           this.serverErrors = err;

@@ -21,14 +21,14 @@
         <div class="col-md-4 col-sm-12 mb-3">
           <div class="card p-3 border-light shadow-sm">
             <h5 class="mb-1">Récompense</h5>
-            <p class="text-success fs-5">{{ tirage.reward_price }}</p>
+            <p class="text-success fs-5">{{ tirage.reward_price }}€</p>
           </div>
         </div>
         <div class="col-md-4 col-sm-12 mb-3">
           <div class="card p-3 border-light shadow-sm">
             <h5 class="mb-1">Nombre de participants</h5>
             <p class="text-info fs-5">
-              {{ tirage.max_participants }} / {{ tirage.participant_count }}
+              {{ tirage.participant_count }} / {{ tirage.max_participants }}
             </p>
           </div>
         </div>
@@ -45,13 +45,25 @@
         <div class="col-md-4 col-sm-12 mb-3">
           <div class="card p-3 border-light shadow-sm">
             <h5 class="mb-1">Date du tirage</h5>
-            <p class="fs-5">{{ tirage.start_date | date: "dd/MM/yyyy" }}</p>
+            <p class="fs-5">
+              {{
+                tirage.start_date
+                  ? (tirage.start_date | date: "dd/MM/yyyy")
+                  : "Pas de date"
+              }}
+            </p>
           </div>
         </div>
         <div class="col-md-4 col-sm-12 mb-3">
           <div class="card p-3 border-light shadow-sm">
             <h5 class="mb-1">Date de fin</h5>
-            <p class="fs-5">{{ tirage.end_date | date: "dd/MM/yyyy" }}</p>
+            <p class="fs-5">
+              {{
+                tirage.end_date
+                  ? (tirage.end_date | date: "dd/MM/yyyy")
+                  : "Pas de date"
+              }}
+            </p>
           </div>
         </div>
       </div>

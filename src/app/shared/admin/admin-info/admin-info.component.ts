@@ -1,4 +1,10 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { AdminInfoResponse } from '../../../constants/ressources/admin/AdminInfoRessource';
 import {
   FormBuilder,
@@ -23,6 +29,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminInfoComponent {
   @Input() adminInfo!: AdminInfoResponse;
+  @Output() updateParent: EventEmitter<void> = new EventEmitter<void>();
   adminFormInfo: FormGroup;
   isFormChange: boolean = false;
   errorResponse: UpdateInfoAdminResponseError | null = {
@@ -82,6 +89,7 @@ export class AdminInfoComponent {
         next: (response) => {
           this.errorResponse = null;
           this.isFormChange = false;
+          this.updateParent.emit();
         },
         error: (error: UpdatePasswordUAdminError) => {
           this.errorResponse = error;

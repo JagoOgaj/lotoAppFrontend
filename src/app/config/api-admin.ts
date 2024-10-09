@@ -1,5 +1,5 @@
 export const ApiAdmin = {
-  BASE_URL: 'http://127.0.0.1:5000/admin',
+  BASE_URL: 'http://127.0.0.1:8080/admin',
   ENDPOINT: {
     LOGIN: '/login',
     ACCOUNT_INFO: '/account-info',

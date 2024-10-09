@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject, EMPTY } from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ApiAdmin } from '../config/api-admin';
+import { ApiAuth } from '../config/api-auth';
+import { TokenExpirationGuard } from '../guards/tokenGuard/token-expiration.guard';
 import { AuthService } from './service/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { ApiUser } from '../config/api-user';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -22,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService,
+    private tokenExpirationGuard: TokenExpirationGuard,
   ) {}
 
   intercept(
@@ -31,8 +34,26 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const authToken = this.authService.getToken();
 
+    // Exclure certaines requêtes (comme les connexions et les requêtes de refresh/revocation)
+    const isExcludedRequestToAddAuthToken = [
+      ApiAuth.ENDPOINT.REVOKE_ACCESS,
+      ApiAuth.ENDPOINT.REVOKE_REFRESH,
+      ApiAuth.ENDPOINT.REFRESH,
+      ApiAdmin.ENDPOINT.LOGIN,
+      ApiUser.ENDPOINT.LOGIN,
+    ].some((endpoint) => req.url.includes(endpoint));
+
+    const isExcludedRequestToRefreshToken = [
+      ApiAuth.ENDPOINT.REVOKE_ACCESS,
+      ApiAuth.ENDPOINT.REVOKE_REFRESH,
+      ApiAdmin.ENDPOINT.LOGIN,
+      ApiUser.ENDPOINT.LOGIN,
+    ].some((endpoint) => req.url.includes(endpoint));
+
     let authReq = req;
-    if (authToken) {
+
+    // N'ajouter le token que si ce n'est pas une requête exclue
+    if (authToken && !isExcludedRequestToAddAuthToken) {
       authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${authToken}`,
@@ -42,49 +63,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          if (this.isRefreshing) {
-            return this.refreshTokenSubject.pipe(
-              filter((token) => token != null),
-              take(1),
-              switchMap((newToken: string) => {
-                authReq = this.addToken(req, newToken);
-                return next.handle(authReq);
-              }),
-            );
-          } else {
-            this.isRefreshing = true;
-            this.refreshTokenSubject.next(null);
-
-            return this.authService.refreshToken().pipe(
-              switchMap((newToken: string) => {
-                this.isRefreshing = false;
-                this.refreshTokenSubject.next(newToken);
-                authReq = this.addToken(req, newToken);
-                return next.handle(authReq);
-              }),
-              catchError((err) => {
-                this.isRefreshing = false;
-                this.authService.logout();
-                this.toastr.error(
-                  'Échec du rafraîchissement du token, vous serez déconnecté.',
-                  'Erreur',
-                );
-                return throwError(err);
-              }),
-            );
-          }
+        if (error.status === 401 && !isExcludedRequestToRefreshToken) {
+          this.tokenExpirationGuard.enableAccess();
+          this.router.navigate(['/token-expired']);
         }
         return throwError(error);
       }),
     );
-  }
-
-  private addToken(req: HttpRequest<any>, token: string) {
-    return req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
   }
 }

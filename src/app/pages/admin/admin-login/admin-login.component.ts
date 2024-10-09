@@ -13,6 +13,7 @@ import { AdminLoginService } from './service/admin-login.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/service/auth.service';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-admin-login',
@@ -43,20 +44,27 @@ export class AdminLoginComponent implements OnInit {
     this.serverErrors = null;
     if (this.loginForm.valid) {
       const data: LoginAdminData = this.loginForm.value;
-      this.adminLoginService.loginAdmin(data).subscribe({
-        next: (response) => {
-          this.authService.setTokens(
-            response.access_token,
-            response.refresh_token,
-          );
-          this.router.navigate(['admin']);
-          this.loginForm.reset();
-        },
-        error: (err) => {
-          this.serverErrors = err;
-          this.loginForm.reset();
-        },
-      });
+      this.adminLoginService
+        .loginAdmin(data)
+        .pipe(
+          switchMap((response) => {
+            this.authService.setTokens(
+              response.access_token,
+              response.refresh_token,
+            );
+            return this.authService.setUserRole();
+          }),
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/admin']);
+            this.loginForm.reset();
+          },
+          error: (err) => {
+            this.serverErrors = err;
+            this.loginForm.reset();
+          },
+        });
     }
   }
 

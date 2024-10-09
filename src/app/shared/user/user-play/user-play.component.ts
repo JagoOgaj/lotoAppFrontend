@@ -9,11 +9,13 @@ import { UserPlayServiceService } from './service/user-play-service.service';
 import { UserHistoryService } from '../user-history/service/user-history.service';
 import { UserHistoryComponent } from '../user-history/user-history.component';
 import { UserSharedService } from '../service/user-shared.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-play',
   standalone: true,
-  imports: [CountdownTimerComponent, LottoryFormComponent],
+  imports: [CountdownTimerComponent, LottoryFormComponent, CommonModule],
   templateUrl: './user-play.component.html',
   styleUrl: './user-play.component.css',
 })
@@ -26,6 +28,7 @@ export class UserPlayComponent implements OnInit {
     private userPlayService: UserPlayServiceService,
     private userSharedService: UserSharedService,
     private userHistoryService: UserHistoryService,
+    private route: Router,
   ) {
     this.curentTirage = {} as LotteryOverviewResponse;
   }

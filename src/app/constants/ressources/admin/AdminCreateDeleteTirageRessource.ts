@@ -3,6 +3,7 @@ export interface CreateTirageRessource {
   start_date?: string;
   end_date?: string;
   reward_price: number;
+  status: string;
   max_participants: number;
 }
 
@@ -16,8 +17,8 @@ export interface CreateTirageError {
   details?: {
     name?: string[];
     status?: string[];
-    max_participants: string[];
-    reward_price: string[];
+    max_participants?: string[];
+    reward_price?: string[];
     start_date?: string[];
     end_date?: string[];
     [key: string]: any;

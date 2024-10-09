@@ -8,42 +8,47 @@
 
       <form [formGroup]="registryLotteryForm" (ngSubmit)="submitForm()">
         <div class="mb-3">
-          <label for="mainNumbers" class="form-label"
-            >Entrez 5 numéros (1 à 50)</label
-          >
+          <label for="mainNumbers" class="form-label">
+            Entrez 5 numéros (1 à 50)
+          </label>
           <div
             class="d-flex flex-column flex-md-row justify-content-center"
             formGroupName="numbers"
           >
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="num1"
               placeholder="N°1"
+              style="width: 100%; max-width: 120px"
             />
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="num2"
               placeholder="N°2"
+              style="width: 100%; max-width: 120px"
             />
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="num3"
               placeholder="N°3"
+              style="width: 100%; max-width: 120px"
             />
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="num4"
               placeholder="N°4"
+              style="width: 100%; max-width: 120px"
             />
             <input
-              class="form-control form-control-sm mb-1"
+              class="form-control mb-1"
               type="number"
               formControlName="num5"
               placeholder="N°5"
+              style="width: 100%; max-width: 120px"
             />
           </div>
 
@@ -56,30 +61,26 @@
         </div>
 
         <div class="mb-3">
-          <label for="chanceNumbers" class="form-label"
-            >Entrez 3 numéros chance (1 à 10)</label
-          >
+          <label for="chanceNumbers" class="form-label">
+            Entrez 3 numéros chance (1 à 10)
+          </label>
           <div
             class="d-flex flex-column flex-md-row justify-content-center"
             formGroupName="lucky_numbers"
           >
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="lucky1"
               placeholder="Chance 1"
+              style="width: 100%; max-width: 120px"
             />
             <input
-              class="form-control form-control-sm mb-1 me-md-1"
+              class="form-control mb-1 me-md-1"
               type="number"
               formControlName="lucky2"
               placeholder="Chance 2"
-            />
-            <input
-              class="form-control form-control-sm mb-1"
-              type="number"
-              formControlName="lucky3"
-              placeholder="Chance 3"
+              style="width: 100%; max-width: 120px"
             />
           </div>
 

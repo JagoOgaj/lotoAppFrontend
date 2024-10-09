@@ -4,3 +4,23 @@
   align-items: center;
   padding: 1rem;
 }
+
+#rules {
+  background-color: #ffffff; /* Arrière-plan blanc */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+h2 {
+  border-bottom: 2px solid #f8c200; /* Ligne en dessous du titre */
+  padding-bottom: 10px; /* Espacement en bas du titre */
+}
+
+.alert {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre douce pour l'alerte */
+  transition: transform 0.2s; /* Transition pour effet au survol */
+}
+
+.alert:hover {
+  transform: translateY(-2px); /* Élévation au survol */
+}

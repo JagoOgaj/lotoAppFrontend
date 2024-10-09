@@ -6,19 +6,208 @@
       <h4 class="mb-0"><i class="bi bi-list-ul"></i> Liste des Tirages</h4>
       <button
         class="btn btn-warning d-none d-md-inline-block"
-        data-bs-toggle="modal"
-        data-bs-target="#createTirageModal"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#addUserCollapseId"
+        aria-expanded="true"
+        aria-controls="addUserCollapseId"
       >
-        <i class="bi bi-plus-circle"></i> Créer un Tirage
+        <i class="bi bi-plus-circle"></i> Creer une lottery
       </button>
 
       <button
         class="btn btn-warning d-md-none"
-        data-bs-toggle="modal"
-        data-bs-target="#createTirageModal"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#addUserCollapseId"
+        aria-expanded="true"
+        aria-controls="addUserCollapseId"
       >
         <i class="bi bi-plus-circle"></i>
       </button>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+          <div class="accordion-item">
+            <div id="addUserCollapseId" class="accordion-collapse collapse">
+              <div class="accordion-body fs-5">
+                <form [formGroup]="newTirage" (ngSubmit)="createTirage()">
+                  <!-- Titre -->
+                  <div class="mb-3">
+                    <label for="titre" class="form-label">Titre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titre"
+                      formControlName="name"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        newTirage.get('name')?.invalid &&
+                        newTirage.get('name')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Titre requis (au moins 2 caractères).
+                    </div>
+                    <div
+                      *ngIf="hasServerError('name')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("name") }}
+                    </div>
+                  </div>
+
+                  <!-- Récompense -->
+                  <div class="mb-3">
+                    <label for="recompense" class="form-label"
+                      >Récompense</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="recompense"
+                      formControlName="reward_price"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        newTirage.get('reward_price')?.invalid &&
+                        newTirage.get('reward_price')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Récompense requise (doit être supérieur à 0).
+                    </div>
+                    <div
+                      *ngIf="hasServerError('reward_price')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("reward_price") }}
+                    </div>
+                  </div>
+
+                  <!-- Participants Max -->
+                  <div class="mb-3">
+                    <label for="participantsMax" class="form-label"
+                      >Participants Max</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="participantsMax"
+                      formControlName="max_participants"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        newTirage.get('max_participants')?.invalid &&
+                        newTirage.get('max_participants')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Nombre de participants requis (doit être supérieur à 0).
+                    </div>
+                    <div
+                      *ngIf="hasServerError('max_participants')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("max_participants") }}
+                    </div>
+                  </div>
+
+                  <!-- Statut -->
+                  <div class="mb-3">
+                    <label for="status" class="form-label">Statut</label>
+                    <select
+                      class="form-select"
+                      id="status"
+                      formControlName="status"
+                      (change)="onStatusChange()"
+                    >
+                      <option value="EN_COUR">En cours</option>
+                      <option value="SIMULATION">Simulation</option>
+                    </select>
+                    <div
+                      *ngIf="hasServerError('status')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("status") }}
+                    </div>
+                  </div>
+
+                  <!-- Date de début (visible uniquement si statut = "EN_COUR") -->
+                  <div class="mb-3" *ngIf="showDateFields">
+                    <label for="startDate" class="form-label"
+                      >Date de début</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="startDate"
+                      formControlName="start_date"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        newTirage.get('start_date')?.invalid &&
+                        newTirage.get('start_date')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Date de début requise.
+                    </div>
+                    <div
+                      *ngIf="hasServerError('start_date')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("start_date") }}
+                    </div>
+                  </div>
+
+                  <!-- Date de fin (visible uniquement si statut = "EN_COUR") -->
+                  <div class="mb-3" *ngIf="showDateFields">
+                    <label for="endDate" class="form-label">Date de fin</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="endDate"
+                      formControlName="end_date"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        newTirage.get('end_date')?.invalid &&
+                        newTirage.get('end_date')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Date de fin requise.
+                    </div>
+                    <div
+                      *ngIf="hasServerError('end_date')"
+                      class="invalid-feedback"
+                    >
+                      {{ hasServerError("end_date") }}
+                    </div>
+                  </div>
+
+                  <!-- Bouton Créer -->
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="newTirage.invalid"
+                  >
+                    Créer
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="card-body">
@@ -42,16 +231,19 @@
               id="statusFilter"
               class="form-select"
               [(ngModel)]="statusFilter"
-              (change)="filterTirages()"
+              (change)="onStatusChange(); filterTirages()"
             >
               <option value="">Tous les statuts</option>
-              <option value="En cours">En cours</option>
-              <option value="Terminé">Terminé</option>
-              <option value="Annulé">Annulé</option>
+              <option value="EN_COUR">En cours</option>
+              <option value="EN_VALIDATION">En validation</option>
+              <option value="TERMINE">Terminé</option>
+              <option value="SIMULATION">Simulation</option>
+              <option value="SIMULATION_TERMINE">Simulation terminé</option>
             </select>
           </div>
 
-          <div class="mb-3">
+          <!-- Afficher les champs de date uniquement si le statut n'est pas "Simulation" ou "Simulation terminé" -->
+          <div class="mb-3" *ngIf="!isStatusSimulationOrTermine()">
             <label for="startDate" class="form-label">Date de début</label>
             <input
               id="startDate"
@@ -62,7 +254,7 @@
             />
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3" *ngIf="!isStatusSimulationOrTermine()">
             <label for="endDate" class="form-label">Date de fin</label>
             <input
               id="endDate"
@@ -81,7 +273,6 @@
           >
             Aucun tirage
           </div>
-
           <div class="table-responsive">
             <table
               class="table table-hover mb-0"
@@ -89,36 +280,59 @@
             >
               <thead class="table-light">
                 <tr>
-                  <th scope="col">Titre</th>
-                  <th scope="col">Récompense</th>
-                  <th scope="col">Participants</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Date du Tirage</th>
-                  <th scope="col">Date de Fin</th>
-                  <th scope="col" class="text-center">Action</th>
+                  <th scope="col">
+                    <i class="bi bi-info-circle-fill"></i> Titre
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-currency-euro"></i> Récompense
+                  </th>
+                  <th scope="col"><i class="bi bi-people"></i> Participants</th>
+                  <th scope="col"><i class="bi bi-flag-fill"></i> Status</th>
+                  <th scope="col">
+                    <i class="bi bi-calendar-check-fill"></i> Date du Tirage
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-calendar-check-fill"></i> Date de Fin
+                  </th>
+                  <th scope="col" class="text-center">
+                    <i class="bi bi-gear-wide-connected"></i> Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let tirage of paginatedTirages">
                   <td>{{ tirage.name }}</td>
-                  <td>{{ tirage.reward_price }}</td>
+                  <td>{{ tirage.reward_price }}€</td>
                   <td>
                     {{ tirage.participant_count }} /
                     {{ tirage.max_participants }}
                   </td>
                   <td>
                     <span
-                      class="badge"
+                      class="badge rounded-pill fw-bold"
                       [ngClass]="{
-                        'bg-success': tirage.status === 'En cours',
-                        'bg-danger': tirage.status !== 'En cours',
+                        'text-bg-success': tirage.status === 'EN_COUR',
+                        'text-bg-primary': tirage.status === 'EN_VALIDATION',
+                        'text-bg-warning': tirage.status === 'TERMINE',
+                        'text-bg-info': tirage.status === 'SIMULATION',
+                        'text-bg-dark': tirage.status === 'SIMULATION_TERMINE',
                       }"
                     >
-                      {{ tirage.status }}
+                      {{ renderStatusToTemplate(tirage.status) }}
                     </span>
                   </td>
-                  <td>{{ tirage.start_date | date: "dd/MM/yyyy" }}</td>
-                  <td>{{ tirage.end_date | date: "dd/MM/yyyy" }}</td>
+                  <td>
+                    <ng-container *ngIf="tirage.start_date; else noStartDate">
+                      {{ tirage.start_date | date: "dd/MM/yyyy" }}
+                    </ng-container>
+                    <ng-template #noStartDate>Pas de date</ng-template>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="tirage.end_date; else noEndDate">
+                      {{ tirage.end_date | date: "dd/MM/yyyy" }}
+                    </ng-container>
+                    <ng-template #noEndDate>Pas de date</ng-template>
+                  </td>
                   <td class="text-center">
                     <button
                       class="btn btn-link text-info p-0"
@@ -141,7 +355,12 @@
           </div>
 
           <!-- Pagination -->
-          <nav aria-label="Page navigation" class="mt-3">
+
+          <nav
+            *ngIf="paginatedTirages.length > 0"
+            aria-label="Page navigation"
+            class="mt-3"
+          >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="currentPage === 1">
                 <a
@@ -174,200 +393,6 @@
     </div>
   </div>
 </section>
-
-<!-- Modal de création d'un tirage -->
-<div
-  class="modal fade"
-  id="createTirageModal"
-  tabindex="-1"
-  aria-labelledby="createTirageModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createTirageModalLabel">Créer un Tirage</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="newTirage" (ngSubmit)="createTirage()">
-          <!-- Titre -->
-          <div class="mb-3">
-            <label for="titre" class="form-label">Titre</label>
-            <input
-              type="text"
-              class="form-control"
-              id="titre"
-              formControlName="name"
-              [ngClass]="{ 'is-invalid': newTirage.get('name')?.errors }"
-              required
-            />
-            <div
-              *ngIf="
-                newTirage.get('name')?.invalid && newTirage.get('name')?.touched
-              "
-              class="text-danger"
-            >
-              Titre requis (au moins 2 caractères).
-            </div>
-            <div
-              *ngIf="newTirage.get('name')?.errors?.['serverError']"
-              class="invalid-feedback"
-            >
-              {{ newTirage.get("name")?.errors?.["serverError"] }}
-            </div>
-          </div>
-
-          <!-- Récompense -->
-          <div class="mb-3">
-            <label for="recompense" class="form-label">Récompense</label>
-            <input
-              type="number"
-              class="form-control"
-              id="recompense"
-              formControlName="reward_price"
-              [ngClass]="{
-                'is-invalid': newTirage.get('reward_price')?.errors,
-              }"
-              required
-            />
-            <div
-              *ngIf="
-                newTirage.get('reward_price')?.invalid &&
-                newTirage.get('reward_price')?.touched
-              "
-              class="text-danger"
-            >
-              Récompense requise (doit être supérieur à 0).
-            </div>
-            <div
-              *ngIf="newTirage.get('reward_price')?.errors?.['serverError']"
-              class="invalid-feedback"
-            >
-              {{ newTirage.get("reward_price")?.errors?.["serverError"] }}
-            </div>
-          </div>
-
-          <!-- Participants Max -->
-          <div class="mb-3">
-            <label for="participantsMax" class="form-label"
-              >Participants Max</label
-            >
-            <input
-              type="number"
-              class="form-control"
-              id="participantsMax"
-              formControlName="max_participants"
-              [ngClass]="{
-                'is-invalid': newTirage.get('max_participants')?.errors,
-              }"
-              required
-            />
-            <div
-              *ngIf="
-                newTirage.get('max_participants')?.invalid &&
-                newTirage.get('max_participants')?.touched
-              "
-              class="text-danger"
-            >
-              Nombre de participants requis (doit être supérieur à 0).
-            </div>
-            <div
-              *ngIf="newTirage.get('name')?.errors?.['serverError']"
-              class="invalid-feedback"
-            >
-              {{ newTirage.get("name")?.errors?.["serverError"] }}
-            </div>
-          </div>
-
-          <!-- Statut -->
-          <div class="mb-3">
-            <label for="status" class="form-label">Statut</label>
-            <select
-              class="form-select"
-              id="status"
-              formControlName="status"
-              (change)="onStatusChange()"
-            >
-              <option value="EN_COUR">En cours</option>
-              <option value="SIMULATION">Simulation</option>
-            </select>
-          </div>
-
-          <!-- Date de début (visible uniquement si statut = "EN_COUR") -->
-          <div class="mb-3" *ngIf="showDateFields">
-            <label for="startDate" class="form-label">Date de début</label>
-            <input
-              type="date"
-              class="form-control"
-              id="startDate"
-              formControlName="start_date"
-              required
-              [ngClass]="{ 'is-invalid': newTirage.get('start_date')?.errors }"
-            />
-            <div
-              *ngIf="
-                newTirage.get('start_date')?.invalid &&
-                newTirage.get('start_date')?.touched
-              "
-              class="text-danger"
-            >
-              Date de début requise.
-            </div>
-            <div
-              *ngIf="newTirage.get('start_date')?.errors?.['serverError']"
-              class="invalid-feedback"
-            >
-              {{ newTirage.get("start_date")?.errors?.["serverError"] }}
-            </div>
-          </div>
-
-          <!-- Date de fin (visible uniquement si statut = "EN_COUR") -->
-          <div class="mb-3" *ngIf="showDateFields">
-            <label for="endDate" class="form-label">Date de fin</label>
-            <input
-              type="date"
-              class="form-control"
-              id="endDate"
-              formControlName="end_date"
-              required
-              [ngClass]="{ 'is-invalid': newTirage.get('end_date')?.errors }"
-            />
-            <div
-              *ngIf="
-                newTirage.get('end_date')?.invalid &&
-                newTirage.get('end_date')?.touched
-              "
-              class="text-danger"
-            >
-              Date de fin requise.
-            </div>
-            <div
-              *ngIf="newTirage.get('end_date')?.errors?.['serverError']"
-              class="invalid-feedback"
-            >
-              {{ newTirage.get("end_date")?.errors?.["serverError"] }}
-            </div>
-          </div>
-
-          <!-- Bouton Créer -->
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="newTirage.invalid"
-          >
-            Créer
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Modal de confirmation -->
 <div

@@ -8,6 +8,8 @@ import { UserHistoryComponent } from '../../shared/user/user-history/user-histor
 import { UserInfoRessource } from '../../constants/ressources/user/userInfoRessource';
 import { UserPageServiceService } from './service/user-page-service.service';
 import { AuthService } from '../../core/service/auth.service';
+import { switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-page',
@@ -30,6 +32,7 @@ export class UserPageComponent implements OnInit {
   constructor(
     private userService: UserPageServiceService,
     private authService: AuthService,
+    private router: Router,
   ) {
     this.userInfo = {} as UserInfoRessource;
   }
@@ -48,11 +51,23 @@ export class UserPageComponent implements OnInit {
   }
 
   logout(): void {
-    this.userService.logoutUser().subscribe({
-      next: (data) => {},
-      error: (err) => {},
-    });
-    this.authService.logout();
+    this.userService
+      .logoutUser()
+      .pipe(
+        switchMap(() => {
+          return this.authService.logout();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          console.error('Error during logout:', err);
+          this.authService.clearTokens();
+          this.router.navigate(['/home']);
+        },
+      });
   }
 
   getFullNameUser(): string {

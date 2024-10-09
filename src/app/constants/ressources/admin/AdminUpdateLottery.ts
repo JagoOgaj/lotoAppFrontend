@@ -30,5 +30,10 @@ export interface UpdateLotteryToDoneResponse {
 export interface UpdateLotteryToDoneErorr {
   message: string;
   errors: boolean;
-  details?: string;
+  details?: any;
+}
+
+export interface AddWiningsNumber {
+  winning_numbers: string;
+  lucky_numbers: string;
 }

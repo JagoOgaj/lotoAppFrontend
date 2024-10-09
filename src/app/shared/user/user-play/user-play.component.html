@@ -14,7 +14,9 @@
           <div class="card-body">
             <app-lottory-form [idTirrage]="curentTirage.id" />
           </div>
-          <div class="card-footer text-body-secondary">Tirage du ...</div>
+          <div class="card-footer text-body-secondary">
+            Tirage du {{ curentTirage.end_date | date: "dd/MM/yyyy" }}
+          </div>
         </div>
       </div>
     } @else {
@@ -30,34 +32,70 @@
 <section
   id="rules"
   class="container section-padding py-5"
-  style="margin-bottom: 80px"
+  style="
+    margin-bottom: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
 >
-  <div class="row g-5">
-    <div class="col-12 col-lg-5">
-      <img
-        src="assets/test4.jpg"
-        alt="rules-img"
-        class="img-fluid mx-auto d-block"
-      />
-    </div>
-    <div class="col-12 col-lg-7">
-      <h2 class="fs-1 fw-bold mb-3">
+  <div class="row g-5 align-items-center justify-content-center">
+    <div class="col-12 col-lg-7 text-center">
+      <!-- Ajout de text-center pour centrer le texte -->
+      <h2 class="fs-1 fw-bold mb-4 text-primary">
         Règ<span class="text-warning">les du Jeu</span>
       </h2>
-      <p>Le jeu de loterie est simple et amusant. Voici comment jouer :</p>
-      <ul class="fs-5">
-        <li>Choisissez 5 numéros principaux entre 1 et 50.</li>
-        <li>Sélectionnez ensuite 3 numéros chance entre 1 et 10.</li>
-        <li>Confirmez vos choix en cliquant sur "Jouer".</li>
-        <li>
-          Le tirage aléatoire décidera des gagnants, et plus vos numéros
-          correspondent, plus vous gagnez.
+      <p class="fs-5">
+        Le jeu de loterie est simple et amusant. Voici comment jouer :
+      </p>
+      <ul class="fs-5 list-unstyled">
+        <li class="mb-2">
+          <strong>1.</strong> Choisissez 5 numéros principaux entre 1 et 49.
+        </li>
+        <li class="mb-2">
+          <strong>2.</strong> Sélectionnez ensuite 2 numéros chance entre 1 et
+          9.
+        </li>
+        <li class="mb-2">
+          <strong>3.</strong> Confirmez vos choix en cliquant sur "Jouer".
+        </li>
+        <li class="mb-2">
+          <strong>4.</strong> Le tirage aléatoire décidera des gagnants, et plus
+          vos numéros correspondent, plus vous gagnez.
         </li>
       </ul>
-      <p>
+      <p class="fs-5">
         N’oubliez pas, plus vous avez de correspondances avec les numéros, plus
         vous avez de chances de remporter un prix.
       </p>
+
+      <div
+        class="alert alert-light border mt-4 rounded"
+        style="background-color: #f0f8ff"
+      >
+        <h4 class="alert-heading text-primary">Conditions de Classement</h4>
+        <p>
+          Pour entrer dans le classement, vous devez obtenir un score supérieur
+          à 10. Ce score est calculé selon la méthode de similarité de Jaccard.
+        </p>
+        <h5 class="text-warning">Répartition des Gains :</h5>
+        <ul class="list-unstyled">
+          <li><strong>1er :</strong> 40%</li>
+          <li><strong>2ème :</strong> 20%</li>
+          <li><strong>3ème :</strong> 12%</li>
+          <li><strong>4ème :</strong> 7%</li>
+          <li><strong>5ème :</strong> 6%</li>
+          <li><strong>6ème :</strong> 5%</li>
+          <li><strong>7ème :</strong> 4%</li>
+          <li><strong>8ème :</strong> 3%</li>
+          <li><strong>9ème :</strong> 2%</li>
+          <li><strong>10ème :</strong> 1%</li>
+        </ul>
+        <p>
+          Si plusieurs personnes se retrouvent au même rang, les parts sont
+          réévaluées.
+        </p>
+      </div>
     </div>
   </div>
 </section>

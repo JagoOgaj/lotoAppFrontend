@@ -13,6 +13,7 @@ import {
   LoginErrors,
 } from '../../constants/ressources/user/LoginUserRessource';
 import { AuthService } from '../../core/service/auth.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -44,20 +45,27 @@ export class LoginFormComponent implements OnInit {
     this.serverErrors = null;
     if (this.loginForm.valid) {
       const data: LoginData = this.loginForm.value;
-      this.loginService.login(data).subscribe({
-        next: (response) => {
-          this.authService.setTokens(
-            response.access_token,
-            response.refresh_token,
-          );
-          this.router.navigate(['/account']);
-          this.loginForm.reset();
-        },
-        error: (err) => {
-          this.serverErrors = err;
-          this.loginForm.reset();
-        },
-      });
+      this.loginService
+        .login(data)
+        .pipe(
+          switchMap((response) => {
+            this.authService.setTokens(
+              response.access_token,
+              response.refresh_token,
+            );
+            return this.authService.setUserRole();
+          }),
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/account']);
+            this.loginForm.reset();
+          },
+          error: (err) => {
+            this.serverErrors = err;
+            this.loginForm.reset();
+          },
+        });
     }
   }
 

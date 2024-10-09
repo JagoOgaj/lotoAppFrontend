@@ -7,8 +7,9 @@
     </div>
 
     <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-8">
+      <div class="row mb-3 align-items-center">
+        <!-- Input de recherche -->
+        <div class="col-md-5">
           <div class="form-floating">
             <input
               type="text"
@@ -22,18 +23,229 @@
             <label for="searchInput">Rechercher un utilisateur</label>
           </div>
         </div>
-        <div class="col-md-4 text-end">
+
+        <!-- Bouton ajouter tout les utilisateurs -->
+        <div class="col-md-3 d-flex justify-content-md-center my-2 my-md-0">
           <button
-            class="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#addUserModal"
-            [disabled]="!canAddUser()"
+            class="btn btn-primary w-100"
+            [disabled]="canAddUser()"
+            (click)="populateFakeUser(tirage.id)"
           >
-            <i class="bi bi-person-plus"></i> Ajouter un utilisateur
+            <i class="bi bi-people-fill"></i>
+            <!-- Texte visible seulement sur écrans md et plus -->
+            <span class="d-none d-md-inline ms-2"
+              >Ajouter tous les utilisateurs</span
+            >
+          </button>
+        </div>
+
+        <!-- Bouton ajouter utilisateur -->
+        <div class="col-md-4 d-flex justify-content-end">
+          <button
+            class="btn btn-success d-flex align-items-center justify-content-center w-100"
+            data-bs-toggle="collapse"
+            data-bs-target="#addUserCollapse"
+            aria-expanded="true"
+            aria-controls="addUserCollapse"
+            type="button"
+            [disabled]="canAddUser()"
+          >
+            <!-- Icône seulement visible sur petits écrans -->
+            <i class="bi bi-person-plus"></i>
+            <!-- Texte visible seulement sur écrans md et plus -->
+            <span class="d-none d-md-inline ms-2">Ajouter un utilisateur</span>
           </button>
         </div>
       </div>
 
+      <!-- Contenu accordéon pour l'ajout d'un utilisateur -->
+      <div class="row">
+        <div class="col-12">
+          <div class="accordion" id="accordionaddUserCollapse">
+            <div class="accordion-item">
+              <div class="accordion-collapse collapse" id="addUserCollapse">
+                <div
+                  class="d-flex flex-column align-items-center accordion-body"
+                >
+                  <h2 class="text-center mb-4">
+                    Informations de l'utilisateur
+                  </h2>
+
+                  <form [formGroup]="newUser" (ngSubmit)="submitForm()">
+                    <!-- Nom -->
+                    <div class="mb-3">
+                      <label for="userName" class="form-label">Nom</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="userName"
+                        formControlName="user_name"
+                        placeholder="Entrez votre nom"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          (newUser.get('user_name')?.invalid &&
+                            (newUser.get('user_name')?.touched ||
+                              newUser.get('user_name')?.dirty)) ||
+                          hasServerErorr('user_name')
+                        "
+                        class="text-danger"
+                      >
+                        <div
+                          *ngIf="newUser.get('user_name')?.errors?.['required']"
+                        >
+                          Le nom est requis.
+                        </div>
+                        <div
+                          *ngIf="
+                            newUser.get('user_name')?.errors?.['minlength']
+                          "
+                        >
+                          Le nom doit contenir au moins 2 caractères.
+                        </div>
+                        <div *ngIf="hasServerErorr('user_name')">
+                          {{ hasServerErorr("user_name") }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                      <label for="userEmail" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="userEmail"
+                        formControlName="email"
+                        placeholder="Entrez votre email"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          (newUser.get('email')?.invalid &&
+                            (newUser.get('email')?.touched ||
+                              newUser.get('email')?.dirty)) ||
+                          hasServerErorr('email')
+                        "
+                        class="text-danger"
+                      >
+                        <div *ngIf="newUser.get('email')?.errors?.['required']">
+                          L'email est requis.
+                        </div>
+                        <div *ngIf="newUser.get('email')?.errors?.['email']">
+                          L'email n'est pas valide.
+                        </div>
+                        <div *ngIf="hasServerErorr('email')">
+                          {{ hasServerErorr("email") }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Numéros principaux -->
+                    <div class="mb-3">
+                      <label for="mainNumbers" class="form-label"
+                        >Entrez 5 numéros (1 à 50)</label
+                      >
+                      <div
+                        class="d-flex flex-column flex-md-row justify-content-center"
+                        formGroupName="numbers"
+                      >
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="num1"
+                          placeholder="N°1"
+                        />
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="num2"
+                          placeholder="N°2"
+                        />
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="num3"
+                          placeholder="N°3"
+                        />
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="num4"
+                          placeholder="N°4"
+                        />
+                        <input
+                          class="form-control form-control-sm mb-1"
+                          type="number"
+                          formControlName="num5"
+                          placeholder="N°5"
+                        />
+                      </div>
+                      <div
+                        *ngIf="hasServerErorr('numbers')"
+                        class="text-danger"
+                      >
+                        {{ hasServerErorr("numbers") }}
+                      </div>
+                    </div>
+
+                    <!-- Numéros chance -->
+                    <div class="mb-3">
+                      <label for="chanceNumbers" class="form-label"
+                        >Entrez 3 numéros chance (1 à 10)</label
+                      >
+                      <div
+                        class="d-flex flex-column flex-md-row justify-content-center"
+                        formGroupName="lucky_numbers"
+                      >
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="lucky1"
+                          placeholder="Chance 1"
+                        />
+                        <input
+                          class="form-control form-control-sm mb-1 me-md-1"
+                          type="number"
+                          formControlName="lucky2"
+                          placeholder="Chance 2"
+                        />
+                      </div>
+                      <div
+                        *ngIf="hasServerErorr('numbers_lucky')"
+                        class="text-danger"
+                      >
+                        {{ hasServerErorr("numbers_lucky") }}
+                      </div>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <div class="text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-warning w-100"
+                        [disabled]="newUser.invalid"
+                      >
+                        Ajouter
+                      </button>
+                    </div>
+
+                    <div
+                      *ngIf="backendErrors?.message"
+                      class="text-danger text-center mt-3"
+                    >
+                      {{ backendErrors?.message }}
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des participants -->
       <div
         *ngIf="paginatedParticipants.length === 0"
         class="text-muted text-center"
@@ -48,11 +260,13 @@
         >
           <thead class="table-light">
             <tr>
-              <th scope="col">Nom</th>
-              <th scope="col">Email</th>
-              <th scope="col">Numéro</th>
-              <th scope="col">Numéro chance</th>
-              <th scope="col" class="text-center">Actions</th>
+              <th scope="col"><i class="bi bi-person-circle"></i> Nom</th>
+              <th scope="col"><i class="bi bi-envelope-at-fill"></i> Email</th>
+              <th scope="col"><i class="bi bi-5-square-fill"></i> Numéro</th>
+              <th scope="col"><i class="bi bi-stars"></i> Numéro chance</th>
+              <th scope="col" class="text-center">
+                <i class="bi bi-gear-wide-connected"></i> Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -60,7 +274,7 @@
               <td>{{ participant.user_name }}</td>
               <td>{{ participant.email }}</td>
               <td>{{ participant.numbers }}</td>
-              <td>{{ participant.numbers_lucky }}</td>
+              <td>{{ participant.lucky_numbers }}</td>
               <td class="text-center">
                 <button
                   class="btn btn-link text-info p-0"
@@ -70,35 +284,56 @@
                 >
                   <i class="bi bi-eye fs-5"></i>
                 </button>
-                <button
-                  class="btn btn-link text-danger p-0"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteUserModal"
-                  (click)="setSelectedUser(participant)"
-                >
-                  <i class="bi bi-trash fs-5"></i>
-                </button>
+                @if (!isDone()) {
+                  <button
+                    class="btn btn-link text-danger p-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteUserModal"
+                    (click)="setSelectedUser(participant)"
+                  >
+                    <i class="bi bi-trash fs-5"></i>
+                  </button>
+                }
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Pagination -->
       <nav aria-label="Page navigation" class="mt-3">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center flex-wrap">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <a class="page-link" (click)="previousPage()" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <li
-            class="page-item"
-            *ngFor="let page of pages"
-            [class.active]="page === currentPage"
-          >
-            <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
-          </li>
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
+
+          <!-- Affichage dynamique des pages -->
+          <ng-container *ngIf="pages.length > 0">
+            <ng-container
+              *ngFor="
+                let page of getVisiblePages();
+                let isFirst = first;
+                let isLast = last
+              "
+            >
+              <li class="page-item" [class.active]="page === currentPage">
+                <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+              </li>
+              <!-- Afficher des ellipses après certaines pages -->
+              <li
+                class="page-item"
+                *ngIf="
+                  (isFirst && page !== 1) || (isLast && page !== totalPages)
+                "
+              >
+                <span class="page-link">...</span>
+              </li>
+            </ng-container>
+          </ng-container>
+
+          <li class="page-item" [class.disabled]="currentPage === pages.length">
             <a class="page-link" (click)="nextPage()" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
@@ -110,201 +345,7 @@
 </section>
 
 <!--Add user-->
-<div
-  class="modal fade"
-  id="userInfoModal"
-  tabindex="-1"
-  aria-labelledby="userInfoModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userInfoModalLabel">
-          Informations de l'utilisateur
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="d-flex flex-column align-items-center">
-          <h2 class="text-center mb-4">Informations de l'utilisateur</h2>
 
-          <form [formGroup]="newUser" (ngSubmit)="submitForm()">
-            <div class="mb-3">
-              <label for="userName" class="form-label">Nom</label>
-              <input
-                type="text"
-                class="form-control"
-                id="userName"
-                formControlName="user_name"
-                placeholder="Entrez votre nom"
-                required
-              />
-              <div
-                *ngIf="
-                  newUser.get('user_name')?.invalid &&
-                  (newUser.get('user_name')?.touched ||
-                    newUser.get('user_name')?.dirty)
-                "
-                class="text-danger"
-              >
-                <div *ngIf="newUser.get('user_name')?.errors?.['required']">
-                  Le nom est requis.
-                </div>
-                <div *ngIf="newUser.get('user_name')?.errors?.['minlength']">
-                  Le nom doit contenir au moins 2 caractères.
-                </div>
-                <div *ngIf="newUser.get('user_name')?.errors?.['backend']">
-                  {{ newUser.get("user_name")?.errors?.["backend"] }}
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="userEmail" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="userEmail"
-                formControlName="email"
-                placeholder="Entrez votre email"
-                required
-              />
-              <div
-                *ngIf="
-                  newUser.get('email')?.invalid &&
-                  (newUser.get('email')?.touched || newUser.get('email')?.dirty)
-                "
-                class="text-danger"
-              >
-                <div *ngIf="newUser.get('email')?.errors?.['required']">
-                  L'email est requis.
-                </div>
-                <div *ngIf="newUser.get('email')?.errors?.['email']">
-                  L'email n'est pas valide.
-                </div>
-                <div *ngIf="newUser.get('email')?.errors?.['backend']">
-                  {{ newUser.get("email")?.errors?.["backend"] }}
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="mainNumbers" class="form-label"
-                >Entrez 5 numéros (1 à 50)</label
-              >
-              <div
-                class="d-flex flex-column flex-md-row justify-content-center"
-                formGroupName="numbers"
-              >
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="num1"
-                  placeholder="N°1"
-                />
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="num2"
-                  placeholder="N°2"
-                />
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="num3"
-                  placeholder="N°3"
-                />
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="num4"
-                  placeholder="N°4"
-                />
-                <input
-                  class="form-control form-control-sm mb-1"
-                  type="number"
-                  formControlName="num5"
-                  placeholder="N°5"
-                />
-              </div>
-
-              <div
-                *ngIf="newUser.get('lucky_numbers')?.errors?.['backend']"
-                class="text-danger"
-              >
-                {{ newUser.get("lucky_numbers")?.errors?.["backend"] }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="chanceNumbers" class="form-label"
-                >Entrez 3 numéros chance (1 à 10)</label
-              >
-              <div
-                class="d-flex flex-column flex-md-row justify-content-center"
-                formGroupName="lucky_numbers"
-              >
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="lucky1"
-                  placeholder="Chance 1"
-                />
-                <input
-                  class="form-control form-control-sm mb-1 me-md-1"
-                  type="number"
-                  formControlName="lucky2"
-                  placeholder="Chance 2"
-                />
-                <input
-                  class="form-control form-control-sm mb-1"
-                  type="number"
-                  formControlName="lucky3"
-                  placeholder="Chance 3"
-                />
-              </div>
-
-              <div
-                *ngIf="newUser.get('lucky_numbers')?.errors?.['backend']"
-                class="text-danger"
-              >
-                {{ newUser.get("lucky_numbers")?.errors?.["backend"] }}
-              </div>
-            </div>
-
-            <div class="text-center">
-              <button
-                type="submit"
-                class="btn btn-warning w-100"
-                [disabled]="newUser.invalid"
-              >
-                Ajouter
-              </button>
-            </div>
-
-            <div
-              *ngIf="backendErrors?.message"
-              class="text-danger text-center mt-3"
-            >
-              {{ backendErrors?.message }}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- Modal pour voir les informations d'un utilisateur -->
 <div
   class="modal fade"
@@ -330,7 +371,7 @@
         <p><strong>Nom :</strong> {{ selectedUser?.user_name }}</p>
         <p><strong>Email :</strong> {{ selectedUser?.email }}</p>
         <p><strong>Numéro :</strong> {{ selectedUser?.numbers }}</p>
-        <p><strong>Numéro chance</strong> {{ selectedUser?.numbers_lucky }}</p>
+        <p><strong>Numéro chance</strong> {{ selectedUser?.lucky_numbers }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +23,7 @@ import {
 import { LotteriesOverviewResponse } from '../../../constants/ressources/user/tirageUserRessource';
 import { TirageOverviewComponent } from '../tirage-overview/tirage-overview.component';
 import { TirageListSharedService } from './service/tirage-list-shared.service';
+import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
 
 @Component({
   selector: 'app-tirage-list-shared',
@@ -28,23 +37,26 @@ import { TirageListSharedService } from './service/tirage-list-shared.service';
   templateUrl: './tirage-list-shared.component.html',
   styleUrl: './tirage-list-shared.component.css',
 })
-export class TirageListSharedComponent {
+export class TirageListSharedComponent implements OnInit, OnChanges {
   @Input() tirages!: LotteriesOverviewResponse;
   @Output() updateParent: EventEmitter<void> = new EventEmitter<void>();
-
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 0;
   paginatedTirages: LotteriesOverviewResponse = [];
   pages: number[] = [];
-  startDate!: Date;
-  endDate!: Date;
+  startDate!: Date | undefined;
+  endDate!: Date | undefined;
   statusFilter: string = '';
   idTirageToDelete: number | null = null;
   newTirage: FormGroup;
   showDateFields: boolean = true;
-  severErrors: CreateTirageError | null = null;
+  severErrors: CreateTirageError | null = {
+    errors: true,
+    message: '',
+    details: {},
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +75,15 @@ export class TirageListSharedComponent {
 
   ngOnInit(): void {
     this.updatePagination();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tirages']) {
+      this.newTirage.reset();
+      this.resetFilters();
+      document.getElementById('addUserCollapseId')?.classList.remove('show');
+      this.updatePagination();
+    }
   }
 
   updatePagination() {
@@ -119,6 +140,7 @@ export class TirageListSharedComponent {
         }
         return '';
       });
+      this.updatePagination();
     }
 
     this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
@@ -128,6 +150,21 @@ export class TirageListSharedComponent {
       this.currentPage * this.itemsPerPage,
     );
     this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
+  }
+
+  isStatusSimulationOrTermine(): boolean {
+    return (
+      this.statusFilter === 'SIMULATION' ||
+      this.statusFilter === 'SIMULATION_TERMINE'
+    );
+  }
+
+  resetFilters() {
+    this.searchTerm = ''; // Réinitialiser le terme de recherche
+    this.statusFilter = ''; // Réinitialiser le filtre de statut
+    this.startDate = undefined; // Réinitialiser la date de début
+    this.endDate = undefined; // Réinitialiser la date de fin
+    this.updatePagination(); // Mettre à jour la pagination
   }
 
   nextPage() {
@@ -151,13 +188,35 @@ export class TirageListSharedComponent {
 
   viewDetails(id: number) {
     if (id) {
-      this.router.navigate(['/tirage-details', id]);
+      this.router.navigate(['/admin/tirage-details', id]);
     }
+  }
+
+  renderStatusToTemplate(status: string): string {
+    if (status == TirageStatus.EN_COUR) {
+      return 'En cour';
+    }
+    if (status == TirageStatus.EN_VALIDATION) {
+      return 'En validation';
+    }
+    if (status == TirageStatus.TERMINE) {
+      return 'Termine';
+    }
+    if (status == TirageStatus.SIMULATION) {
+      return 'Simulation';
+    }
+    if (status == TirageStatus.SIMULATION_TERMINE) {
+      return 'Simulation termine';
+    }
+    return '';
+  }
+
+  hasServerError(controlName: string): string | null {
+    return this.severErrors?.details?.[controlName]?.[0] || null;
   }
 
   onStatusChange(): void {
     const statusControl = this.newTirage.get('status')?.value;
-
     if (statusControl === 'SIMULATION') {
       this.showDateFields = false;
       this.newTirage.get('start_date')?.clearValidators();
@@ -169,6 +228,8 @@ export class TirageListSharedComponent {
     }
     this.newTirage.get('start_date')?.updateValueAndValidity();
     this.newTirage.get('end_date')?.updateValueAndValidity();
+
+    this.filterTirages();
   }
 
   confirmDelete(id: number) {
@@ -197,6 +258,7 @@ export class TirageListSharedComponent {
         name: formValue.name,
         reward_price: formValue.reward_price,
         max_participants: formValue.max_participants,
+        status: formValue.status,
       };
 
       if (formValue.status === 'EN_COUR') {
@@ -208,58 +270,10 @@ export class TirageListSharedComponent {
         next: (response) => {
           this.updateParent.emit();
         },
-        error: (error) => {
+        error: (error: CreateTirageError) => {
           this.severErrors = error;
-          this.handleServerErrors(this.severErrors!);
+          this.newTirage.reset();
         },
-      });
-    }
-  }
-
-  handleServerErrors(errorResponse: CreateTirageError) {
-    this.newTirage.setErrors(null);
-
-    if (errorResponse.details) {
-      const details = errorResponse.details;
-
-      if (details.name) {
-        this.newTirage.get('name')?.setErrors({ serverError: details.name[0] });
-      }
-
-      if (details.reward_price) {
-        this.newTirage
-          .get('reward_price')
-          ?.setErrors({ serverError: details.reward_price[0] });
-      }
-
-      if (details.max_participants) {
-        this.newTirage
-          .get('max_participants')
-          ?.setErrors({ serverError: details.max_participants[0] });
-      }
-
-      if (details.status) {
-        this.newTirage
-          .get('status')
-          ?.setErrors({ serverError: details.status[0] });
-      }
-
-      if (details.start_date) {
-        this.newTirage
-          .get('start_date')
-          ?.setErrors({ serverError: details.start_date[0] });
-      }
-
-      if (details.end_date) {
-        this.newTirage
-          .get('end_date')
-          ?.setErrors({ serverError: details.end_date[0] });
-      }
-
-      Object.keys(details).forEach((key) => {
-        if (this.newTirage.get(key)) {
-          this.newTirage.get(key)?.setErrors({ serverError: details[key][0] });
-        }
       });
     }
   }

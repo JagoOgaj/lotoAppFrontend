@@ -16,16 +16,15 @@
         <h2 class="fs-1 fw-bold mb-3 text-center">
           Historique de vos <span class="text-warning">jeux</span>
         </h2>
-
         <!-- Cartes des parties jouées -->
-        <div class="row g-4">
+        <div class="row g-4 py-5">
           <div
             *ngFor="let partie of paginatedParties"
             class="col-md-6 col-lg-4"
           >
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Partie du {{ partie.date }}</h5>
+                <h5 class="card-title">Tirage {{ partie.name }}</h5>
 
                 <!-- Statut du tirage sous forme de chip -->
                 <p>
@@ -33,28 +32,28 @@
                   <span
                     class="badge"
                     [ngClass]="{
-                      'text-bg-success': tirageIsDone(partie.status),
-                      'text-bg-primary': tirageIsInCurrent(partie.status),
-                      'text-bg-warning': tirageIsInValidation(partie.status),
+                      'text-bg-success': tirageIsDone(partie.statut),
+                      'text-bg-primary': tirageIsInCurrent(partie.statut),
+                      'text-bg-warning': tirageIsInValidation(partie.statut),
                     }"
                   >
-                    {{ renderStatusToTemplate(partie.status) }}
+                    {{ renderStatusToTemplate(partie.statut) }}
                   </span>
                 </p>
 
                 <p class="card-text">
-                  Numéros joués : {{ partie.numerosJoue }}
+                  Numéros joués : {{ partie.numerosJoues }}
                 </p>
                 <p class="card-text">
                   Numéros chance : {{ partie.numerosChance }}
                 </p>
               </div>
               <div class="card-footer text-muted">
-                Tirage du {{ partie.dateTirage }}
+                Termine le {{ partie.dateTirage }}
                 <button
                   class="btn btn-warning mt-3"
                   (click)="voirDetailsTirage(partie.id)"
-                  [disabled]="!canShowDetails(partie.status)"
+                  [disabled]="!canShowDetails(partie.statut)"
                 >
                   Voir les détails
                 </button>

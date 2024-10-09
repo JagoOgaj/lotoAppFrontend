@@ -8,6 +8,10 @@ export interface LotteryOverviewResponse {
   max_participants: number;
   participant_count: number;
 }
+export interface LotteryResultReponse {
+  winning_numbers: string;
+  lucky_numbers: string;
+}
 
 export type LotteriesOverviewResponse = LotteryOverviewResponse[];
 
@@ -18,9 +22,10 @@ export interface LotteryOverviewError {
 
 export interface LotteryHistory {
   id: number;
+  name: string;
   date: string;
-  status: string;
-  numerosJoue: string;
+  statut: string;
+  numerosJoues: string;
   numerosChance: string;
   dateTirage: string;
 }

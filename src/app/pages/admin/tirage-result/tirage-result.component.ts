@@ -18,6 +18,8 @@ export class TirageResultComponent implements OnInit {
   lotteryInfo: LotteryOverviewResponse | null = null;
   currentPage = 1;
   itemsPerPage = 10;
+  winning_numbers: string | undefined = '';
+  lucky_numbers: string | undefined = '';
 
   constructor(
     private tirageResultService: TirageResultService,
@@ -55,6 +57,13 @@ export class TirageResultComponent implements OnInit {
     }
   }
 
+  roundReward(number: number): number {
+    if (Number.isInteger(number)) {
+      return number;
+    }
+    return parseFloat(number.toFixed(2));
+  }
+
   loadRank(id: number): void {
     this.tirageResultService.getRank(id).subscribe({
       next: (response) => {
@@ -68,6 +77,8 @@ export class TirageResultComponent implements OnInit {
     this.tirageDetailsAdmin.getTirageDetails(id).subscribe({
       next: (response) => {
         this.lotteryInfo = response.data;
+        this.winning_numbers = response.numbers?.winning_numbers;
+        this.lucky_numbers = response.numbers?.lucky_numbers;
       },
       error: (err) => {},
     });

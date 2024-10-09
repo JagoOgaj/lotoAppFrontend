@@ -17,7 +17,7 @@ export const adminRoutes: Routes = [
       },
       { path: 'tirage-list', component: TirageListComponent },
       { path: 'tirage-details/:id', component: TirageDetailsComponent },
-      { path: 'tiraga-result/:id', component: TirageResultComponent },
+      { path: 'tirage-result/:id', component: TirageResultComponent },
       { path: 'account', component: AccountAdminComponent },
       { path: '**', redirectTo: 'tirage-list' },
     ],

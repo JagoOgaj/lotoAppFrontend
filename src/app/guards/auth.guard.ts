@@ -12,26 +12,21 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   // Vérification de la route login
   if (route.routeConfig?.path === 'login') {
-    if (isAuthenticated) {
+    if (isAuthenticated && userRole === Roles.USER) {
       // Redirige l'utilisateur vers /account s'il est déjà connecté
       router.navigate(['/account']);
       return false;
     }
-    return true; // Autoriser l'accès à la route login si non authentifié
+    return true; // Autoriser l'accès à la route login si non authentifis
   }
 
-  // Vérification des routes protégées pour account et draw/:id
-  if (
-    route.routeConfig &&
-    (route.routeConfig.path === 'account' ||
-      route.routeConfig.path === 'draw/:id')
-  ) {
-    // L'utilisateur doit être authentifié
-    if (!isAuthenticated) {
-      router.navigate(['/login']);
+  if (route.routeConfig?.path === 'login-admin') {
+    if (isAuthenticated && userRole === Roles.ADMIN) {
+      // Redirige l'utilisateur vers /admin s'il est déjà authentifié et est un admin
+      router.navigate(['/admin']);
       return false;
     }
-    return true; // L'utilisateur est authentifié, autoriser l'accès
+    return true; // Autoriser l'accès à la route login-admin si non authentifié ou rôle non admin
   }
 
   // Vérification des routes admin

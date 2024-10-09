@@ -1,5 +1,3 @@
-import { $locationShim } from '@angular/common/upgrade';
-
 export enum TirageStatus {
   EN_COUR = 'EN_COUR',
   EN_VALIDATION = 'EN_VALIDATION',

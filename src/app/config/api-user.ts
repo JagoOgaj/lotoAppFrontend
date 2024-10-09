@@ -1,5 +1,5 @@
 export const ApiUser = {
-  BASE_URL: 'http://127.0.0.1:5000/user',
+  BASE_URL: 'http://127.0.0.1:8080/user',
   ENDPOINT: {
     LOGIN: '/login',
     REGISTER: '/register',
