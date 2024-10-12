@@ -1167,3 +1167,6 @@ class UserPlayServiceService{
         }
 ```
 # Test
+
+
+![uml diagram example](src/image/lotoappfrontend.svg)
