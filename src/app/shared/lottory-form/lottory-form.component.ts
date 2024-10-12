@@ -97,6 +97,7 @@ export class LottoryFormComponent implements OnInit {
         this.backendErrors = null;
       },
       error: (error) => {
+        this.registryLotteryForm.reset();
         this.handleBackendErrors(error);
       },
     });
