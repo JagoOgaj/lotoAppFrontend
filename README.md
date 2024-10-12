@@ -6,14 +6,11 @@ Loto App Frontend est une application web développée avec Angular pour gérer 
 
 ## Table des matières
 
-- [Description](#description)
-- [Installation](#installation)
-- [Technologies](#technologies)
-- [Structure du projet](#structure-du-projet)
-- [Commandes utiles](#commandes-utiles)
-- [Prettier](#eslint-et-prettier)
-- [Contribution](#contribution)
-- [Licence](#licence)
+- [Description](#)
+- [Installation](#)
+- [Technologies](#)
+- [Structure du projet](#)
+- [Note](#)
 
 ## Installation
 
