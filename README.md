@@ -1,5 +1,4 @@
-```dsl
-
+```mermaid
 classDiagram
 
 class AppComponent{
