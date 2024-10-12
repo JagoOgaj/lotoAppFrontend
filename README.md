@@ -204,12 +204,19 @@ class CreateTirageResponse {
             
         }
 class CreateTirageError {
-            <<interface>>
-            +message: string
-+errors: boolean
-+details?: { [key: string]: any; name?: string[]; status?: string[]; max_participants?: string[]; reward_price?: string[]; start_date?: string[]; end_date?: string[]; }
-            
+        <<interface>>
+        +message: string
+        +errors: boolean
+        +details: { 
+            [key: string]: any; 
+            name?: string[]; 
+            status?: string[]; 
+            max_participants?: string[]; 
+            reward_price?: string[]; 
+            start_date?: string[]; 
+            end_date?: string[];
         }
+    }
 class DeleteTirageResponse {
             <<interface>>
             +message: string
