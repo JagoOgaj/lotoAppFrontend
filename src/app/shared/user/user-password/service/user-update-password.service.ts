@@ -8,12 +8,21 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiUser } from '../../../../config/api-user';
 
+/**
+ * Service pour la mise à jour du mot de passe de l'utilisateur.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserUpdatePasswordService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Met à jour le mot de passe de l'utilisateur.
+   *
+   * @param {UpdatePasswordUser} data - Les données nécessaires pour mettre à jour le mot de passe.
+   * @returns {Observable<UpdateInfoUserResponse>} - Observable contenant la réponse de mise à jour.
+   */
   updatePassword(data: UpdatePasswordUser): Observable<UpdateInfoUserResponse> {
     return this.http
       .put<UpdateInfoUserResponse>(

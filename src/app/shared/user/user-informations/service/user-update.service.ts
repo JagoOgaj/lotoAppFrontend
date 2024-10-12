@@ -8,12 +8,23 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiUser } from '../../../../config/api-user';
 
+/**
+ * Service pour mettre à jour les informations de l'utilisateur.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserUpdateService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Met à jour les informations de l'utilisateur.
+   *
+   * @param {UpdateInfoUser} data - Les données de mise à jour de l'utilisateur.
+   * @returns {Observable<UpdateInfoUserResponse>} - Un observable qui renvoie la réponse de la mise à jour.
+   *
+   * @throws {UpdateInfoUserResponseError} - Renvoie une erreur si la mise à jour échoue.
+   */
   updateInfo(data: UpdateInfoUser): Observable<UpdateInfoUserResponse> {
     return this.http
       .put<UpdateInfoUserResponse>(

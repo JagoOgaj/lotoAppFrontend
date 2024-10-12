@@ -1,20 +1,28 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { ApiUser } from '../../../config/api-user';
 import {
   LotteryInfoErreur,
-  LotteryInfoRankError,
-  LotteryInfoRankResponse,
   LotteryInfoResponse,
 } from '../../../constants/ressources/user/LotteryInfoRessource';
-import { ApiUser } from '../../../config/api-user';
 
+/**
+ * Service pour interagir avec les opérations de tirage de loterie.
+ * @class DrawService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class DrawService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère les informations de détail d'un tirage de loterie par son ID.
+   * @param {number} id - L'ID du tirage de loterie à récupérer.
+   * @returns {Observable<LotteryInfoResponse>} - Un Observable contenant les détails du tirage.
+   * @throws {LotteryInfoErreur} - En cas d'erreur lors de la récupération des informations.
+   */
   getTirageOverview(id: number): Observable<LotteryInfoResponse> {
     return this.http
       .get<LotteryInfoResponse>(

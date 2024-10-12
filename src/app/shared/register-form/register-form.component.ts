@@ -14,6 +14,9 @@ import {
   RegistryErrors,
 } from '../../constants/ressources/user/registryUserRessource';
 
+/**
+ * Composant pour le formulaire d'inscription d'un nouvel utilisateur.
+ */
 @Component({
   selector: 'app-register-form',
   standalone: true,
@@ -26,6 +29,14 @@ export class RegisterFormComponent implements OnInit {
 
   registryForm: FormGroup;
   serverErrors: RegistryErrors | null = null;
+
+  /**
+   * Constructeur du composant.
+   * @param {FormBuilder} fb - Service pour construire des formulaires réactifs.
+   * @param {UserRegistryService} registerService - Service pour l'enregistrement des utilisateurs.
+   * @param {Router} router - Service pour naviguer entre les routes.
+   * @param {AuthService} authService - Service pour gérer l'authentification des utilisateurs.
+   */
   constructor(
     private fb: FormBuilder,
     private registerService: UserRegistryService,
@@ -42,6 +53,9 @@ export class RegisterFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Méthode pour soumettre le formulaire d'inscription.
+   */
   onSubmit(): void {
     this.serverErrors = null;
     if (this.registryForm.valid) {
@@ -62,6 +76,9 @@ export class RegisterFormComponent implements OnInit {
     }
   }
 
+  /**
+   * Méthode pour changer d'onglet.
+   */
   onTabChange(): void {
     this.tabChange.emit('login');
   }

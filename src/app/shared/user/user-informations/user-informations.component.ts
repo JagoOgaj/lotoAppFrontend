@@ -13,6 +13,9 @@ import {
 import { UserUpdateService } from './service/user-update.service';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Composant pour afficher et mettre à jour les informations de l'utilisateur.
+ */
 @Component({
   selector: 'app-user-informations',
   standalone: true,
@@ -30,6 +33,12 @@ export class UserInformationsComponent implements OnInit {
     details: {},
   };
 
+  /**
+   * Constructeur du composant UserInformationsComponent.
+   *
+   * @param fb - FormBuilder pour créer des formulaires réactifs.
+   * @param updateService - Service pour mettre à jour les informations de l'utilisateur.
+   */
   constructor(
     private fb: FormBuilder,
     private updateService: UserUpdateService,
@@ -42,6 +51,9 @@ export class UserInformationsComponent implements OnInit {
     });
   }
 
+  /**
+   * Méthode appelée lors de l'initialisation du composant.
+   */
   ngOnInit(): void {
     if (this.userInfo) {
       this.patchUserInfo();
@@ -52,12 +64,20 @@ export class UserInformationsComponent implements OnInit {
     });
   }
 
+  /**
+   * Méthode appelée lorsque les entrées du composant changent.
+   *
+   * @param changes - Changements des propriétés d'entrée.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userInfo'] && changes['userInfo'].currentValue) {
       this.patchUserInfo();
     }
   }
 
+  /**
+   * Remplit le formulaire avec les informations de l'utilisateur.
+   */
   patchUserInfo(): void {
     const patchedValues = {
       ...this.userInfo,
@@ -67,6 +87,9 @@ export class UserInformationsComponent implements OnInit {
     this.isFormChange = false;
   }
 
+  /**
+   * Vérifie si le formulaire a été modifié par rapport aux données d'origine.
+   */
   checkIfFormIsChanged(): void {
     const currentValue = this.userFormInfo.value;
     const currentNotification = currentValue.notification === 'true';
@@ -79,6 +102,9 @@ export class UserInformationsComponent implements OnInit {
       currentNotification !== originalNotification;
   }
 
+  /**
+   * Soumet le formulaire pour mettre à jour les informations de l'utilisateur.
+   */
   onSubmit(): void {
     if (this.userFormInfo.valid) {
       const updatedFields = this.getUpdatedFields();
@@ -96,6 +122,11 @@ export class UserInformationsComponent implements OnInit {
     }
   }
 
+  /**
+   * Récupère les champs mis à jour pour la soumission.
+   *
+   * @returns {Partial<UserInfoRessource>} - Les champs mis à jour.
+   */
   getUpdatedFields(): Partial<UserInfoRessource> {
     const updatedFields: Partial<UserInfoRessource> = {};
     const currentValue = this.userFormInfo.value;

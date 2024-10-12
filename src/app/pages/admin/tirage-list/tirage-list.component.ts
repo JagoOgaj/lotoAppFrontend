@@ -15,6 +15,12 @@ import {
 } from '../../../constants/ressources/admin/AdminCreateDeleteTirageRessource';
 import { TirageListSharedService } from '../../../shared/admin/tirage-list-shared/service/tirage-list-shared.service';
 
+/**
+ * Composant pour gérer la liste des tirages et la création de nouveaux tirages.
+ *
+ * @component
+ * @module TirageListComponent
+ */
 @Component({
   selector: 'app-tirage-list',
   standalone: true,
@@ -32,6 +38,13 @@ export class TirageListComponent implements OnInit {
     details: {},
   };
 
+  /**
+   * Crée une instance de TirageListComponent.
+   *
+   * @param tirageListService - Service pour récupérer la liste des tirages.
+   * @param tirageCreateService - Service pour créer de nouveaux tirages.
+   * @param fb - FormBuilder pour créer des formulaires réactifs.
+   */
   constructor(
     private tirageListService: TirageListService,
     private tirageCreateService: TirageListSharedService,
@@ -48,10 +61,16 @@ export class TirageListComponent implements OnInit {
     });
   }
 
+  /**
+   * Méthode de cycle de vie Angular qui s'exécute lors de l'initialisation du composant.
+   */
   ngOnInit(): void {
     this.loadTirages();
   }
 
+  /**
+   * Charge la liste des tirages en appelant le service.
+   */
   loadTirages(): void {
     this.tirageListService.getTirageList().subscribe({
       next: (data) => {
@@ -61,11 +80,17 @@ export class TirageListComponent implements OnInit {
     });
   }
 
+  /**
+   * Méthode appelée pour mettre à jour la liste des tirages.
+   */
   onUpdate(): void {
-    console.log('uddate');
     this.loadTirages();
   }
 
+  /**
+   * Méthode appelée lorsque l'état du tirage change.
+   * Met à jour la visibilité des champs de date en fonction de l'état sélectionné.
+   */
   onStatusChange(): void {
     const statusControl = this.newTirage.get('status')?.value;
 
@@ -82,8 +107,12 @@ export class TirageListComponent implements OnInit {
     this.newTirage.get('end_date')?.updateValueAndValidity();
   }
 
+  /**
+   * Méthode pour créer un nouveau tirage.
+   * Envoie les données du formulaire au service et gère les erreurs éventuelles.
+   */
   createTirage() {
-    this.severErrors = null; // Réinitialiser les erreurs serveur
+    this.severErrors = null;
     if (this.newTirage.valid) {
       const formValue = this.newTirage.value;
 
@@ -111,6 +140,12 @@ export class TirageListComponent implements OnInit {
     }
   }
 
+  /**
+   * Vérifie s'il y a des erreurs du serveur pour un contrôle de formulaire donné.
+   *
+   * @param controlName - Le nom du contrôle à vérifier.
+   * @returns {string | null} - Le message d'erreur si présent, sinon null.
+   */
   hasServerError(controlName: string): string | null {
     return this.severErrors?.details?.[controlName]?.[0] || null;
   }

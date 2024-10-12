@@ -22,19 +22,30 @@ export class AuthInterceptor implements HttpInterceptor {
     null,
   );
 
+  /**
+   * Constructeur de la classe AuthInterceptor.
+   * @param {AuthService} authService - Service d'authentification pour récupérer le token.
+   * @param {Router} router - Router Angular pour naviguer entre les routes.
+   * @param {TokenExpirationGuard} tokenExpirationGuard - Garde pour gérer l'expiration du token.
+   */
   constructor(
     private authService: AuthService,
     private router: Router,
     private tokenExpirationGuard: TokenExpirationGuard,
   ) {}
 
+  /**
+   * Intercepte les requêtes HTTP et ajoute le token d'authentification si nécessaire.
+   * @param {HttpRequest<any>} req - La requête HTTP à intercepter.
+   * @param {HttpHandler} next - Le gestionnaire de requêtes HTTP suivant.
+   * @returns {Observable<HttpEvent<any>>} Un observable de l'événement HTTP.
+   */
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const authToken = this.authService.getToken();
 
-    // Exclure certaines requêtes (comme les connexions et les requêtes de refresh/revocation)
     const isExcludedRequestToAddAuthToken = [
       ApiAuth.ENDPOINT.REVOKE_ACCESS,
       ApiAuth.ENDPOINT.REVOKE_REFRESH,
@@ -52,7 +63,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
     let authReq = req;
 
-    // N'ajouter le token que si ce n'est pas une requête exclue
     if (authToken && !isExcludedRequestToAddAuthToken) {
       authReq = req.clone({
         setHeaders: {

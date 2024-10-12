@@ -22,14 +22,26 @@ export class LoginRegisterPageComponent implements OnInit {
   pageState: string = 'login';
   activeTab: string = 'login';
 
+  /**
+   * Lifecycle hook qui s'exécute lors de l'initialisation du composant.
+   * Scroll vers le haut de la page.
+   */
   ngOnInit(): void {
     window.scrollTo(0, 0);
   }
 
+  /**
+   * Sélectionne l'onglet spécifié.
+   * @param {string} tab - L'onglet à activer ('login' ou 'register').
+   */
   selectTab(tab: string): void {
     this.activeTab = tab;
   }
 
+  /**
+   * Change l'onglet actif en fonction de l'événement.
+   * @param {any} $event - L'événement contenant l'information de l'onglet.
+   */
   changeTab($event: any): void {
     this.activeTab = $event;
   }

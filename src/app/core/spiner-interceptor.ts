@@ -14,37 +14,44 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
+  /**
+   * Constructeur de l'intercepteur HTTP.
+   * @param {NgxSpinnerService} spinner - Service pour afficher un spinner de chargement.
+   * @param {ToastrService} toastr - Service pour afficher des notifications toast.
+   */
   constructor(
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) {}
 
+  /**
+   * Intercepte les requêtes HTTP et gère les réponses et les erreurs.
+   * @param {HttpRequest<any>} req - La requête HTTP à intercepter.
+   * @param {HttpHandler} next - Le gestionnaire de requêtes HTTP suivant.
+   * @returns {Observable<HttpEvent<any>>} Un observable de l'événement HTTP.
+   */
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    // Affiche le spinner avec la couleur jaune pour Pacman
     this.spinner.show(undefined, {
       type: 'pacman',
-      bdColor: 'rgba(0,0,0,0.8)', // Optionnel : couleur d'arrière-plan semi-transparente
-      color: 'yellow', // Couleur du Pacman
-      size: 'large', // Taille du spinner
+      bdColor: 'rgba(0,0,0,0.8)',
+      color: 'yellow',
+      size: 'large',
     });
 
     return next.handle(req).pipe(
-      // Vérifie les réponses HTTP
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          // Vérifie si la réponse contient un attribut `errors` à true
           if (event.body && event.body.errors) {
             this.toastr.error(
               event.body.message || 'Une erreur est survenue',
               'Erreur',
             );
           } else {
-            // Si pas d'erreurs, on affiche un message de succès
             this.toastr.success(
-              event.body.message || 'La requete a aboutie',
+              event.body.message || 'La requête a abouti',
               'Succès',
             );
           }
@@ -52,21 +59,17 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         return event;
       }),
 
-      // Gère les erreurs renvoyées par le serveur
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Une erreur est survenue, réessayer plus tard'; // Message par défaut
+        let errorMessage = 'Une erreur est survenue, réessayer plus tard';
 
-        // Gérer les différents codes d'erreur
         switch (error.status) {
           case 400:
-            // Afficher un toast d'information pour le code d'erreur 400
             this.toastr.info(
-              error.error?.message || 'Ressource non trouvé.',
+              error.error?.message || 'Ressource non trouvée.',
               'Informations',
             );
             break;
           case 404:
-            // Afficher un toast d'erreur pour le code d'erreur 404
             this.toastr.error(
               error.error?.message || 'Requête incorrecte.',
               'Erreur 404',
@@ -81,14 +84,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             }
         }
 
-        return throwError(error); // Retourne l'erreur pour un traitement ultérieur
+        return throwError(error);
       }),
 
-      // Finalise en cachant le spinner
       finalize(() => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 1000); // Délai d'une seconde avant de cacher le spinner
+        }, 1000);
       }),
     );
   }

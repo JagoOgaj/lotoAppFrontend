@@ -14,6 +14,10 @@ import { CommonModule } from '@angular/common';
 import { UserPlayServiceService } from '../user/user-play/service/user-play-service.service';
 import { UserSharedService } from '../user/service/user-shared.service';
 
+/**
+ * Composant pour le formulaire d'enregistrement de loterie.
+ * @component
+ */
 @Component({
   selector: 'app-lottory-form',
   standalone: true,
@@ -26,6 +30,13 @@ export class LottoryFormComponent implements OnInit {
   registryLotteryForm: FormGroup;
   backendErrors: LotteryRegistryError | null = null;
 
+  /**
+   * Crée une instance du composant.
+   * @param {FormBuilder} fb - Service pour construire le formulaire.
+   * @param {LottoryFormService} registryLotteryService - Service pour l'enregistrement de la loterie.
+   * @param {UserPlayServiceService} userPlayService - Service pour gérer les jeux des utilisateurs.
+   * @param {UserSharedService} userSharedService - Service partagé pour les informations utilisateur.
+   */
   constructor(
     private fb: FormBuilder,
     private registryLotteryService: LottoryFormService,
@@ -70,6 +81,9 @@ export class LottoryFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Soumet le formulaire d'enregistrement de la loterie.
+   */
   submitForm(): void {
     const formValues = this.registryLotteryForm.value;
     const dataToSubmit: LotteryRegistryData = {
@@ -88,6 +102,10 @@ export class LottoryFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Gère les erreurs renvoyées par le backend.
+   * @param {LotteryRegistryError} errorResponse - Les erreurs du backend.
+   */
   handleBackendErrors(errorResponse: LotteryRegistryError) {
     this.backendErrors = errorResponse;
 
@@ -107,6 +125,10 @@ export class LottoryFormComponent implements OnInit {
     }
   }
 
+  /**
+   * Vérifie si le bouton de soumission doit être désactivé.
+   * @returns {boolean} - True si le formulaire est invalide, sinon false.
+   */
   get isSubmitDisabled(): boolean {
     return this.registryLotteryForm.invalid;
   }

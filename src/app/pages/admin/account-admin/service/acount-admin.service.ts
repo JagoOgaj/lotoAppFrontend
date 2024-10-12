@@ -15,6 +15,11 @@ import { ApiAdmin } from '../../../../config/api-admin';
 export class AcountAdminService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère les informations de l'administrateur.
+   * @returns {Observable<AdminInfoResponse>} - Un observable contenant les informations de l'administrateur.
+   * @throws {AdminInfoErrors} - Renvoie une erreur si la récupération des informations échoue.
+   */
   getAdminInfo(): Observable<AdminInfoResponse> {
     return this.http
       .get<AdminInfoResponse>(
@@ -45,6 +50,11 @@ export class AcountAdminService {
       );
   }
 
+  /**
+   * Déconnecte l'administrateur.
+   * @returns {Observable<AdminLogoutResponse>} - Un observable contenant la réponse de déconnexion.
+   * @throws {AdminLogoutError} - Renvoie une erreur si la déconnexion échoue.
+   */
   logout(): Observable<AdminLogoutResponse> {
     return this.http
       .post<AdminLogoutResponse>(

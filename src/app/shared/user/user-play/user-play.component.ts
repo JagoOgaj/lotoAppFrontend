@@ -1,17 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CountdownTimerComponent } from '../../timer/countdown-timer/countdown-timer.component';
-import { LottoryFormComponent } from '../../lottory-form/lottory-form.component';
 import {
   LotteryOverviewError,
   LotteryOverviewResponse,
 } from '../../../constants/ressources/user/tirageUserRessource';
-import { UserPlayServiceService } from './service/user-play-service.service';
-import { UserHistoryService } from '../user-history/service/user-history.service';
-import { UserHistoryComponent } from '../user-history/user-history.component';
+import { LottoryFormComponent } from '../../lottory-form/lottory-form.component';
+import { CountdownTimerComponent } from '../../timer/countdown-timer/countdown-timer.component';
 import { UserSharedService } from '../service/user-shared.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { UserHistoryService } from '../user-history/service/user-history.service';
+import { UserPlayServiceService } from './service/user-play-service.service';
 
+/**
+ * Composant pour afficher et gérer les jeux de loterie de l'utilisateur.
+ */
 @Component({
   selector: 'app-user-play',
   standalone: true,
@@ -24,14 +25,23 @@ export class UserPlayComponent implements OnInit {
   curentTirage: LotteryOverviewResponse | null;
   error: LotteryOverviewError | null = null;
 
+  /**
+   * @param userPlayService - Service pour gérer les opérations de loterie.
+   * @param userSharedService - Service partagé pour la gestion de l'utilisateur.
+   * @param userHistoryService - Service pour récupérer l'historique de l'utilisateur.
+   * @param route - Router pour la navigation.
+   */
   constructor(
     private userPlayService: UserPlayServiceService,
     private userSharedService: UserSharedService,
     private userHistoryService: UserHistoryService,
-    private route: Router,
   ) {
     this.curentTirage = {} as LotteryOverviewResponse;
   }
+
+  /**
+   * Méthode de cycle de vie appelée lors de l'initialisation du composant.
+   */
   ngOnInit(): void {
     this.loadCurenTirage();
     this.userSharedService.lotteryUpdate$.subscribe(() => {
@@ -40,6 +50,9 @@ export class UserPlayComponent implements OnInit {
     });
   }
 
+  /**
+   * Charge les informations sur le tirage actuel.
+   */
   loadCurenTirage(): void {
     this.userPlayService.getCurentTirage().subscribe({
       next: (data) => {
@@ -56,6 +69,9 @@ export class UserPlayComponent implements OnInit {
     });
   }
 
+  /**
+   * Charge l'historique des jeux de l'utilisateur.
+   */
   loadUserHistories(): void {
     this.userHistoryService.getHistory().subscribe({
       next: (data) => {},

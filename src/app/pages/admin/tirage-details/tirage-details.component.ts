@@ -27,6 +27,10 @@ import {
 } from '../../../constants/tirageStatus/tirageStatus.constants';
 import { AdminSharedService } from '../service/admin-shared.service';
 
+/**
+ * Composant pour gérer les détails d'un tirage de loterie.
+ * Permet de visualiser et de mettre à jour les informations d'un tirage.
+ */
 @Component({
   selector: 'app-tirage-details',
   standalone: true,
@@ -57,7 +61,14 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
   disabledEndTirage: boolean = true;
   disabledConfirmEndTirage: boolean = true;
   modalColapsed: boolean = false;
+  cantSumbmit: boolean = false;
 
+  /**
+   * Crée une instance de TirageDetailsComponent.
+   * @param tirageAdminService - Service pour gérer les opérations liées au tirage.
+   * @param fb - FormBuilder pour créer des formulaires réactifs.
+   * @param route - Routeur pour naviguer entre les différentes pages.
+   */
   constructor(
     private tirageAdminService: AdminSharedService,
     private fb: FormBuilder,
@@ -86,6 +97,9 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     });
   }
 
+  /**
+   * Initialise le composant et charge les détails du tirage.
+   */
   ngOnInit(): void {
     const idNullable = this.activatedRoute.snapshot.paramMap.get('id');
     if (idNullable) {
@@ -94,14 +108,24 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  /**
+   * Vérifie les changements de contenu après la vérification du composant.
+   */
   ngAfterContentChecked(): void {
     this.updateTirageForm.valueChanges.subscribe(() => {
       this.serverErrors = null;
       this.hasErros = false;
       this.checkIfFormIsChanged();
     });
+    this.winningNumbersForm.valueChanges.subscribe(() => {
+      this.cantSumbmit = !this.updateTirageForm.invalid;
+    });
   }
 
+  /**
+   * Initialise le formulaire avec les détails du tirage.
+   * @param tirageDetail - Détails du tirage à initialiser dans le formulaire.
+   */
   initForm(tirageDetail: LotteryOverviewResponse): void {
     this.updateTirageForm = this.fb.group({
       name: [tirageDetail.name, [Validators.required, Validators.minLength(2)]],
@@ -119,6 +143,10 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     });
   }
 
+  /**
+   * Charge les détails du tirage à partir du service.
+   * @param id - ID du tirage à charger.
+   */
   loadTirageDetails(id: number): void {
     this.tirageAdminService.getTirageDetails(id).subscribe({
       next: (data) => {
@@ -138,10 +166,20 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     });
   }
 
+  /**
+   * Affiche ou masque le formulaire des numéros gagnants.
+   * @param show - Booléen indiquant si le formulaire doit être affiché ou masqué.
+   */
   showWinningNumbersForm(show: boolean): void {
     this.showWinningForm = show;
+    this.cantSumbmit = this.winningNumbersForm.invalid;
   }
 
+  /**
+   * Ajuste une date au format ISO.
+   * @param dateString - Chaîne de caractères représentant la date à ajuster.
+   * @returns La date ajustée au format ISO.
+   */
   adjustDate(dateString: string | undefined): string {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -149,10 +187,17 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     return date.toISOString().split('T')[0];
   }
 
+  /**
+   * Collapse ou déploie le modal.
+   */
   modalColapse(): void {
     this.modalColapsed = !this.modalColapsed;
   }
 
+  /**
+   * Obtient les options de statut disponibles pour le tirage en fonction du statut actuel.
+   * @returns Un tableau d'options de statut.
+   */
   getStatusOptions() {
     const currentStatus = this.tirageOverview?.status;
     switch (currentStatus) {
@@ -171,6 +216,9 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  /**
+   * Vérifie si le formulaire a été modifié par rapport aux valeurs initiales.
+   */
   checkIfFormIsChanged(): void {
     if (this.tirageOverview) {
       const currentValue = this.updateTirageForm.value;
@@ -186,6 +234,10 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  /**
+   * Vérifie si le tirage est en simulation.
+   * @returns Booléen indiquant si le tirage est en simulation.
+   */
   isInSimulation(): boolean {
     return (
       this.tirageOverview?.status === TirageStatus.SIMULATION ||
@@ -193,6 +245,10 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     );
   }
 
+  /**
+   * Vérifie si le tirage est terminé.
+   * @returns Booléen indiquant si le tirage est terminé.
+   */
   isDone(): boolean {
     return (
       this.tirageOverview?.status == TirageStatus.TERMINE ||
@@ -200,12 +256,19 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     );
   }
 
+  /**
+   * Navigue vers la page de résultats du tirage.
+   * @param id - ID du tirage dont les résultats doivent être affichés.
+   */
   viewResult(id: number | undefined): void {
     if (id) {
       this.route.navigate(['/admin/tirage-result', id]);
     }
   }
 
+  /**
+   * Enregistre les modifications apportées au tirage si le formulaire est valide.
+   */
   saveChanges() {
     if (this.updateTirageForm.valid && this.updateTirageForm.dirty) {
       const currentFormValues = this.updateTirageForm.value;
@@ -234,15 +297,28 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  /**
+   * Valide si la valeur d'un contrôle est un entier.
+   * @param control - Contrôle à valider.
+   * @returns Erreur de validation ou null.
+   */
   integerValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     return Number.isInteger(+value) ? null : { notInteger: true };
   }
 
+  /**
+   * Récupère les messages d'erreur du serveur pour un contrôle spécifique.
+   * @param controlName - Nom du contrôle pour lequel récupérer les erreurs.
+   * @returns Message d'erreur ou null.
+   */
   hasServerError(controlName: string): string | null {
     return this.serverErrors?.details?.[controlName]?.[0] || null;
   }
 
+  /**
+   * Navigue vers la gestion des participants du tirage.
+   */
   navigatToManageParticipant(): void {
     const id: number | undefined = this.tirageOverview?.id;
     if (id) {
@@ -250,6 +326,9 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  /**
+   * Confirme le statut du tirage avec les numéros gagnants.
+   */
   confirmStatus(): void {
     const id: number | undefined = this.tirageOverview?.id;
     if (id && this.winningNumbersForm.valid) {

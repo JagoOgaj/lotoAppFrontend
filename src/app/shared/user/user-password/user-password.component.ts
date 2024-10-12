@@ -12,6 +12,9 @@ import {
 import { UserUpdatePasswordService } from './service/user-update-password.service';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Composant pour la mise à jour du mot de passe de l'utilisateur.
+ */
 @Component({
   selector: 'app-user-password',
   standalone: true,
@@ -23,6 +26,10 @@ export class UserPasswordComponent implements OnInit {
   updateFormPassword: FormGroup;
   serverErrors: UpdatePasswordUserError | null = null;
 
+  /**
+   * @param {FormBuilder} fb - Constructeur pour créer des formulaires réactifs.
+   * @param {UserUpdatePasswordService} updatePasswordService - Service pour la mise à jour du mot de passe.
+   */
   constructor(
     private fb: FormBuilder,
     private updatePasswordService: UserUpdatePasswordService,
@@ -42,12 +49,21 @@ export class UserPasswordComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Validateur personnalisé pour vérifier si les mots de passe correspondent.
+   *
+   * @param {FormGroup} form - Le groupe de contrôles de formulaire à valider.
+   * @returns {object | null} - Retourne null si les mots de passe correspondent, sinon un objet d'erreur.
+   */
   passwordsMatchValidator(form: FormGroup) {
     const newPassword = form.get('new_password')?.value;
     const confirmPassword = form.get('confirm_new_password')?.value;
     return newPassword === confirmPassword ? null : { mismatch: true };
   }
 
+  /**
+   * Méthode appelée lors de la soumission du formulaire.
+   */
   onSubmit(): void {
     this.serverErrors = null;
     if (this.updateFormPassword.valid) {
@@ -84,6 +100,12 @@ export class UserPasswordComponent implements OnInit {
     }
   }
 
+  /**
+   * Récupère le message d'erreur associé à un champ.
+   *
+   * @param {string} field - Le nom du champ à vérifier.
+   * @returns {string | null} - Le message d'erreur ou null si aucun.
+   */
   getErrorMessage(field: string): string | null {
     const control = this.updateFormPassword.get(field);
 

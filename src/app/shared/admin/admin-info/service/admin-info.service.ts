@@ -8,12 +8,22 @@ import {
   UpdateInfoAdminResponseError,
 } from '../../../../constants/ressources/admin/AdminUpdateInfoRessource';
 
+/**
+ * Service pour la gestion des informations administratives.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AdminInfoService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Met à jour les informations de l'administrateur.
+   *
+   * @param {UpdateInfoAdmin} data - Les nouvelles informations de l'administrateur à mettre à jour.
+   * @returns {Observable<UpdateInfoAdminResponse>} - Un observable contenant la réponse de la mise à jour.
+   * @throws {UpdateInfoAdminResponseError} - En cas d'erreur lors de la mise à jour des informations.
+   */
   updateAdminInfo(data: UpdateInfoAdmin): Observable<UpdateInfoAdminResponse> {
     return this.http
       .put<UpdateInfoAdminResponse>(

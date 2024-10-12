@@ -8,12 +8,27 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiAdmin } from '../../../../config/api-admin';
 
+/**
+ * Service pour la gestion des connexions des administrateurs.
+ *
+ * @class AdminLoginService
+ * @injectable
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AdminLoginService {
+  /** Instance de HttpClient injectée pour effectuer des requêtes HTTP. */
   private readonly http = inject(HttpClient);
 
+  /**
+   * Authentifie un administrateur avec les données fournies.
+   *
+   * @param {LoginAdminData} data - Les données de connexion de l'administrateur.
+   * @returns {Observable<LoginAdminResponse>} - Un observable contenant la réponse de connexion.
+   *
+   * @throws {LoginAdminErrors} - Renvoie une erreur en cas d'échec de connexion.
+   */
   loginAdmin(data: LoginAdminData): Observable<LoginAdminResponse> {
     return this.http
       .post<LoginAdminResponse>(

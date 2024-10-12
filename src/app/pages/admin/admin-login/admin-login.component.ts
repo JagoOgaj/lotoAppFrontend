@@ -15,6 +15,10 @@ import { AuthService } from '../../../core/service/auth.service';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 
+/**
+ * Composant pour la connexion de l'administrateur.
+ * @class
+ */
 @Component({
   selector: 'app-admin-login',
   standalone: true,
@@ -23,9 +27,18 @@ import { switchMap } from 'rxjs';
   styleUrl: './admin-login.component.css',
 })
 export class AdminLoginComponent implements OnInit {
+  /** Formulaire réactif pour la connexion. */
   loginForm: FormGroup;
+  /** Erreurs du serveur lors de la connexion. */
   serverErrors: LoginAdminErrors | null = null;
 
+  /**
+   * Constructeur du composant AdminLoginComponent.
+   * @param {FormBuilder} fb - Service de création de formulaires réactifs.
+   * @param {AdminLoginService} adminLoginService - Service de connexion de l'administrateur.
+   * @param {AuthService} authService - Service d'authentification.
+   * @param {Router} router - Service de navigation.
+   */
   constructor(
     private fb: FormBuilder,
     private adminLoginService: AdminLoginService,
@@ -38,8 +51,14 @@ export class AdminLoginComponent implements OnInit {
     });
   }
 
+  /** Méthode appelée lors de l'initialisation du composant. */
   ngOnInit(): void {}
 
+  /**
+   * Soumet le formulaire de connexion.
+   * En cas de succès, redirige vers la page d'administration.
+   * En cas d'erreur, stocke les erreurs du serveur.
+   */
   onSubmit(): void {
     this.serverErrors = null;
     if (this.loginForm.valid) {
@@ -68,6 +87,9 @@ export class AdminLoginComponent implements OnInit {
     }
   }
 
+  /**
+   * Redirige vers la page d'accueil.
+   */
   goToHome() {
     this.router.navigate(['/home']);
   }

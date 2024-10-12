@@ -12,6 +12,11 @@ import {
 import { LotteryInfoRankResponse } from '../../constants/ressources/user/LotteryInfoRessource';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Composant pour afficher les détails d'un tirage de loterie.
+ * @class DrawComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-draw',
   standalone: true,
@@ -35,11 +40,19 @@ export class DrawComponent implements OnInit {
   };
   tirageRank: LotteryInfoRankResponse;
 
+  /**
+   * Crée une instance de DrawComponent.
+   * @param {DrawService} drawService - Le service de tirage pour récupérer les données.
+   */
   constructor(private drawService: DrawService) {
     this.tirageOverview = {} as LotteryOverviewResponse;
     this.tirageRank = {} as LotteryInfoRankResponse;
   }
 
+  /**
+   * Méthode d'initialisation du composant.
+   * Elle est appelée lors de la création du composant.
+   */
   ngOnInit(): void {
     window.scrollTo(0, 0);
     const idNullable = this.activatedRoute.snapshot.paramMap.get('id');
@@ -49,6 +62,10 @@ export class DrawComponent implements OnInit {
     }
   }
 
+  /**
+   * Charge les informations d'un tirage de loterie par son identifiant.
+   * @param {number} id - L'identifiant du tirage de loterie à charger.
+   */
   loadTirageOverview(id: number): void {
     this.drawService.getTirageOverview(id).subscribe({
       next: (data) => {

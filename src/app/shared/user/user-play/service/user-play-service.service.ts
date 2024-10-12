@@ -6,8 +6,10 @@ import {
   LotteryOverviewError,
   LotteryOverviewResponse,
 } from '../../../../constants/ressources/user/tirageUserRessource';
-import { UserSharedService } from '../../service/user-shared.service';
 
+/**
+ * Service pour gérer les opérations liées aux tirages de loterie.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -16,8 +18,12 @@ export class UserPlayServiceService {
   private currentLotteryUpdated = new Subject<void>();
   currentLotteryUpdated$ = this.currentLotteryUpdated.asObservable();
 
-  constructor(private sharedUserService: UserSharedService) {}
-
+  /**
+   * Récupère les informations sur le tirage actuel.
+   *
+   * @returns {Observable<LotteryOverviewResponse>} Un observable contenant les informations sur le tirage actuel.
+   * @throws {LotteryOverviewError} En cas d'erreur lors de la récupération des informations.
+   */
   getCurentTirage(): Observable<LotteryOverviewResponse> {
     return this.http
       .get<LotteryOverviewResponse>(
@@ -37,10 +43,16 @@ export class UserPlayServiceService {
       );
   }
 
+  /**
+   * Notifie les abonnés que le tirage a été mis à jour.
+   */
   notifyLotteryUpdate() {
     this.currentLotteryUpdated.next();
   }
 
+  /**
+   * Notifie les abonnés que l'utilisateur s'est inscrit.
+   */
   notifyUserRegistered() {
     this.currentLotteryUpdated.next();
   }

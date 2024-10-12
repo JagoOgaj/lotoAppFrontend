@@ -15,6 +15,10 @@ import {
 import { AuthService } from '../../core/service/auth.service';
 import { switchMap } from 'rxjs';
 
+/**
+ * Composant pour le formulaire de connexion des utilisateurs.
+ * @component
+ */
 @Component({
   selector: 'app-login-form',
   standalone: true,
@@ -27,6 +31,13 @@ export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
   serverErrors: LoginErrors | null = null;
 
+  /**
+   * Constructeur du composant.
+   * @param {FormBuilder} fb - Service de construction de formulaires.
+   * @param {UserLoginService} loginService - Service pour gérer la connexion des utilisateurs.
+   * @param {Router} router - Service de routage.
+   * @param {AuthService} authService - Service pour gérer l'authentification.
+   */
   constructor(
     private fb: FormBuilder,
     private loginService: UserLoginService,
@@ -41,6 +52,9 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Soumet le formulaire de connexion.
+   */
   onSubmit(): void {
     this.serverErrors = null;
     if (this.loginForm.valid) {
@@ -69,6 +83,9 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
+  /**
+   * Change l'onglet actif.
+   */
   onTabChange(): void {
     this.tabChange.emit('registry');
   }

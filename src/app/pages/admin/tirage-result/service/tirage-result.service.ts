@@ -5,15 +5,26 @@ import {
   AdminLotteryInfoRankError,
   AdminLotteryInfoRankResponse,
 } from '../../../../constants/ressources/admin/LotteryInfoRessource';
-import { ApiUser } from '../../../../config/api-user';
 import { ApiAdmin } from '../../../../config/api-admin';
 
+/**
+ * Service pour récupérer les résultats des tirages.
+ *
+ * @class TirageResultService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class TirageResultService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère le classement d'un tirage par son identifiant.
+   *
+   * @param {number} id - L'identifiant du tirage pour lequel récupérer le classement.
+   * @returns {Observable<AdminLotteryInfoRankResponse>} - Un Observable contenant la réponse du classement.
+   * @throws {AdminLotteryInfoRankError} - En cas d'erreur lors de la récupération du classement.
+   */
   getRank(id: number): Observable<AdminLotteryInfoRankResponse> {
     return this.http
       .get<AdminLotteryInfoRankResponse>(

@@ -3,6 +3,12 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../core/service/auth.service';
 import { Roles } from '../constants/ressources/auth/RoleRessource';
 
+/**
+ * Garde d'authentification pour contrôler l'accès aux routes en fonction du rôle de l'utilisateur.
+ * @param route - La route demandée par l'utilisateur.
+ * @param state - L'état de la route.
+ * @returns {boolean} - Retourne true si l'accès est autorisé, sinon false.
+ */
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
@@ -10,36 +16,31 @@ export const authGuard: CanActivateFn = (route, state) => {
   const userRole = authService.getUserRole();
   const isAuthenticated = authService.isAuthenticated();
 
-  // Vérification de la route login
   if (route.routeConfig?.path === 'login') {
     if (isAuthenticated && userRole === Roles.USER) {
-      // Redirige l'utilisateur vers /account s'il est déjà connecté
       router.navigate(['/account']);
       return false;
     }
-    return true; // Autoriser l'accès à la route login si non authentifis
+    return true;
   }
 
   if (route.routeConfig?.path === 'login-admin') {
     if (isAuthenticated && userRole === Roles.ADMIN) {
-      // Redirige l'utilisateur vers /admin s'il est déjà authentifié et est un admin
       router.navigate(['/admin']);
       return false;
     }
-    return true; // Autoriser l'accès à la route login-admin si non authentifié ou rôle non admin
+    return true;
   }
 
-  // Vérification des routes admin
   if (
     route.routeConfig &&
     route.routeConfig.path &&
     route.routeConfig?.path.startsWith('admin') &&
     userRole !== Roles.ADMIN
   ) {
-    // L'utilisateur doit être un admin
-    router.navigate(['/login-admin']); // Rediriger vers la page de connexion
+    router.navigate(['/login-admin']);
     return false;
   }
 
-  return true; // Par défaut, autoriser l'accès à d'autres routes
+  return true;
 };

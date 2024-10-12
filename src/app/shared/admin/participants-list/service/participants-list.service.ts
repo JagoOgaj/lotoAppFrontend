@@ -15,12 +15,21 @@ import {
   PopulateFakeUserResponse,
 } from '../../../../constants/ressources/admin/AdminParticipantsRessource';
 
+/**
+ * Service pour gérer la liste des participants.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ParticipantsListService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Supprime un participant de la liste.
+   *
+   * @param data - Les données nécessaires pour supprimer un participant.
+   * @returns Un Observable de la réponse de suppression.
+   */
   removeParticipant(
     data: ManageRemoveParticipant,
   ): Observable<RemoveParticipantResponse> {
@@ -48,6 +57,13 @@ export class ParticipantsListService {
       );
   }
 
+  /**
+   * Ajoute un participant à la liste.
+   *
+   * @param data - Les données nécessaires pour ajouter un participant.
+   * @param id - L'identifiant de l'entité à laquelle le participant est ajouté.
+   * @returns Un Observable de la réponse d'ajout.
+   */
   addParticipant(
     data: AddParticipantRessource,
     id: number,
@@ -81,6 +97,12 @@ export class ParticipantsListService {
       );
   }
 
+  /**
+   * Remplit automatiquement un utilisateur fictif.
+   *
+   * @param id - L'identifiant de l'entité à laquelle l'utilisateur fictif est associé.
+   * @returns Un Observable de la réponse pour le remplissage automatique.
+   */
   populateFakeUser(id: number): Observable<PopulateFakeUserResponse> {
     return this.http
       .post<PopulateFakeUserResponse>(

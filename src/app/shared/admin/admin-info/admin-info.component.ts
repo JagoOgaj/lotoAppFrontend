@@ -20,6 +20,9 @@ import {
 import { AdminInfoService } from './service/admin-info.service';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Composant pour afficher et mettre à jour les informations administratives.
+ */
 @Component({
   selector: 'app-admin-info',
   standalone: true,
@@ -38,6 +41,12 @@ export class AdminInfoComponent {
     details: {},
   };
 
+  /**
+   * Constructeur du composant.
+   *
+   * @param {FormBuilder} fb - Le constructeur de formulaires pour créer des groupes de formulaires.
+   * @param {AdminInfoService} updateService - Service pour mettre à jour les informations administratives.
+   */
   constructor(
     private fb: FormBuilder,
     private updateService: AdminInfoService,
@@ -49,6 +58,10 @@ export class AdminInfoComponent {
     });
   }
 
+  /**
+   * Méthode appelée lors de l'initialisation du composant.
+   * Patch les valeurs administratives si elles existent et écoute les changements de valeur.
+   */
   ngOnInit(): void {
     if (this.adminInfo) {
       this.patchadminInfo();
@@ -59,12 +72,20 @@ export class AdminInfoComponent {
     });
   }
 
+  /**
+   * Méthode appelée lors des changements d'input.
+   *
+   * @param {SimpleChanges} changes - Les changements détectés dans les inputs.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['adminInfo'] && changes['adminInfo'].currentValue) {
       this.patchadminInfo();
     }
   }
 
+  /**
+   * Met à jour les valeurs du formulaire avec les informations administratives existantes.
+   */
   patchadminInfo(): void {
     const patchedValues = {
       ...this.adminInfo,
@@ -73,6 +94,9 @@ export class AdminInfoComponent {
     this.isFormChange = false;
   }
 
+  /**
+   * Vérifie si le formulaire a été modifié par rapport aux valeurs d'entrée.
+   */
   checkIfFormIsChanged(): void {
     const currentValue = this.adminFormInfo.value;
 
@@ -82,6 +106,9 @@ export class AdminInfoComponent {
       currentValue.email !== this.adminInfo.email;
   }
 
+  /**
+   * Soumet le formulaire si celui-ci est valide et met à jour les informations administratives.
+   */
   onSubmit(): void {
     if (this.adminFormInfo.valid) {
       const updatedFields = this.getUpdatedFields();
@@ -95,11 +122,14 @@ export class AdminInfoComponent {
           this.errorResponse = error;
         },
       });
-    } else {
-      console.log('Form is invalid');
     }
   }
 
+  /**
+   * Récupère les champs mis à jour à partir du formulaire.
+   *
+   * @returns {Partial<UpdateInfoAdmin>} - Les champs mis à jour.
+   */
   getUpdatedFields(): Partial<UpdateInfoAdmin> {
     const updatedFields: Partial<UpdateInfoAdmin> = {};
     const currentValue = this.adminFormInfo.value;

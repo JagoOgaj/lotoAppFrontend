@@ -11,12 +11,20 @@ import {
   LogoutUserResponse,
 } from '../../../constants/ressources/user/LogoutUserRessource';
 
+/**
+ * Service pour gérer les opérations liées à la page utilisateur.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserPageServiceService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère les informations de l'utilisateur.
+   * @returns Un observable contenant les informations de l'utilisateur.
+   * En cas d'erreur, renvoie un objet d'erreur contenant un message et des détails.
+   */
   getUserInfo(): Observable<UserInfoRessource> {
     return this.http
       .get<UserInfoRessource>(
@@ -39,6 +47,11 @@ export class UserPageServiceService {
       );
   }
 
+  /**
+   * Déconnecte l'utilisateur.
+   * @returns Un observable contenant la réponse de la déconnexion.
+   * En cas d'erreur, renvoie un objet d'erreur contenant un message et des détails.
+   */
   logoutUser(): Observable<LogoutUserResponse> {
     return this.http
       .post<LogoutUserResponse>(

@@ -7,12 +7,27 @@ import {
 } from '../../../../constants/ressources/user/tirageUserRessource';
 import { ApiUser } from '../../../../config/api-user';
 
+/**
+ * Service pour récupérer l'historique des loteries.
+ * @class UserHistoryService
+ * @description Ce service permet de récupérer l'historique des tirages de loterie.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserHistoryService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère l'historique des loteries.
+   * @method getHistory
+   * @returns {Observable<LotteryHistoryResonse>} Un observable contenant l'historique des loteries.
+   * @throws {LotteryHistoryErrors} En cas d'erreur lors de la récupération de l'historique.
+   * @example
+   * userHistoryService.getHistory().subscribe(history => {
+   *   console.log(history);
+   * });
+   */
   getHistory(): Observable<LotteryHistoryResonse> {
     return this.http
       .get<LotteryHistoryResonse>(

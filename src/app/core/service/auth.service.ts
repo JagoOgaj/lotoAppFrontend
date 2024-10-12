@@ -2,12 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
-import {
-  RoleResponse,
-  Roles,
-} from '../../constants/ressources/auth/RoleRessource';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { ApiAuth } from '../../config/api-auth';
+import { RoleResponse } from '../../constants/ressources/auth/RoleRessource';
 
 @Injectable({
   providedIn: 'root',
@@ -20,60 +17,79 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private isRevoking: boolean = false;
 
+  /**
+   * Récupère le token d'accès stocké dans le local storage.
+   * @returns {string | null} Le token d'accès ou null si non trouvé.
+   */
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  /**
+   * Récupère le refresh token stocké dans le local storage.
+   * @returns {string | null} Le refresh token ou null si non trouvé.
+   */
   getRefreshToken(): string | null {
     return localStorage.getItem(this.REFRESH_TOKEN_KEY);
   }
 
+  /**
+   * Stocke les tokens d'accès et de rafraîchissement dans le local storage.
+   * @param {string} accessToken - Le token d'accès à stocker.
+   * @param {string} refreshToken - Le refresh token à stocker.
+   */
   setTokens(accessToken: string, refreshToken: string): void {
     localStorage.setItem(this.TOKEN_KEY, accessToken);
     localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
   }
 
+  /**
+   * Stocke uniquement le token d'accès dans le local storage.
+   * @param {string} accessToken - Le token d'accès à stocker.
+   */
   setAccesToken(accessToken: string): void {
     localStorage.setItem(this.TOKEN_KEY, accessToken);
   }
 
+  /**
+   * Supprime les tokens d'accès et de rafraîchissement du local storage.
+   */
   clearTokens(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
   }
 
+  /**
+   * Déconnexion de l'utilisateur, en révoquant les tokens d'accès et de rafraîchissement.
+   * @returns {Observable<any>} Un observable qui émettra les résultats de la révocation.
+   */
   logout(): Observable<any> {
     const userRole = this.getUserRole();
 
     if (userRole) {
-      // Ajoutez une vérification pour éviter les appels multiples
       if (this.isRevoking) {
-        console.warn('Revocation already in progress.');
-        return of(null); // Retournez un Observable vide
+        return of(null);
       }
 
-      this.isRevoking = true; // Marquer que la révocation est en cours
+      this.isRevoking = true;
 
-      // Utilisation de `forkJoin` pour effectuer les deux appels simultanément
       return forkJoin({
         access: this.revokeAccessToken().pipe(
           catchError((err) => {
-            console.error('Error revoking access token', err);
-            return of(null); // Gérer l'erreur en continuant
+            return of(null);
           }),
         ),
         refresh: this.revokeRefreshToken().pipe(
           catchError((err) => {
-            console.error('Error revoking refresh token', err);
-            return of(null); // Gérer l'erreur en continuant
+            return of(null);
           }),
         ),
       }).pipe(
         tap(() => {
-          this.clearUserRole(); // Effacer également le rôle utilisateur
+          this.clearUserRole();
         }),
         finalize(() => {
-          this.isRevoking = false; // Réinitialiser l'état à la fin
+          this.isRevoking = false;
         }),
       );
     }
@@ -81,14 +97,25 @@ export class AuthService {
     return of(null);
   }
 
+  /**
+   * Récupère le rôle de l'utilisateur stocké dans le local storage.
+   * @returns {string | null} Le rôle de l'utilisateur ou null si non trouvé.
+   */
   getUserRole(): string | null {
     return localStorage.getItem(this.USER_ROLE_KEY);
   }
 
+  /**
+   * Supprime le rôle de l'utilisateur du local storage.
+   */
   clearUserRole(): void {
     localStorage.removeItem(this.USER_ROLE_KEY);
   }
 
+  /**
+   * Récupère le rôle de l'utilisateur en effectuant une requête HTTP.
+   * @returns {Observable<RoleResponse>} Un observable qui émet le rôle de l'utilisateur.
+   */
   setUserRole(): Observable<RoleResponse> {
     return this.http
       .get<RoleResponse>(`${ApiAuth.BASE_URL}${ApiAuth.ENDPOINT.GET_USER_ROLE}`)
@@ -97,16 +124,23 @@ export class AuthService {
           localStorage.setItem(this.USER_ROLE_KEY, response.role);
         }),
         catchError((err) => {
-          console.error('Error fetching user role', err);
           return throwError(err);
         }),
       );
   }
 
+  /**
+   * Vérifie si l'utilisateur est authentifié en fonction de la présence du token.
+   * @returns {boolean} True si l'utilisateur est authentifié, sinon false.
+   */
   isAuthenticated(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
+  /**
+   * Rafraîchit le token d'accès en utilisant le refresh token.
+   * @returns {Observable<any>} Un observable qui émet le nouveau token d'accès ou null en cas d'échec.
+   */
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
@@ -126,32 +160,32 @@ export class AuthService {
           }
         }),
         catchError((error) => {
-          console.error('Failed to refresh token', error);
           this.logout();
           return of(null);
         }),
       );
   }
 
+  /**
+   * Révoque le token d'accès en effectuant une requête HTTP DELETE.
+   * @returns {Observable<any>} Un observable qui émet le résultat de la révocation.
+   */
   revokeAccessToken(): Observable<any> {
-    const token = this.getToken(); // Récupérer le token JWT actuel
+    const token = this.getToken();
 
-    // Vérifier si le token est null ou vide
     if (!token) {
-      console.error('No access token available for revocation.');
-      return of(null); // Retourner un observable avec une valeur nulle
+      return of(null);
     }
 
     if (this.isRevoking) {
-      console.warn('Revocation already in progress.');
-      return of(null); // Retournez un Observable vide
+      return of(null);
     }
 
     return this.http
       .delete(`${ApiAuth.BASE_URL}${ApiAuth.ENDPOINT.REVOKE_ACCESS}`, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Inclure le token d'authentification si nécessaire
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(
@@ -159,33 +193,33 @@ export class AuthService {
           this.clearTokens();
         }),
         catchError((error) => {
-          console.error('Failed to revoke access token', error);
           return of(null);
         }),
       );
   }
 
+  /**
+   * Révoque le refresh token en effectuant une requête HTTP DELETE.
+   * @returns {Observable<any>} Un observable qui émet le résultat de la révocation.
+   */
   revokeRefreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
-      console.error('No refresh token available for revocation.');
-      return of(null); // Retourner un observable avec une valeur nulle
+      return of(null);
     }
 
-    // Envoi du refresh token dans les headers d'authentification
     return this.http
       .delete(`${ApiAuth.BASE_URL}${ApiAuth.ENDPOINT.REVOKE_REFRESH}`, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${refreshToken}`, // Inclure le refresh token dans les headers
+          Authorization: `Bearer ${refreshToken}`,
         }),
       })
       .pipe(
         tap(() => {
-          this.clearTokens(); // Effacer les tokens après la révocation
+          this.clearTokens();
         }),
         catchError((error) => {
-          console.error('Failed to revoke refresh token', error);
           return of(null);
         }),
       );

@@ -21,6 +21,11 @@ import {
 export class AdminSharedService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Récupère les détails d'un tirage.
+   * @param id - L'ID du tirage à récupérer.
+   * @returns Un Observable contenant les informations du tirage.
+   */
   getTirageDetails(id: number): Observable<LotteryInfoAdminResponse> {
     return this.http
       .get<LotteryInfoAdminResponse>(
@@ -43,6 +48,12 @@ export class AdminSharedService {
       );
   }
 
+  /**
+   * Met à jour les informations d'un tirage.
+   * @param id - L'ID du tirage à mettre à jour.
+   * @param data - Les nouvelles données du tirage.
+   * @returns Un Observable contenant la réponse de la mise à jour.
+   */
   updateTirage(
     id: number,
     data: UpdateLottery,
@@ -76,6 +87,12 @@ export class AdminSharedService {
       );
   }
 
+  /**
+   * Change le statut d'un tirage à "terminé" et ajoute des numéros de gains.
+   * @param id - L'ID du tirage à mettre à jour.
+   * @param data - Les numéros de gains à ajouter.
+   * @returns Un Observable contenant la réponse de la mise à jour.
+   */
   updateTirageToDone(
     id: number,
     data: AddWiningsNumber,

@@ -8,12 +8,25 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiContact } from '../../../config/api-contact';
 
+/**
+ * Service pour gérer l'envoi de messages via le formulaire de contact.
+ *
+ * @service
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ContactFormService {
   private http = inject(HttpClient);
 
+  /**
+   * Envoie un message via le formulaire de contact.
+   *
+   * @param {ContactUsRessource} data - Les données du message à envoyer.
+   * @returns {Observable<ContactUsResponse>} - Un observable contenant la réponse du serveur.
+   *
+   * @throws {ContactUsErrors} - En cas d'erreur lors de l'envoi.
+   */
   sendMessgage(data: ContactUsRessource): Observable<ContactUsResponse> {
     return this.http
       .post<ContactUsResponse>(

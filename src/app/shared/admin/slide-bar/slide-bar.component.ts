@@ -5,6 +5,11 @@ import { AcountAdminService } from '../../../pages/admin/account-admin/service/a
 import { AuthService } from '../../../core/service/auth.service';
 import { switchMap } from 'rxjs';
 
+/**
+ * Component representing a sidebar for navigation.
+ *
+ * @component
+ */
 @Component({
   selector: 'app-slide-bar',
   standalone: true,
@@ -28,40 +33,53 @@ export class SlideBarComponent {
     },
   ];
 
+  /**
+   * Crée une instance du composant.
+   * @param {AcountAdminService} adminAccountService - Service pour la gestion des comptes administrateurs.
+   * @param {AuthService} authService - Service pour l'authentification des utilisateurs.
+   * @param {Router} router - Service pour la navigation entre les routes.
+   */
   constructor(
     private adminAccountService: AcountAdminService,
     private authService: AuthService,
     private router: Router,
   ) {}
 
+  /**
+   * Bascule l'état de la barre latérale entre réduit et étendu.
+   * @returns {void}
+   */
   toggleCollapse(): void {
     this.setIsSlideBarCollapsed.emit(!this.isSlideBarCollapsed());
   }
 
+  /**
+   * Ferme la barre latérale.
+   * @returns {void}
+   */
   closeSlideBar(): void {
     this.setIsSlideBarCollapsed.emit(true);
   }
 
+  /**
+   * Déconnecte l'administrateur et redirige vers la page d'accueil.
+   * @returns {void}
+   */
   logoutAdmin(): void {
-    // Commencez par appeler logout() du service adminAccountService
     this.adminAccountService
       .logout()
       .pipe(
         switchMap(() => {
-          // Si logout réussit, appelez authService.logout() pour nettoyer les tokens
-          return this.authService.logout(); // Assurez-vous que cette méthode retourne un Observable
+          return this.authService.logout();
         }),
       )
       .subscribe({
         next: () => {
-          // Ici, vous pouvez naviguer vers la page d'accueil après un logout réussi
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          console.error('Error during logout:', err);
-          // En cas d'erreur, nettoyez les tokens et redirigez vers la page d'accueil
-          this.authService.clearTokens(); // Assurez-vous que les tokens sont nettoyés
-          this.router.navigate(['/home']); // Naviguer vers la page d'accueil
+          this.authService.clearTokens();
+          this.router.navigate(['/home']);
         },
       });
   }

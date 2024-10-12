@@ -9,6 +9,11 @@ import { Participants } from '../../../constants/ressources/admin/AdminParticipa
 import { ManageParticipantsService } from './service/manage-participants.service';
 import { ActivatedRoute } from '@angular/router';
 
+/**
+ * Composant pour gérer les participants d'un tirage.
+ *
+ * Ce composant est responsable de l'affichage des détails d'un tirage et de la liste des participants associés.
+ */
 @Component({
   selector: 'app-manage-participants',
   standalone: true,
@@ -25,7 +30,6 @@ export class ManageParticipantsComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   tirage!: LotteryOverviewResponse;
   participants!: Participants;
-  // Pagination
   currentPage = 1;
   itemsPerPage = 5;
   totalPages = 0;
@@ -33,11 +37,21 @@ export class ManageParticipantsComponent implements OnInit {
   searchTerm = '';
   idTirage: number | null = null;
 
+  /**
+   * Constructeur du composant ManageParticipantsComponent.
+   *
+   * @param {AdminSharedService} adminService - Service pour gérer les opérations liées à l'administration.
+   * @param {ManageParticipantsService} manageParticipantsService - Service pour gérer les participants.
+   */
   constructor(
     private adminService: AdminSharedService,
     private manageParticipantsService: ManageParticipantsService,
   ) {}
 
+  /**
+   * Méthode appelée lors de l'initialisation du composant.
+   * Récupère l'identifiant du tirage et charge les détails du tirage ainsi que les participants.
+   */
   ngOnInit(): void {
     const idNullable = this.activatedRoute.snapshot.paramMap.get('id');
     if (idNullable) {
@@ -47,6 +61,11 @@ export class ManageParticipantsComponent implements OnInit {
     }
   }
 
+  /**
+   * Charge les détails d'un tirage en fonction de son identifiant.
+   *
+   * @param {number} id - Identifiant du tirage à charger.
+   */
   loadTirage(id: number): void {
     this.adminService.getTirageDetails(id).subscribe({
       next: (data) => {
@@ -56,6 +75,11 @@ export class ManageParticipantsComponent implements OnInit {
     });
   }
 
+  /**
+   * Charge la liste des participants en fonction de l'identifiant du tirage.
+   *
+   * @param {number} id - Identifiant du tirage pour récupérer les participants.
+   */
   loadParticipants(id: number): void {
     this.manageParticipantsService.getParticipants(id).subscribe({
       next: (data) => {
@@ -65,6 +89,10 @@ export class ManageParticipantsComponent implements OnInit {
     });
   }
 
+  /**
+   * Met à jour les détails du tirage et la liste des participants.
+   * Appelée lors d'une mise à jour.
+   */
   onUpdate(): void {
     if (this.idTirage) {
       this.loadTirage(this.idTirage);

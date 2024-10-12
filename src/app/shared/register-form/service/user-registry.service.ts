@@ -8,12 +8,22 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiUser } from '../../../config/api-user';
 
+/**
+ * Service pour gérer l'enregistrement des utilisateurs.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserRegistryService {
   private readonly http = inject(HttpClient);
 
+  /**
+   * Enregistre un nouvel utilisateur.
+   *
+   * @param {RegistryData} data - Les données de l'utilisateur à enregistrer.
+   * @returns {Observable<RegistryResponce>} - Un observable contenant la réponse de l'enregistrement.
+   * @throws {RegistryErrors} - Renvoie un objet d'erreurs en cas d'échec.
+   */
   registry(data: RegistryData): Observable<RegistryResponce> {
     return this.http
       .post<RegistryResponce>(

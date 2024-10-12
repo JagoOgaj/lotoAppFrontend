@@ -177,6 +177,19 @@
                         </div>
                       </form>
                     </div>
+                    <div class="text-center mb-3" *ngIf="showWinningForm">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        [disabled]="
+                          disabledConfirmEndTirage || winningNumbersForm.invalid
+                        "
+                        (click)="confirmStatus()"
+                      >
+                        Confirmer
+                      </button>
+                    </div>
+
                   } @else {
                     <p>
                       Il faut au moins 1 participant dans le tirage pour
@@ -184,13 +197,12 @@
                     </p>
                   }
                 </div>
-
-                <div class="text-center mb-3">
+                <div class="text-center mb-3"  *ngIf="!showWinningForm">
                   <button
                     type="button"
                     class="btn btn-primary"
                     [disabled]="
-                      disabledConfirmEndTirage || winningNumbersForm.invalid
+                      disabledConfirmEndTirage
                     "
                     (click)="confirmStatus()"
                   >

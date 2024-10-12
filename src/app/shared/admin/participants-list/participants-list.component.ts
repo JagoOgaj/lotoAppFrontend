@@ -28,6 +28,9 @@ import {
 } from '../../../constants/ressources/admin/AdminManageParticipantsRessource';
 import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
 
+/**
+ * Composant pour gérer la liste des participants.
+ */
 @Component({
   selector: 'app-participants-list',
   standalone: true,
@@ -53,6 +56,11 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     details: {},
   };
 
+  /**
+   * Constructeur du composant ParticipantsListComponent.
+   * @param participantsService - Service pour gérer les participants.
+   * @param fb - FormBuilder pour gérer les formulaires.
+   */
   constructor(
     private participantsService: ParticipantsListService,
     private fb: FormBuilder,
@@ -95,10 +103,17 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Méthode appelée lors de l'initialisation du composant.
+   */
   ngOnInit(): void {
     this.updatePagination();
   }
 
+  /**
+   * Méthode appelée lorsqu'il y a des changements dans les entrées du composant.
+   * @param changes - Changements des propriétés d'entrée.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['participants']) {
       this.newUser.reset();
@@ -107,15 +122,25 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Définit l'utilisateur sélectionné pour la suppression.
+   * @param participant - L'utilisateur participant à sélectionner.
+   */
   setSelectedUser(participant: ParticipantRessource) {
     this.selectedUser = participant;
   }
 
+  /**
+   * Filtre les participants en fonction du terme de recherche.
+   */
   filterParticipants() {
     this.currentPage = 1;
     this.updatePagination();
   }
 
+  /**
+   * Passe à la page suivante de participants.
+   */
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -123,6 +148,9 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Passe à la page précédente de participants.
+   */
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -130,19 +158,34 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Va à la page spécifiée.
+   * @param page - Numéro de la page à aller.
+   */
   goToPage(page: number) {
     this.currentPage = page;
     this.updatePagination();
   }
 
+  /**
+   * Vérifie si un utilisateur peut être ajouté.
+   * @returns True si l'utilisateur peut être ajouté, sinon False.
+   */
   canAddUser(): boolean {
     return this.tirage.participant_count >= this.tirage.max_participants;
   }
 
+  /**
+   * Vérifie si des participants existent.
+   * @returns True si des participants existent, sinon False.
+   */
   hasParticipants(): boolean {
     return this.tirage.participant_count > 0;
   }
 
+  /**
+   * Met à jour la pagination des participants.
+   */
   updatePagination() {
     if (this.participants === null) {
       this.participants = [];
@@ -169,22 +212,20 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     this.pages = Array.from({ length: this.totalPages }, (v, i) => i + 1);
   }
 
+  /**
+   * Obtient les pages visibles pour la pagination.
+   * @returns Un tableau de numéros de pages visibles.
+   */
   getVisiblePages(): number[] {
     const visiblePages = [];
     const totalPages = this.totalPages;
 
-    // Logique pour afficher les pages
     if (totalPages <= 5) {
-      // Afficher toutes les pages si <= 5 pages
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    // Toujours afficher la première page
     visiblePages.push(1);
 
-    // Afficher des ellipses si la page actuelle n'est pas près du début
-
-    // Ajouter les pages autour de la page actuelle
     for (
       let i = Math.max(2, this.currentPage - 1);
       i <= Math.min(totalPages - 1, this.currentPage + 1);
@@ -193,7 +234,6 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
       visiblePages.push(i);
     }
 
-    // Toujours afficher la dernière page
     if (totalPages > 1) {
       visiblePages.push(totalPages);
     }
@@ -201,6 +241,10 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     return visiblePages;
   }
 
+  /**
+   * Vérifie si le tirage est terminé.
+   * @returns True si le tirage est terminé, sinon False.
+   */
   isDone(): boolean {
     return (
       this.tirage?.status == TirageStatus.TERMINE ||
@@ -208,6 +252,9 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     );
   }
 
+  /**
+   * Soumet le formulaire pour ajouter un nouvel utilisateur.
+   */
   submitForm(): void {
     this.backendErrors = null;
     if (this.newUser.valid) {
@@ -228,14 +275,15 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
           error: (err: AddParticipantsError) => {
             this.backendErrors = err;
             this.newUser.reset();
-            document
-              .getElementById('addUserCollapse')
-              ?.classList.remove('show');
           },
         });
     }
   }
 
+  /**
+   * Remplit un utilisateur fictif.
+   * @param id - Identifiant de la loterie.
+   */
   populateFakeUser(id: number): void {
     if (id) {
       this.participantsService.populateFakeUser(id).subscribe({
@@ -247,10 +295,18 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Vérifie si une erreur du serveur est présente pour le contrôle spécifié.
+   * @param controlName - Nom du contrôle à vérifier.
+   * @returns Message d'erreur ou null.
+   */
   hasServerErorr(controlName: string): string | null {
     return this.backendErrors?.details?.[controlName]?.[0] || null;
   }
 
+  /**
+   * Confirme la suppression d'un participant sélectionné.
+   */
   confirmDelete(): void {
     if (this.selectedUser) {
       const dataToSubmit: ManageRemoveParticipant = {
