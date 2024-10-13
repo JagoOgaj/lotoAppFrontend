@@ -80,6 +80,8 @@ lotoAppfrontend/
 └── tsconfig.json                   # Configuration de TypeScript pour le projet.
 ```
 
+![Archi](image/archi.png)
+
 ## Utilisation
 
 1. **Démarrez l'application :**
