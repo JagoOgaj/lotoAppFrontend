@@ -89,7 +89,6 @@ lotoAppfrontend/
 ```bash
    npm start
 ```
-
 ## Fonctionnalités
 
 | **Fonctionnalité**                                    | **Utilisateur**           | **Administrateur** |
@@ -100,7 +99,8 @@ lotoAppfrontend/
 | Participer à un tirage                                | Oui                       | Non                |
 | Consulter les résultats d'un tirage                   | Oui                       | Oui                |
 | Consulter l'historique des tirages                    | Oui                       | Non                |
-| Recevoir des notifications (nouveau tirage,résultats) | Oui (par email si activé) | Non                |
+| Recevoir des notifications                            | Oui (par email si activé) | Non                |
+| Générer un ticket de récompense (si gain)             | Oui                       | Non                |
 | Créer un tirage                                       | Non                       | Oui                |
 | Modifier les informations d'un tirage                 | Non                       | Oui                |
 | Supprimer un tirage                                   | Non                       | Oui                |
