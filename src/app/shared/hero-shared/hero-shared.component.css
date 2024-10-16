@@ -56,3 +56,21 @@
 .hero-section i {
   font-size: 2em;
 }
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in-out {
+  animation: fade 2s infinite;
+  font-size: 3rem;
+  color: white;
+}

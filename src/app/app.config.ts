@@ -41,11 +41,11 @@ export const appConfig: ApplicationConfig = {
       BrowserModule,
       BrowserAnimationsModule,
       ToastrModule.forRoot({
-        timeOut: 3000,
+        timeOut: 2000,
         positionClass: 'toast-top-left',
         preventDuplicates: true,
       }),
-      NgxSpinnerModule.forRoot({ type: 'pacman' }),
+      NgxSpinnerModule.forRoot({ type: 'ball-fussion' }),
     ),
   ],
 };

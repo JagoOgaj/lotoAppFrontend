@@ -42,43 +42,58 @@
   <div class="row g-5 align-items-center justify-content-center">
     <div class="col-12 col-lg-7 text-center">
       <!-- Ajout de text-center pour centrer le texte -->
-      <h2 class="fs-1 fw-bold mb-4 text-primary">
-        Règ<span class="text-warning">les du Jeu</span>
-      </h2>
-      <p class="fs-5">
-        Le jeu de loterie est simple et amusant. Voici comment jouer :
-      </p>
-      <ul class="fs-5 list-unstyled">
-        <li class="mb-2">
-          <strong>1.</strong> Choisissez 5 numéros principaux entre 1 et 49.
-        </li>
-        <li class="mb-2">
-          <strong>2.</strong> Sélectionnez ensuite 2 numéros chance entre 1 et
-          9.
-        </li>
-        <li class="mb-2">
-          <strong>3.</strong> Confirmez vos choix en cliquant sur "Jouer".
-        </li>
-        <li class="mb-2">
-          <strong>4.</strong> Le tirage aléatoire décidera des gagnants, et plus
-          vos numéros correspondent, plus vous gagnez.
-        </li>
-      </ul>
-      <p class="fs-5">
-        N’oubliez pas, plus vous avez de correspondances avec les numéros, plus
-        vous avez de chances de remporter un prix.
-      </p>
+      <section class="text-center my-5">
+        <h2 class="fs-1 fw-bold mb-4">
+          Règ<span class="text-warning">les du Jeu</span>
+        </h2>
+        <p class="fs-5 text-muted mb-4">
+          Le jeu de loterie est simple et amusant. Voici comment jouer :
+        </p>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <ul class="fs-5 list-unstyled">
+              <li class="mb-3 d-flex align-items-center">
+                <span class="badge bg-warning text-dark me-2">1</span>
+                <strong>Choisissez 5 numéros principaux entre 1 et 49.</strong>
+              </li>
+              <li class="mb-3 d-flex align-items-center">
+                <span class="badge bg-warning text-dark me-2">2</span>
+                <strong
+                  >Sélectionnez ensuite 2 numéros chance entre 1 et 9.</strong
+                >
+              </li>
+              <li class="mb-3 d-flex align-items-center">
+                <span class="badge bg-warning text-dark me-2">3</span>
+                <strong>Confirmez vos choix en cliquant sur "Jouer".</strong>
+              </li>
+              <li class="mb-3 d-flex align-items-center">
+                <span class="badge bg-warning text-dark me-2">4</span>
+                <strong
+                  >Le tirage aléatoire décidera des gagnants, et plus vos
+                  numéros correspondent, plus vous gagnez.</strong
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p class="fs-5 text-muted mt-4">
+          N’oubliez pas, plus vous avez de correspondances avec les numéros,
+          plus vous avez de chances de remporter un prix.
+        </p>
+      </section>
 
       <div
         class="alert alert-light border mt-4 rounded"
         style="background-color: #f0f8ff"
       >
-        <h4 class="alert-heading text-primary">Conditions de Classement</h4>
+        <h4 class="alert-heading">
+          Conditions de <span class="text-bg-warning">classement</span>
+        </h4>
         <p>
           Pour entrer dans le classement, vous devez obtenir un score supérieur
           à 10. Ce score est calculé selon la méthode de similarité de Jaccard.
         </p>
-        <h5 class="text-warning">Répartition des Gains :</h5>
+        <h5><span class="text-bg-warning">Répartition</span> des Gains :</h5>
         <ul class="list-unstyled">
           <li><strong>1er :</strong> 40%</li>
           <li><strong>2ème :</strong> 20%</li>

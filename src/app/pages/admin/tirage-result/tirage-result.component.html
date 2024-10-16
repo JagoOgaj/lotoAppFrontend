@@ -1,11 +1,11 @@
 @if (lotteryInfo != null) {
   <div class="container-fluid mt-5 py-5">
-    <!-- Section: Gestion des Participants -->
+    <!-- Section: Résultats du Tirage -->
     <section>
       <div class="row mt-4 g-4 text-center">
         <div class="col-12">
           <h2 class="fs-1 fw-bold mb-4">
-            Resultats <span class="text-warning"> du tirage</span>
+            Résultats <span class="text-primary">du tirage</span>
             {{ lotteryInfo.name }}
           </h2>
           <p class="lead text-muted">
@@ -17,24 +17,27 @@
 
       <div class="row mt-5 g-4">
         <div class="col-lg-6 col-md-12 d-flex justify-content-end">
-          <div class="card shadow-sm border-light h-100">
+          <div class="card shadow border-light h-100 text-center">
             <div class="card-body">
-              <h5 class="card-title">Vérification de votre Ticket</h5>
+              <h5 class="card-title text-primary fw-bold">
+                Vérifiez votre Ticket
+              </h5>
               <p class="card-text">
-                Comparez les numéros que vous avez choisis avec ceux tirés lors
-                du dernier tirage. Si vos numéros correspondent aux numéros
-                gagnants, vous avez remporté un prix !
+                Comparez vos numéros avec ceux tirés lors du dernier tirage. Si
+                vos numéros correspondent, vous avez gagné un prix !
               </p>
             </div>
           </div>
         </div>
         <div class="col-lg-6 col-md-12 d-flex justify-content-start">
-          <div class="card shadow-sm border-light h-100">
+          <div class="card shadow border-light h-100 text-center">
             <div class="card-body">
-              <h5 class="card-title">Numéros du Dernier Tirage</h5>
+              <h5 class="card-title text-primary fw-bold">
+                Numéros du Dernier Tirage
+              </h5>
               <p class="card-text">
                 Consultez les numéros gagnants et les numéros bonus du dernier
-                tirage afin de savoir si vous avez gagné.
+                tirage pour vérifier votre gain.
               </p>
             </div>
           </div>
@@ -114,7 +117,6 @@
                 </td>
                 <td>{{ lotteryInfo.participant_count }}</td>
               </tr>
-              <!-- Section ajoutée : Affichage des Numéros Gagnants -->
               <tr>
                 <td>
                   <strong
@@ -150,8 +152,8 @@
 @if (ranking != null) {
   <!-- Section : Classement -->
   <div class="container mt-4">
-    <h2 class="fs-1 fw-bold mb-4 text-primary">
-      <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
+    <h2 class="fs-1 fw-bold mb-4">
+      <i class="bi bi-table"></i> Class<span class="text-primary">ement</span>
     </h2>
 
     <table class="table table-hover table-sm">
@@ -182,7 +184,7 @@
             (click)="goToPage(currentPage - 1)"
             aria-label="Previous"
           >
-            <span aria-hidden="true">&laquo;</span>
+            <span aria-hidden="true">&lt;</span>
           </a>
         </li>
         <li
@@ -198,7 +200,7 @@
             (click)="goToPage(currentPage + 1)"
             aria-label="Next"
           >
-            <span aria-hidden="true">&raquo;</span>
+            <span aria-hidden="true">&gt;</span>
           </a>
         </li>
       </ul>

@@ -4,91 +4,116 @@
 >
   <div class="form-container col-12 col-md-8">
     <div class="d-flex flex-column align-items-center">
-      <h2 class="text-center mb-4">Participez à la Loterie</h2>
-
-      <form [formGroup]="registryLotteryForm" (ngSubmit)="submitForm()">
-        <div class="mb-3">
-          <label for="mainNumbers" class="form-label">
-            Entrez 5 numéros (1 à 50)
-          </label>
+      <form
+        [formGroup]="registryLotteryForm"
+        (ngSubmit)="submitForm()"
+        class="shadow p-4 rounded bg-light"
+      >
+        <!-- Entrée pour les 5 numéros -->
+        <div class="mb-4">
+          <label for="mainNumbers" class="form-label fw-bold"
+            >Entrez 5 numéros (1 à 49)</label
+          >
           <div
             class="d-flex flex-column flex-md-row justify-content-center"
             formGroupName="numbers"
           >
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="num1"
-              placeholder="N°1"
-              style="width: 100%; max-width: 120px"
-            />
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="num2"
-              placeholder="N°2"
-              style="width: 100%; max-width: 120px"
-            />
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="num3"
-              placeholder="N°3"
-              style="width: 100%; max-width: 120px"
-            />
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="num4"
-              placeholder="N°4"
-              style="width: 100%; max-width: 120px"
-            />
-            <input
-              class="form-control mb-1"
-              type="number"
-              formControlName="num5"
-              placeholder="N°5"
-              style="width: 100%; max-width: 120px"
-            />
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="num1"
+                placeholder="N°1"
+                min="1"
+                max="49"
+              />
+            </div>
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="num2"
+                placeholder="N°2"
+                min="1"
+                max="49"
+              />
+            </div>
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="num3"
+                placeholder="N°3"
+                min="1"
+                max="49"
+              />
+            </div>
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="num4"
+                placeholder="N°4"
+                min="1"
+                max="49"
+              />
+            </div>
+            <div class="mb-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="num5"
+                placeholder="N°5"
+                min="1"
+                max="49"
+              />
+            </div>
           </div>
 
           <div
             *ngIf="registryLotteryForm.get('numbers')?.errors?.['backend']"
-            class="text-danger"
+            class="text-danger mt-2"
           >
             {{ registryLotteryForm.get("numbers")?.errors?.["backend"] }}
           </div>
         </div>
 
-        <div class="mb-3">
-          <label for="chanceNumbers" class="form-label">
-            Entrez 3 numéros chance (1 à 10)
-          </label>
+        <!-- Entrée pour les 2 numéros de chance -->
+        <div class="mb-4">
+          <label for="chanceNumbers" class="form-label fw-bold"
+            >Entrez 3 numéros chance (1 à 9)</label
+          >
           <div
             class="d-flex flex-column flex-md-row justify-content-center"
             formGroupName="lucky_numbers"
           >
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="lucky1"
-              placeholder="Chance 1"
-              style="width: 100%; max-width: 120px"
-            />
-            <input
-              class="form-control mb-1 me-md-1"
-              type="number"
-              formControlName="lucky2"
-              placeholder="Chance 2"
-              style="width: 100%; max-width: 120px"
-            />
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="lucky1"
+                placeholder="Chance 1"
+                min="1"
+                max="10"
+              />
+            </div>
+            <div class="mb-2 me-md-2 flex-fill">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="lucky2"
+                placeholder="Chance 2"
+                min="1"
+                max="10"
+              />
+            </div>
           </div>
 
           <div
             *ngIf="
               registryLotteryForm.get('lucky_numbers')?.errors?.['backend']
             "
-            class="text-danger"
+            class="text-danger mt-2"
           >
             {{ registryLotteryForm.get("lucky_numbers")?.errors?.["backend"] }}
           </div>
@@ -100,6 +125,7 @@
             type="submit"
             class="btn btn-warning w-100"
             [disabled]="isSubmitDisabled"
+            style="border-radius: 5px; transition: background-color 0.3s"
           >
             Jouer
           </button>

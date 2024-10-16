@@ -3,7 +3,7 @@
     <div class="row mt-4 g-4 text-center">
       <div class="col-12">
         <h2 class="fs-1 fw-bold mb-4">
-          Modifier les détails <span class="text-warning">du tirage</span>
+          Modifier les détails <span class="text-primary">du tirage</span>
         </h2>
         <p class="lead text-muted">
           Mettez à jour les informations du tirage, y compris les récompenses,
@@ -189,7 +189,6 @@
                         Confirmer
                       </button>
                     </div>
-
                   } @else {
                     <p>
                       Il faut au moins 1 participant dans le tirage pour
@@ -197,13 +196,11 @@
                     </p>
                   }
                 </div>
-                <div class="text-center mb-3"  *ngIf="!showWinningForm">
+                <div class="text-center mb-3" *ngIf="!showWinningForm">
                   <button
                     type="button"
                     class="btn btn-primary"
-                    [disabled]="
-                      disabledConfirmEndTirage
-                    "
+                    [disabled]="disabledConfirmEndTirage"
                     (click)="confirmStatus()"
                   >
                     Confirmer
@@ -325,14 +322,17 @@
                 </div>
               </div>
             }
-
-            <button
-              type="submit"
-              class="btn btn-success"
-              [disabled]="!formChanged || updateTirageForm.invalid || hasErros"
-            >
-              Enregistrer
-            </button>
+            <div class="d-flex justify-content-center">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="
+                  !formChanged || updateTirageForm.invalid || hasErros
+                "
+              >
+                Enregistrer
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -14,6 +14,7 @@ import {
   CreateTirageRessource,
 } from '../../../constants/ressources/admin/AdminCreateDeleteTirageRessource';
 import { TirageListSharedService } from '../../../shared/admin/tirage-list-shared/service/tirage-list-shared.service';
+import { TirageStatus } from '../../../constants/tirageStatus/tirageStatus.constants';
 
 /**
  * Composant pour gérer la liste des tirages et la création de nouveaux tirages.
@@ -123,7 +124,7 @@ export class TirageListComponent implements OnInit {
         status: formValue.status,
       };
 
-      if (formValue.status === 'EN_COUR') {
+      if (formValue.status === TirageStatus.EN_COUR) {
         dataToSubmit.start_date = formValue.start_date;
         dataToSubmit.end_date = formValue.end_date;
       }

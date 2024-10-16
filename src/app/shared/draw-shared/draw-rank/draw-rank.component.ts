@@ -3,10 +3,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   DrawRank,
   DrawRanks,
-  LotteryInfoRankResponse,
 } from '../../../constants/ressources/user/LotteryInfoRessource';
 import { ActivatedRoute } from '@angular/router';
 import { DrawRankService } from './service/draw-rank.service';
+import confetti from 'canvas-confetti';
 
 /**
  * Composant pour afficher le classement des joueurs d'un tirage au sort.
@@ -25,6 +25,7 @@ export class DrawRankComponent implements OnInit {
   currentUser: DrawRank | undefined;
   currentPage = 1;
   itemsPerPage = 10;
+  tirageId: number = -1;
 
   /**
    * Constructeur du composant.
@@ -39,11 +40,18 @@ export class DrawRankComponent implements OnInit {
 
   /**
    * Méthode appelée lors de l'initialisation du composant.
-   * Elle charge le classement si un ID est présent dans l'URL.
+   *
+   * Cette méthode effectue les actions suivantes :
+   * 1. Récupère l'ID à partir des paramètres de l'URL.
+   * 2. Si un ID est présent, elle charge le classement correspondant à cet ID.
+   * 3. Si l'utilisateur actuel est défini, elle appelle la méthode `celebrate()` après un délai de 3000 millisecondes (3 secondes).
+   *
+   * @returns {void} Cette méthode ne retourne rien.
    */
   ngOnInit(): void {
     const idNullable = this.activatedRoute.snapshot.paramMap.get('id');
     if (idNullable) {
+      this.tirageId = +idNullable;
       this.loadRank(+idNullable);
     }
   }
@@ -124,8 +132,81 @@ export class DrawRankComponent implements OnInit {
       next: (response) => {
         this.players = response.data;
         this.currentUser = response.currentUser;
+        if (this.currentUser.winnings > 0) {
+          setTimeout(() => {
+            this.celebrate();
+          }, 2000);
+        }
       },
       error: (error) => {},
     });
+  }
+
+  /**
+   * Affiche des confettis à l'écran.
+   *
+   * Cette méthode déclenche l'animation des confettis à gauche et à droite de l'écran.
+   *
+   * Elle exécute les étapes suivantes :
+   * 1. Affiche 100 confettis au centre gauche de l'écran avec un étalement de 160 degrés.
+   * 2. Affiche 100 confettis au centre droit de l'écran avec un étalement de 160 degrés.
+   * 3. Après un délai de 3000 millisecondes (3 secondes), affiche à nouveau 100 confettis au centre de l'écran avec un étalement de 160 degrés.
+   *
+   * @returns {void} Cette méthode ne retourne rien.
+   */
+  celebrate(): void {
+    const duration = 3000;
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+      origin: { x: 0, y: 0.6 },
+    });
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+      origin: { x: 1, y: 0.6 },
+    });
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 100,
+        spread: 160,
+        origin: { y: 0.6 },
+      });
+    }, duration);
+  }
+
+  /**
+   * Télécharge le PDF de récompense pour un utilisateur spécifique.
+   *
+   * Cette méthode appelle le service pour obtenir le PDF de récompense
+   * correspondant à l'identifiant de l'utilisateur. Une fois le blob
+   * reçu, elle crée un lien pour permettre le téléchargement du fichier
+   * PDF. En cas d'erreur lors de la récupération du PDF, un message
+   * d'erreur est enregistré dans la console.
+   *
+   * @param {number} userId - L'identifiant de l'utilisateur pour lequel le PDF de récompense doit être téléchargé.
+   * @returns {void} - Cette méthode ne retourne rien.
+   *
+   * @example
+   * // Exemple d'utilisation
+   * downloadPdf(123);
+   */
+  downloadPdf(userId: number) {
+    this.drawRankService.getRewardPdf(userId).subscribe(
+      (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `recompense_${this.currentUser?.name}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        console.error('Erreur lors du téléchargement du PDF', error);
+      },
+    );
   }
 }

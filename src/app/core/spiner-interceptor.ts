@@ -35,9 +35,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     this.spinner.show(undefined, {
-      type: 'pacman',
-      bdColor: 'rgba(0,0,0,0.8)',
-      color: 'yellow',
+      type: 'ball-fussion',
+      bdColor: 'rgba(0,0,0,0.85)',
+      color: 'white',
       size: 'large',
     });
 
@@ -72,7 +72,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           case 404:
             this.toastr.error(
               error.error?.message || 'Requête incorrecte.',
-              'Erreur 404',
+              'Erreur',
             );
             break;
           case 0:
@@ -90,7 +90,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       finalize(() => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 1000);
+        }, 1500);
       }),
     );
   }

@@ -52,5 +52,6 @@ export const ApiUser = {
      * @returns L'URL pour récupérer le classement de la loterie.
      */
     LOTTERY_RANK: (id: number) => `/lottery-rank/${id}`,
+    REWARD_PDF: (id: number) => `/reward-pdf/${id}`,
   },
 };

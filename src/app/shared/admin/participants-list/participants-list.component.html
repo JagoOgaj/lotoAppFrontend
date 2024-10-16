@@ -224,7 +224,7 @@
                     <div class="text-center">
                       <button
                         type="submit"
-                        class="btn btn-warning w-100"
+                        class="btn btn-success w-100"
                         [disabled]="newUser.invalid"
                       >
                         Ajouter
@@ -305,7 +305,7 @@
         <ul class="pagination justify-content-center flex-wrap">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <a class="page-link" (click)="previousPage()" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
+              <span aria-hidden="true">&lt;</span>
             </a>
           </li>
 
@@ -335,7 +335,7 @@
 
           <li class="page-item" [class.disabled]="currentPage === pages.length">
             <a class="page-link" (click)="nextPage()" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
+              <span aria-hidden="true">&gt;</span>
             </a>
           </li>
         </ul>
@@ -355,9 +355,9 @@
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userInfoModalLabel">
+    <div class="modal-content rounded-3 shadow-lg border-0">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title text-primary" id="userInfoModalLabel">
           Informations de l'utilisateur
         </h5>
         <button
@@ -371,12 +371,9 @@
         <p><strong>Nom :</strong> {{ selectedUser?.user_name }}</p>
         <p><strong>Email :</strong> {{ selectedUser?.email }}</p>
         <p><strong>Numéro :</strong> {{ selectedUser?.numbers }}</p>
-        <p><strong>Numéro chance</strong> {{ selectedUser?.lucky_numbers }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
+        <p>
+          <strong>Numéro chance :</strong> {{ selectedUser?.lucky_numbers }}
+        </p>
       </div>
     </div>
   </div>

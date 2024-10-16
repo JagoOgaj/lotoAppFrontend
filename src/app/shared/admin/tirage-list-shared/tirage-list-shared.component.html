@@ -5,7 +5,7 @@
     >
       <h4 class="mb-0"><i class="bi bi-list-ul"></i> Liste des Tirages</h4>
       <button
-        class="btn btn-warning d-none d-md-inline-block"
+        class="btn btn-primary d-none d-md-inline-block"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#addUserCollapseId"
@@ -16,7 +16,7 @@
       </button>
 
       <button
-        class="btn btn-warning d-md-none"
+        class="btn btn-primary d-md-none"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#addUserCollapseId"
@@ -195,13 +195,15 @@
                   </div>
 
                   <!-- Bouton Créer -->
-                  <button
-                    type="submit"
-                    class="btn btn-primary"
-                    [disabled]="newTirage.invalid"
-                  >
-                    Créer
-                  </button>
+                  <div class="d-flex justify-content-center">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      [disabled]="newTirage.invalid"
+                    >
+                      Créer
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -368,7 +370,7 @@
                   (click)="previousPage()"
                   aria-label="Previous"
                 >
-                  <span aria-hidden="true">&laquo;</span>
+                  <span aria-hidden="true">&lt;</span>
                 </a>
               </li>
               <li
@@ -383,7 +385,7 @@
                 [class.disabled]="currentPage === totalPages"
               >
                 <a class="page-link" (click)="nextPage()" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
+                  <span aria-hidden="true">&gt;</span>
                 </a>
               </li>
             </ul>

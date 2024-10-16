@@ -1,42 +1,49 @@
 <div class="row g-5" style="margin-top: 50px">
   <div class="col-12 col-lg-5">
-    <img
-      src="assets/test3.jpg"
-      alt="draw-overview-img"
-      class="img-fluid mx-auto d-block"
-    />
+    <div class="card">
+      <img
+        src="assets/test3.jpg"
+        alt="draw-overview-img"
+        class="card-img-top img-fluid"
+      />
+    </div>
   </div>
   <div class="col-12 col-lg-7">
-    <h2 class="fs-1 fw-bold mb-3">
-      Détails du <span class="text-warning">Tirage</span>
-    </h2>
-    <table class="table table-bordered">
-      <tbody>
-        <tr>
-          <td><strong>Nom du Tirage:</strong></td>
-          <td>{{ drawData.name }}</td>
-        </tr>
-        <tr>
-          <td><strong>Date de Début:</strong></td>
-          <td>{{ drawData.start_date | date: "dd/MM/yyyy" }}</td>
-        </tr>
-        <tr>
-          <td><strong>Date de Fin:</strong></td>
-          <td>{{ drawData.end_date | date: "dd/MM/yyyy" }}</td>
-        </tr>
-        <tr>
-          <td><strong>Montant Total:</strong></td>
-          <td>{{ drawData.reward_price }}€</td>
-        </tr>
-        <tr>
-          <td><strong>Nombre de Participants:</strong></td>
-          <td>{{ drawData.participant_count }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      Notre tirage est conçu pour vous offrir la meilleure expérience possible.
-      Participez pour tenter votre chance et gagnez de superbes prix !
-    </p>
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="fs-1 fw-bold mb-3">
+          Détails du <span class="text-warning">Tirage</span>
+        </h2>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><strong>Nom du Tirage:</strong></td>
+              <td>{{ drawData.name }}</td>
+            </tr>
+            <tr>
+              <td><strong>Date de Début:</strong></td>
+              <td>{{ drawData.start_date | date: "dd/MM/yyyy" }}</td>
+            </tr>
+            <tr>
+              <td><strong>Date de Fin:</strong></td>
+              <td>{{ drawData.end_date | date: "dd/MM/yyyy" }}</td>
+            </tr>
+            <tr>
+              <td><strong>Montant Total:</strong></td>
+              <td>{{ drawData.reward_price }}€</td>
+            </tr>
+            <tr>
+              <td><strong>Nombre de Participants:</strong></td>
+              <td>{{ drawData.participant_count }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="card-text">
+          Notre tirage est conçu pour vous offrir la meilleure expérience
+          possible. Participez pour tenter votre chance et gagnez de superbes
+          prix !
+        </p>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,39 @@
+.container-fluid {
+  background: #f8f9fa;
+}
+
+h2 {
+  font-family: "Arial", sans-serif;
+  color: #1f1f1f;
+}
+
+.card {
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.table {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.bi {
+  margin-right: 5px;
+}
+
+.img-fluid {
+  border-radius: 15px;
+}

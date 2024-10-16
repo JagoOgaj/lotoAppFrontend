@@ -330,10 +330,10 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
    * Confirme le statut du tirage avec les numéros gagnants.
    */
   confirmStatus(): void {
+    console.log('heke');
     const id: number | undefined = this.tirageOverview?.id;
-    if (id && this.winningNumbersForm.valid) {
+    if (id || this.winningNumbersForm.valid) {
       const currentValue = this.winningNumbersForm.value;
-      console.log(currentValue);
       const data: AddWiningsNumber = {
         winning_numbers: currentValue.winningNumbers
           ? currentValue.winningNumbers
@@ -342,15 +342,17 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
           ? currentValue.bonusNumbers
           : '',
       };
-      this.tirageAdminService.updateTirageToDone(id, data).subscribe({
-        next: () => {
-          this.route.navigate(['/admin/tirage-result', id]);
-        },
-        error: (err: UpdateLotteryError) => {
-          this.serverErrors = err;
-          this.winningNumbersForm.reset();
-        },
-      });
+      if (id) {
+        this.tirageAdminService.updateTirageToDone(id, data).subscribe({
+          next: () => {
+            this.route.navigate(['/admin/tirage-result', id]);
+          },
+          error: (err: UpdateLotteryError) => {
+            this.serverErrors = err;
+            this.winningNumbersForm.reset();
+          },
+        });
+      }
     }
   }
 }

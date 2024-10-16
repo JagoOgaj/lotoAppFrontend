@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LotteryOverviewResponse } from '../../../constants/ressources/user/tirageUserRessource';
 import { AdminSharedService } from '../service/admin-shared.service';
 import { CommonModule } from '@angular/common';
+import confetti from 'canvas-confetti';
 
 /**
  * Composant pour afficher les résultats d'un tirage.
@@ -41,13 +42,18 @@ export class TirageResultComponent implements OnInit {
 
   /**
    * Méthode de cycle de vie appelée lors de l'initialisation du composant.
-   * Récupère l'identifiant du tirage et charge les classements et les détails.
+   * Elle récupère l'identifiant du tirage à partir des paramètres de l'URL,
+   * puis charge les classements et les détails associés à cet identifiant.
+   * Une fois les données chargées, elle déclenche une animation de célébration après un délai de 3 secondes.
    */
   ngOnInit(): void {
     const idNullable = this.activatedRoute.snapshot.paramMap.get('id');
     if (idNullable) {
       this.loadRank(+idNullable);
       this.loadDetails(+idNullable);
+      setTimeout(() => {
+        this.celebrate();
+      }, 2000);
     }
   }
 
@@ -134,5 +140,41 @@ export class TirageResultComponent implements OnInit {
       },
       error: (err) => {},
     });
+  }
+
+  /**
+   * Affiche des confettis à l'écran.
+   *
+   * Cette méthode déclenche l'animation des confettis à gauche et à droite de l'écran.
+   *
+   * Elle exécute les étapes suivantes :
+   * 1. Affiche 100 confettis au centre gauche de l'écran avec un étalement de 160 degrés.
+   * 2. Affiche 100 confettis au centre droit de l'écran avec un étalement de 160 degrés.
+   * 3. Après un délai de 3000 millisecondes (3 secondes), affiche à nouveau 100 confettis au centre de l'écran avec un étalement de 160 degrés.
+   *
+   * @returns {void} Cette méthode ne retourne rien.
+   */
+  celebrate(): void {
+    const duration = 3000;
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+      origin: { x: 0, y: 0.6 },
+    });
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+      origin: { x: 1, y: 0.6 },
+    });
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 100,
+        spread: 160,
+        origin: { y: 0.6 },
+      });
+    }, duration);
   }
 }

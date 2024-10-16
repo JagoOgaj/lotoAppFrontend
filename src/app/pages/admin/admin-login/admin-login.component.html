@@ -1,10 +1,10 @@
 <section class="container">
   <div class="row mt-4 g-4 text-center">
     <div class="col-12">
-      <h2 class="fs-1 fw-bold mb-4">
-        Connexion en tant que <span class="text-warning">Admin</span>
+      <h2 class="fs-1 fw-bold mb-4 text-dark">
+        Connexion en tant qu'<span class="text-primary">Admin</span>
       </h2>
-      <p class="lead text-muted">Endroit réservé</p>
+      <p class="lead text-secondary">Accès réservé aux administrateurs</p>
     </div>
   </div>
 </section>
@@ -14,20 +14,26 @@
   style="min-height: 60vh"
 >
   <div class="form-container">
-    <div class="card shadow border-0" style="width: 24rem">
-      <div class="card-body text-center">
-        <h5 class="card-title text-center mb-4">Connexion</h5>
+    <div
+      class="card shadow-lg border-0 rounded-3"
+      style="width: 26rem; background-color: #f9f9f9"
+    >
+      <div class="card-body text-center p-5">
+        <h5 class="card-title text-center mb-4 text-dark fw-semibold">
+          Connexion
+        </h5>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-floating mb-3">
             <input
               type="email"
-              class="form-control"
+              class="form-control border-0 shadow-sm rounded"
               id="email"
               placeholder="Email"
               formControlName="email"
               required
+              style="background-color: #fff"
             />
-            <label for="email">Email</label>
+            <label for="email" class="text-muted">Email</label>
             <div
               *ngIf="
                 loginForm.get('email')?.invalid &&
@@ -46,13 +52,14 @@
           <div class="form-floating mb-3">
             <input
               type="password"
-              class="form-control"
+              class="form-control border-0 shadow-sm rounded"
               id="password"
               placeholder="Mot de passe"
               formControlName="password"
               required
+              style="background-color: #fff"
             />
-            <label for="password">Mot de passe</label>
+            <label for="password" class="text-muted">Mot de passe</label>
             <div
               *ngIf="
                 loginForm.get('password')?.invalid &&
@@ -74,8 +81,9 @@
           <div class="text-center">
             <button
               type="submit"
-              class="btn btn-warning w-100"
+              class="btn btn-primary w-100 py-2 shadow-sm"
               [disabled]="loginForm.invalid"
+              style="border-radius: 50px; transition: all 0.3s ease"
             >
               Connectez-vous
             </button>
@@ -86,11 +94,16 @@
   </div>
 </div>
 
-<section class="container">
-  <div class="row mt-4 g-4 text-center">
+<section class="container mt-4">
+  <div class="row g-4 text-center">
     <div class="col-12">
-      <button class="w-100 btn btn-warning" role="button" (click)="goToHome()">
-        &#8592; Home
+      <button
+        class="btn btn-outline-primary w-100 py-2"
+        role="button"
+        (click)="goToHome()"
+        style="border-radius: 50px; transition: all 0.3s ease"
+      >
+        &#8592; Retour à l'accueil
       </button>
     </div>
   </div>

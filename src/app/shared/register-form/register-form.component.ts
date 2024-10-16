@@ -71,6 +71,7 @@ export class RegisterFormComponent implements OnInit {
         },
         error: (err: RegistryErrors) => {
           this.serverErrors = err;
+          this.registryForm.reset();
         },
       });
     }

@@ -172,7 +172,13 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
    * @returns True si l'utilisateur peut être ajouté, sinon False.
    */
   canAddUser(): boolean {
-    return this.tirage.participant_count >= this.tirage.max_participants;
+    return (
+      this.tirage.participant_count >= this.tirage.max_participants ||
+      !(
+        this.tirage.status != TirageStatus.SIMULATION_TERMINE &&
+        this.tirage.status != TirageStatus.TERMINE
+      )
+    );
   }
 
   /**

@@ -67,18 +67,8 @@
             class="form-select"
             formControlName="notification"
           >
-            <option
-              [value]="true"
-              [selected]="userFormInfo.get('notification')?.value"
-            >
-              Activé
-            </option>
-            <option
-              [value]="false"
-              [selected]="!userFormInfo.get('notification')?.value"
-            >
-              Désactivé
-            </option>
+            <option [ngValue]="true">Activé</option>
+            <option [ngValue]="false">Désactivé</option>
           </select>
           <label for="notification">Notifications</label>
         </div>

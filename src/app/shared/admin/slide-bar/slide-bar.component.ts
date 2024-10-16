@@ -28,7 +28,7 @@ export class SlideBarComponent {
     },
     {
       routerLink: 'account',
-      icon: 'bi bi-play-fill',
+      icon: 'bi bi-person-fill-gear',
       label: 'Compte',
     },
   ];

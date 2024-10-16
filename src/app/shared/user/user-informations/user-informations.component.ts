@@ -92,8 +92,8 @@ export class UserInformationsComponent implements OnInit {
    */
   checkIfFormIsChanged(): void {
     const currentValue = this.userFormInfo.value;
-    const currentNotification = currentValue.notification === 'true';
-    const originalNotification = this.userInfo.notification === true;
+    const currentNotification = currentValue.notification;
+    const originalNotification = this.userInfo.notification;
 
     this.isFormChange =
       currentValue.first_name !== this.userInfo.first_name ||
@@ -117,8 +117,6 @@ export class UserInformationsComponent implements OnInit {
           this.errorResponse = error;
         },
       });
-    } else {
-      console.log('Form is invalid');
     }
   }
 
@@ -140,8 +138,8 @@ export class UserInformationsComponent implements OnInit {
     if (currentValue.email !== this.userInfo.email) {
       updatedFields.email = currentValue.email;
     }
-    const currentNotification = currentValue.notification === 'true';
-    const originalNotification = this.userInfo.notification === true;
+    const currentNotification = currentValue.notification;
+    const originalNotification = this.userInfo.notification;
     if (currentNotification !== originalNotification) {
       updatedFields.notification = currentValue.notification;
     }

@@ -45,7 +45,7 @@ export class ContactFormComponent implements OnInit {
   ngOnInit(): void {
     this.contactForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      message: ['', [Validators.required, Validators.minLength(1)]],
+      message: ['', [Validators.required, Validators.minLength(20)]],
     });
   }
 
@@ -96,6 +96,10 @@ export class ContactFormComponent implements OnInit {
     const messageControl = this.contactForm.get('message');
     if (messageControl?.hasError('required')) {
       return 'Le message est requis';
+    }
+    if (messageControl?.hasError('minlength')) {
+      const minLength = messageControl.errors?.['minlength'].requiredLength;
+      return `Le message doit comporter au moins ${minLength} caractères`;
     }
     return '';
   }
