@@ -133,6 +133,8 @@ lotoAppfrontend/
 
 ![Fonction 12](image/fonct12.png)
 
+![Fonction 13](image/fonct13.png)
+
 ## Note
 
 Ce projet a été développé dans le cadre de la formation universitaire BUT3 FA Informatique,
