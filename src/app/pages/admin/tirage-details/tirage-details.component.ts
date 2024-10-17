@@ -292,6 +292,7 @@ export class TirageDetailsComponent implements OnInit, AfterContentChecked {
           error: (err: UpdateLotteryError) => {
             this.serverErrors = err;
             this.hasErros = true;
+            this.route.navigate(['admin']);
           },
         });
     }

@@ -266,9 +266,8 @@
                 {{ hasServerError("max_participants") }}
               </div>
             </div>
-
             <!-- Status -->
-            @if (!isInSimulation()) {
+            @if (!isInSimulation() && !isDone()) {
               <div class="mb-3">
                 <div class="form-floating">
                   <select
@@ -287,9 +286,10 @@
                   <label for="notification">Status</label>
                 </div>
               </div>
-
-              <!-- Date du Tirage -->
-              <div class="mb-3">
+            }
+            @if(!isInSimulation()) {
+               <!-- Date du Tirage -->
+               <div class="mb-3">
                 <div class="form-floating">
                   <input
                     type="date"
@@ -322,6 +322,7 @@
                 </div>
               </div>
             }
+             
             <div class="d-flex justify-content-center">
               <button
                 type="submit"
