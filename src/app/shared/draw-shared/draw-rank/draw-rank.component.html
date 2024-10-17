@@ -1,130 +1,121 @@
-@if (currentUser) {
-  @if (tirageId != -1 && currentUser.winnings > 0) {
-    <div class="container mt-4">
-      <h2 class="fs-1 fw-bold mb-4">
-        <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
-      </h2>
+<!-- Vérifie si l'utilisateur est connecté ou s'il y a des joueurs -->
+<div *ngIf="currentUser || players.length > 0" class="container mt-4">
+  <h2 class="fs-1 fw-bold mb-4">
+    <i class="bi bi-table"></i> Class<span class="text-warning">ement</span>
+  </h2>
 
-      <!-- Tableau pour afficher les joueurs paginés -->
-      <div class="table-responsive">
-        <table class="table table-hover table-sm">
-          <thead class="table-light">
-            <tr>
-              <th scope="col"><i class="bi bi-1-circle-fill"></i> Rang</th>
-              <th scope="col"><i class="bi bi-people-fill"></i> Nom</th>
-              <th scope="col"><i class="bi bi-stars"></i> Score</th>
-              <th scope="col">
-                <i class="bi bi-currency-euro"></i> Somme Gagnée
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let player of getPaginatedPlayers()"
-              [ngClass]="{ 'table-warning': player.name === currentUser.name }"
-            >
-              <td>#{{ player.rank }}</td>
-              <td>{{ player.name }}</td>
-              <td>{{ player.score }}</td>
-              <td>{{ roundReward(player.winnings) }} €</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Tableau pour afficher les joueurs paginés -->
+  <div class="table-responsive">
+    <table class="table table-hover table-sm">
+      <thead class="table-light">
+        <tr>
+          <th scope="col"><i class="bi bi-1-circle-fill"></i> Rang</th>
+          <th scope="col"><i class="bi bi-people-fill"></i> Nom</th>
+          <th scope="col"><i class="bi bi-stars"></i> Score</th>
+          <th scope="col"><i class="bi bi-currency-euro"></i> Somme Gagnée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let player of getPaginatedPlayers()"
+          [ngClass]="{ 'table-warning': player.name === currentUser?.name }"
+        >
+          <td>#{{ player.rank }}</td>
+          <td>{{ player.name }}</td>
+          <td>{{ player.score }}</td>
+          <td>{{ roundReward(player.winnings) }} €</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <!-- Pagination -->
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center pagination-warning">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a
-              class="page-link"
-              (click)="goToPage(currentPage - 1)"
-              aria-label="Previous"
-            >
-              <span aria-hidden="true">&lt;</span>
-            </a>
-          </li>
-          <li
-            *ngFor="let page of getTotalPagesArray(); let i = index"
-            class="page-item"
-            [class.active]="currentPage === i + 1"
-          >
-            <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
-          </li>
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a
-              class="page-link"
-              (click)="goToPage(currentPage + 1)"
-              aria-label="Next"
-            >
-              <span aria-hidden="true">&gt;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+  <!-- Pagination -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-warning">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a
+          class="page-link"
+          (click)="goToPage(currentPage - 1)"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true">&lt;</span>
+        </a>
+      </li>
+      <li
+        *ngFor="let page of getTotalPagesArray(); let i = index"
+        class="page-item"
+        [class.active]="currentPage === i + 1"
+      >
+        <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a
+          class="page-link"
+          (click)="goToPage(currentPage + 1)"
+          aria-label="Next"
+        >
+          <span aria-hidden="true">&gt;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
 
-      <!-- Rang du joueur actuel s'il n'est pas dans la page actuelle -->
-      <div *ngIf="!isCurrentUserOnCurrentPage()" class="mt-4 text-center">
-        <p class="fw-bold">Votre rang :</p>
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <tbody>
-              <tr class="table-warning">
-                <td>Rang #{{ currentUser.rank }}</td>
-                <td>{{ currentUser.name }}</td>
-                <td>{{ currentUser.score }}</td>
-                <td>{{ currentUser.winnings | currency: "EUR" }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+<!-- Vérifie si l'utilisateur actuel n'est pas affiché dans la page actuelle -->
+<div *ngIf="currentUser?.name" class="mt-4 text-center">
+  <p class="fw-bold">Votre rang :</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered">
+      <tbody>
+        <tr class="table-warning">
+          <td>Rang #{{ currentUser?.rank }}</td>
+          <td>{{ currentUser?.name }}</td>
+          <td>{{ currentUser?.score }}</td>
+          <td>{{ currentUser?.winnings | currency: 'EUR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Message de victoire -->
+<div *ngIf="userWin" class="container mt-5">
+  <div class="card text-center border-0">
+    <div class="card-header bg-success text-white border-0">
+      <h3 class="fw-bold">Votre récompense vous attend !</h3>
     </div>
-
-    <div class="container mt-5">
-      <div class="card text-center border-0">
-        <div class="card-header bg-success text-white border-0">
-          <h3 class="fw-bold">Votre récompense vous attend !</h3>
-        </div>
-        <div class="card-body border-0">
-          <p class="lead text-secondary">
-            Téléchargez votre récompense au format PDF, qui sert de ticket pour
-            l'encaissement, et continuez à jouer pour en gagner davantage !
-          </p>
-          <button
-            class="btn btn-primary btn-lg"
-            (click)="downloadPdf(tirageId)"
-          >
-            Télécharger ma récompense <i class="bi bi-download"></i>
-          </button>
-        </div>
-        <div class="card-footer text-muted border-0">
-          Profitez de nos autres tirages et restez à l'affût des nouvelles
-          opportunités !
-        </div>
-      </div>
+    <div class="card-body border-0">
+      <p class="lead text-secondary">
+        Téléchargez votre récompense au format PDF, qui sert de ticket pour l'encaissement,
+        et continuez à jouer pour en gagner davantage !
+      </p>
+      <button class="btn btn-primary btn-lg" (click)="downloadPdf(tirageId)">
+        Télécharger ma récompense <i class="bi bi-download"></i>
+      </button>
     </div>
-  }
-} @else {
-  <div class="container mt-5">
-    <div class="card text-center border-0">
-      <div class="card-header bg-danger text-white border-0">
-        <h3 class="fw-bold">Désolé, vous n'avez pas gagné cette fois !</h3>
-      </div>
-      <div class="card-body border-0">
-        <p class="lead text-secondary">
-          Même si vous n'avez pas remporté de récompense, ne vous découragez pas
-          ! Continuez à participer pour avoir une chance de gagner lors des
-          prochains tirages.
-        </p>
-        <p class="text-muted">
-          N'oubliez pas de vérifier les résultats des prochains tirages.
-        </p>
-      </div>
-      <div class="card-footer text-muted border-0">
-        Restez à l'affût des nouvelles opportunités et tentez votre chance à
-        nouveau !
-      </div>
+    <div class="card-footer text-muted border-0">
+      Profitez de nos autres tirages et restez à l'affût des nouvelles opportunités !
     </div>
   </div>
-}
+</div>
+
+<!-- Message de défaite -->
+<div *ngIf="!userWin" class="container mt-5">
+  <div class="card text-center border-0">
+    <div class="card-header bg-danger text-white border-0">
+      <h3 class="fw-bold">Désolé, vous n'avez pas gagné cette fois !</h3>
+    </div>
+    <div class="card-body border-0">
+      <p class="lead text-secondary">
+        Même si vous n'avez pas remporté de récompense, ne vous découragez pas !
+        Continuez à participer pour avoir une chance de gagner lors des prochains tirages.
+      </p>
+      <p class="text-muted">
+        N'oubliez pas de vérifier les résultats des prochains tirages.
+      </p>
+    </div>
+    <div class="card-footer text-muted border-0">
+      Restez à l'affût des nouvelles opportunités et tentez votre chance à nouveau !
+    </div>
+  </div>
+</div>

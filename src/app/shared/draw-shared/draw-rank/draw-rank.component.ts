@@ -26,6 +26,7 @@ export class DrawRankComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   tirageId: number = -1;
+  userWin: boolean = false;
 
   /**
    * Constructeur du composant.
@@ -99,17 +100,6 @@ export class DrawRankComponent implements OnInit {
   }
 
   /**
-   * Vérifie si l'utilisateur actuel se trouve sur la page actuelle.
-   *
-   * @returns {boolean} - Vrai si l'utilisateur actuel est sur la page actuelle, sinon faux.
-   */
-  isCurrentUserOnCurrentPage() {
-    return this.getPaginatedPlayers().some(
-      (player) => player.name === this.currentUser?.name,
-    );
-  }
-
-  /**
    * Arrondit une récompense à deux décimales si ce n'est pas un entier.
    *
    * @param {number} number - Le nombre à arrondir.
@@ -133,6 +123,7 @@ export class DrawRankComponent implements OnInit {
         this.players = response.data;
         this.currentUser = response.currentUser;
         if (this.currentUser.winnings > 0) {
+          this.userWin = true;
           setTimeout(() => {
             this.celebrate();
           }, 2000);

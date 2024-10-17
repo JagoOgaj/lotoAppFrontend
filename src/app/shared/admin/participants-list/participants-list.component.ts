@@ -71,33 +71,33 @@ export class ParticipantsListComponent implements OnInit, OnChanges {
       numbers: this.fb.group({
         num1: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(50)],
+          [Validators.required, Validators.min(1), Validators.max(49)],
         ],
         num2: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(50)],
+          [Validators.required, Validators.min(1), Validators.max(49)],
         ],
         num3: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(50)],
+          [Validators.required, Validators.min(1), Validators.max(49)],
         ],
         num4: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(50)],
+          [Validators.required, Validators.min(1), Validators.max(49)],
         ],
         num5: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(50)],
+          [Validators.required, Validators.min(1), Validators.max(49)],
         ],
       }),
       lucky_numbers: this.fb.group({
         lucky1: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(10)],
+          [Validators.required, Validators.min(1), Validators.max(9)],
         ],
         lucky2: [
           null,
-          [Validators.required, Validators.min(1), Validators.max(10)],
+          [Validators.required, Validators.min(1), Validators.max(9)],
         ],
       }),
     });
